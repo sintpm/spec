@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RE-ROS — Specification v1.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:    #0f1f3d;
+      --navy2:   #1a3358;
+      --gold:    #c9a84c;
+      --gold-lt: #e8c97a;
+      --cream:   #f8f5ef;
+      --gray:    #f2f2f2;
+      --gray2:   #e5e7eb;
+      --text:    #1f2937;
+      --muted:   #6b7280;
+      --white:   #ffffff;
+      --green:   #10b981;
+      --amber:   #f59e0b;
+      --red:     #ef4444;
+      --blue:    #3b82f6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 60%, #243f6b 100%);
+      color: var(--white);
+      padding: 64px 0 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      border: 2px solid rgba(201,168,76,.18);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(201,168,76,.12);
+    }
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,168,76,.15);
+      border: 1px solid rgba(201,168,76,.35);
+      color: var(--gold-lt);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero-badge span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 8px;
+      letter-spacing: -.02em;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold-lt);
+    }
+    .hero-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,.65);
+      margin-bottom: 36px;
+      font-weight: 400;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .hero-meta-item .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+    .hero-meta-item .val {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245,158,11,.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245,158,11,.3);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+    .status-badge::before { content: '●'; font-size: 8px; }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── NAV TABS ── */
+    .nav-tabs {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 8px rgba(0,0,0,.06);
+    }
+    .nav-tabs-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-tabs-inner::-webkit-scrollbar { display: none; }
+    .nav-tab {
+      flex-shrink: 0;
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+      white-space: nowrap;
+    }
+    .nav-tab:hover { color: var(--navy); }
+    .nav-tab.active { color: var(--navy); border-color: var(--gold); }
+
+    /* ── SECTION ── */
+    section { padding: 56px 0; }
+    section + section { border-top: 1px solid var(--gray2); }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .section-tag::before { content: ''; display: block; width: 20px; height: 2px; background: var(--gold); border-radius: 2px; }
+
+    h2 {
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 20px;
+      letter-spacing: -.02em;
+    }
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    p { color: #374151; margin-bottom: 12px; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray2);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .card-gold {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+      color: var(--white);
+      border: none;
+    }
+    .card-gold h3 { color: var(--gold-lt); }
+    .card-gold p, .card-gold li { color: rgba(255,255,255,.75); }
+
+    /* ── PHASE TIMELINE ── */
+    .phases { display: flex; flex-direction: column; gap: 0; }
+    .phase-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0 24px;
+      position: relative;
+    }
+    .phase-item:not(:last-child) .phase-left::after {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 52px;
+      width: 2px;
+      height: calc(100% - 12px);
+      background: var(--gray2);
+    }
+    .phase-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding-top: 4px;
+    }
+    .phase-dot {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      flex-shrink: 0;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 2px var(--gray2);
+      z-index: 1;
+    }
+    .phase-dot.p1 { background: var(--navy); color: var(--gold-lt); box-shadow: 0 0 0 2px var(--navy); }
+    .phase-dot.p2 { background: var(--gold); color: var(--navy); box-shadow: 0 0 0 2px var(--gold); }
+    .phase-dot.p3 { background: #059669; color: white; box-shadow: 0 0 0 2px #059669; }
+    .phase-dot.p4 { background: #7c3aed; color: white; box-shadow: 0 0 0 2px #7c3aed; }
+    .phase-right { padding: 0 0 40px 0; }
+    .phase-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .phase-label.p1 { color: var(--navy); }
+    .phase-label.p2 { color: var(--gold); }
+    .phase-label.p3 { color: #059669; }
+    .phase-label.p4 { color: #7c3aed; }
+    .phase-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .phase-desc { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: var(--gray);
+      color: var(--navy);
+    }
+    .tag.must { background: #dbeafe; color: #1e40af; }
+    .tag.info  { background: #e0f2fe; color: #0369a1; }
+    .tag.time  { background: rgba(201,168,76,.12); color: #92400e; border: 1px solid rgba(201,168,76,.3); }
+    .tag.budget { background: #dcfce7; color: #166534; }
+
+    /* ── FEATURE TABLE ── */
+    .feat-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .feat-table th {
+      background: var(--navy);
+      color: rgba(255,255,255,.8);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 11px 14px;
+      text-align: left;
+    }
+    .feat-table th:first-child { border-radius: 8px 0 0 0; }
+    .feat-table th:last-child  { border-radius: 0 8px 0 0; }
+    .feat-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--gray2);
+      vertical-align: middle;
+    }
+    .feat-table tr:last-child td { border-bottom: none; }
+    .feat-table tr:hover td { background: #fafafa; }
+    .feat-table tbody { background: var(--white); }
+    .feat-table tbody tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+    .feat-table tbody tr:last-child td:last-child  { border-radius: 0 0 8px 0; }
+    .feat-num { color: var(--muted); font-weight: 600; }
+    .feat-name { font-weight: 600; color: var(--navy); }
+    .feat-desc { color: var(--muted); font-size: 12.5px; }
+    .pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 100px;
+    }
+    .pill-M { background: #dbeafe; color: #1e40af; }
+    .pill-S { background: #fef9c3; color: #854d0e; }
+    .pill-C { background: #e0f2fe; color: #0c4a6e; }
+    .pill-W { background: #f3f4f6; color: #9ca3af; }
+    .pill-p1 { background: var(--navy); color: var(--gold-lt); }
+    .pill-p2 { background: rgba(201,168,76,.2); color: #92400e; }
+    .pill-p3 { background: #d1fae5; color: #065f46; }
+    .pill-p4 { background: #ede9fe; color: #5b21b6; }
+
+    /* ── ROLE CARDS ── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .role-card {
+      background: var(--white);
+      border: 1px solid var(--gray2);
+      border-radius: 12px;
+      padding: 20px;
+      border-top: 3px solid var(--gold);
+    }
+    .role-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .role-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ── NFR GRID ── */
+    .nfr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .nfr-card {
+      background: var(--white);
+      border: 1px solid var(--gray2);
+      border-radius: 12px;
+      padding: 20px 22px;
+    }
+    .nfr-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--navy), var(--navy2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .nfr-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .nfr-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .nfr-note { font-size: 12px; color: var(--muted); }
+
+    /* ── INTEGRATION ── */
+    .integ-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .integ-card {
+      background: var(--white);
+      border: 1px solid var(--gray2);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .integ-icon {
+      width: 38px; height: 38px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .integ-name { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+    .integ-desc { font-size: 12px; color: var(--muted); }
+    .integ-phase { font-size: 11px; font-weight: 600; color: var(--gold); }
+
+    /* ── RISK TABLE ── */
+    .risk-list { display: flex; flex-direction: column; gap: 10px; }
+    .risk-item {
+      background: var(--white);
+      border: 1px solid var(--gray2);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: start;
+    }
+    .risk-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .risk-dot.high { background: var(--red); }
+    .risk-dot.mid  { background: var(--amber); }
+    .risk-name { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+    .risk-note { font-size: 13px; color: var(--muted); }
+    .risk-level {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .risk-level.high { background: #fee2e2; color: #b91c1c; }
+    .risk-level.mid  { background: #fef3c7; color: #92400e; }
+
+    /* ── OPEN Q ── */
+    .oq-list { display: flex; flex-direction: column; gap: 10px; }
+    .oq-item {
+      background: var(--white);
+      border: 1px solid var(--gray2);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .oq-num {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--gold);
+      min-width: 24px;
+      margin-top: 1px;
+    }
+    .oq-text { font-size: 14px; color: var(--text); font-weight: 500; }
+
+    /* ── SIGNOFF ── */
+    .signoff {
+      background: linear-gradient(135deg, var(--navy) 0%, #243f6b 100%);
+      color: var(--white);
+      padding: 56px 0;
+    }
+    .signoff-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 32px;
+      text-align: center;
+    }
+    .signoff h2 { color: var(--white); margin-bottom: 12px; }
+    .signoff p { color: rgba(255,255,255,.65); margin-bottom: 32px; }
+    .signoff-boxes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      text-align: left;
+    }
+    .signoff-box {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px;
+      padding: 22px;
+    }
+    .signoff-box-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gold-lt);
+      margin-bottom: 10px;
+    }
+    .signoff-box-line {
+      height: 1px;
+      background: rgba(255,255,255,.15);
+      margin: 14px 0;
+    }
+    .signoff-box-note { font-size: 12px; color: rgba(255,255,255,.45); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 24px 32px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--gray2);
+    }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--gray2); margin: 0; }
+
+    /* ── SCROLL HELPER ── */
+    html { scroll-behavior: smooth; }
+
+    @media (max-width: 600px) {
+      .container, .hero-inner { padding: 0 18px; }
+      .nav-tabs-inner { padding: 0 18px; }
+      .phase-item { grid-template-columns: 56px 1fr; }
+      .phase-left::after { left: 20px !important; }
+      .risk-item { grid-template-columns: auto 1fr; }
+      .risk-level { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><span></span> Tài liệu đặc tả dự án</div>
+    <h1>RE-ROS<br/><em>Real Estate Revenue</em><br/><em>Operating System</em></h1>
+    <p class="hero-sub">Hệ thống CRM + Marketing Automation + CMS tích hợp cho doanh nghiệp bất động sản</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="label">Phiên bản</span>
+        <span class="val">1.0</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Ngày</span>
+        <span class="val">22/04/2026</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Trạng thái</span>
+        <span class="val"><span class="status-badge">Chờ confirm</span></span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">BA phụ trách</span>
+        <span class="val">VibaLink</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav-tabs">
+  <div class="nav-tabs-inner">
+    <a class="nav-tab active" href="#tong-quan">Tổng quan</a>
+    <a class="nav-tab" href="#pham-vi">Phạm vi</a>
+    <a class="nav-tab" href="#roles">Vai trò</a>
+    <a class="nav-tab" href="#features">Tính năng</a>
+    <a class="nav-tab" href="#roadmap">Lộ trình</a>
+    <a class="nav-tab" href="#nfr">Phi chức năng</a>
+    <a class="nav-tab" href="#tich-hop">Tích hợp</a>
+    <a class="nav-tab" href="#rui-ro">Rủi ro</a>
+    <a class="nav-tab" href="#open-q">Câu hỏi mở</a>
+  </div>
+</nav>
+
+<!-- TỔNG QUAN -->
+<section id="tong-quan">
+  <div class="container">
+    <div class="section-tag">01 — Tổng quan</div>
+    <h2>Hệ thống làm gì?</h2>
+    <p>RE-ROS là nền tảng tích hợp quản lý toàn diện cho doanh nghiệp môi giới bất động sản — gom CRM bán hàng, marketing automation, vận hành hợp đồng và layer AI vào một hệ thống thống nhất.</p>
+    <p>Thay vì dữ liệu nằm rải rác ở Excel, Zalo nhóm, và nhiều tool rời rạc — RE-ROS tạo ra một "hệ điều hành tăng trưởng" nơi mọi hoạt động đều đo lường được, tối ưu được và tự động hóa theo dữ liệu thực.</p>
+
+    <div class="card-grid" style="margin-top: 32px;">
+      <div class="card">
+        <h3>🎯 Mục tiêu chính</h3>
+        <ul style="padding-left: 18px; color: #374151; font-size: 14px; line-height: 2;">
+          <li>Theo dõi và cải thiện tỉ lệ chuyển đổi Lead → Deal</li>
+          <li>Giảm thời gian xử lý lead, không để lead bị bỏ sót</li>
+          <li>Chuẩn hóa quy trình sale — giảm phụ thuộc cá nhân</li>
+          <li>Minh bạch hóa hoa hồng, tránh tranh chấp nội bộ</li>
+          <li>Xây nền tảng nội dung SEO để giảm chi phí ads dài hạn</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>👤 Người dùng chính</h3>
+        <ul style="padding-left: 18px; color: #374151; font-size: 14px; line-height: 2;">
+          <li><strong>Sale Member / Leader</strong> — dùng hàng ngày, cả văn phòng lẫn thực địa</li>
+          <li><strong>Marketing team</strong> — quản lý campaign, landing page, content</li>
+          <li><strong>Vận hành</strong> — hợp đồng, thanh toán, hoa hồng</li>
+          <li><strong>Ban điều hành</strong> — xem báo cáo tổng hợp</li>
+        </ul>
+      </div>
+      <div class="card card-gold">
+        <h3>💡 Single-tenant</h3>
+        <p>Hệ thống xây riêng cho 1 công ty môi giới — không chia sẻ data với bên nào khác. Toàn quyền kiểm soát dữ liệu và cấu hình nghiệp vụ.</p>
+        <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+          <span class="tag time">5–10 dự án BĐS</span>
+          <span class="tag time">Căn hộ · Đất nền · Nhà phố · Chung cư</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHẠM VI -->
+<section id="pham-vi">
+  <div class="container">
+    <div class="section-tag">02 — Phạm vi</div>
+    <h2>Làm gì — không làm gì?</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div class="card" style="border-top: 3px solid #10b981;">
+        <h3 style="color: #065f46; margin-bottom: 16px;">✅ In-scope</h3>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-top: 8px; margin-bottom: 4px;">Phase 1 — MVP</div>
+          <div class="tag" style="width: fit-content;">Quản lý user & phân quyền</div>
+          <div class="tag" style="width: fit-content;">Quản lý Lead toàn vòng đời</div>
+          <div class="tag" style="width: fit-content;">Dự án & sản phẩm BĐS</div>
+          <div class="tag" style="width: fit-content;">Hợp đồng & thanh toán manual</div>
+          <div class="tag" style="width: fit-content;">Hoa hồng MLM tự động tính</div>
+          <div class="tag" style="width: fit-content;">Calendar & Site Visit</div>
+          <div class="tag" style="width: fit-content;">Dashboard real-time (by role)</div>
+          <div class="tag" style="width: fit-content;">Export Excel / PDF</div>
+
+          <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-top: 12px; margin-bottom: 4px;">Phase 2+</div>
+          <div class="tag" style="width: fit-content;">Omnichannel chat (Zalo, Messenger)</div>
+          <div class="tag" style="width: fit-content;">Landing page & Campaign</div>
+          <div class="tag" style="width: fit-content;">Affiliate / Referral system</div>
+          <div class="tag" style="width: fit-content;">5 website vệ tinh SEO</div>
+          <div class="tag" style="width: fit-content;">AI Lead Scoring & Assistant</div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top: 3px solid #ef4444;">
+        <h3 style="color: #991b1b; margin-bottom: 16px;">❌ Out-of-scope (phase này)</h3>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div class="tag" style="width: fit-content; background: #fee2e2; color: #991b1b;">Tích hợp ngân hàng / cổng thanh toán online</div>
+          <div class="tag" style="width: fit-content; background: #fee2e2; color: #991b1b;">ERP kế toán đầy đủ</div>
+          <div class="tag" style="width: fit-content; background: #fee2e2; color: #991b1b;">Mobile app native (iOS / Android)</div>
+          <div class="tag" style="width: fit-content; background: #fee2e2; color: #991b1b;">E-signature điện tử (DocuSign…)</div>
+          <div class="tag" style="width: fit-content; background: #fee2e2; color: #991b1b;">Multi-tenant / SaaS</div>
+          <div class="tag" style="width: fit-content; background: #fee2e2; color: #991b1b;">Webhook tới hệ thống kế toán bên ngoài</div>
+        </div>
+        <div style="margin-top: 20px; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 14px;">
+          <div style="font-size: 12px; font-weight: 700; color: #c2410c; margin-bottom: 6px;">💡 Lưu ý về mobile</div>
+          <div style="font-size: 13px; color: #7c2d12;">Không có native app nhưng giao diện web sẽ <strong>responsive đầy đủ cho mobile</strong> — sale thực địa vẫn dùng tốt qua browser. Native app sẽ bổ sung ở phase sau.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section id="roles">
+  <div class="container">
+    <div class="section-tag">03 — Vai trò</div>
+    <h2>5 vai trò trong hệ thống</h2>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="role-name">👑 Super Admin</div>
+        <div class="role-desc">Toàn quyền hệ thống: cấu hình, xem mọi dữ liệu, quản lý tất cả user. Thường chỉ 1–2 người.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-name">🏢 Admin</div>
+        <div class="role-desc">Quản lý vận hành: user, dự án, hợp đồng, hoa hồng, báo cáo toàn hệ thống. Nhận hoa hồng 0.5% từ sale do mình recruit.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-name">📋 Sale Leader</div>
+        <div class="role-desc">Quản lý đội sale, phân bổ lead, xem KPI nhóm. Nhận hoa hồng 1–2% từ deal của nhóm mình quản lý.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-name">💼 Sale Member</div>
+        <div class="role-desc">Tiếp nhận lead, chăm sóc, cập nhật trạng thái, tạo booking. Nhận hoa hồng 5% từ deal tự kiếm được.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-name">📣 Marketing</div>
+        <div class="role-desc">Quản lý campaign, landing page, content, tracking nguồn lead. Không truy cập hợp đồng và hoa hồng.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-tag">04 — Tính năng</div>
+    <h2>Danh sách 27 tính năng</h2>
+    <p style="margin-bottom: 24px; color: var(--muted);">Ưu tiên theo MoSCoW: <strong>M</strong> = Must · <strong>S</strong> = Should · <strong>C</strong> = Could · Phase 1–4</p>
+
+    <div style="overflow-x: auto; border-radius: 12px; box-shadow: 0 1px 6px rgba(0,0,0,.06);">
+      <table class="feat-table">
+        <thead>
+          <tr>
+            <th style="width:52px;">#</th>
+            <th>Tính năng</th>
+            <th style="width:70px; text-align:center;">Ưu tiên</th>
+            <th style="width:80px; text-align:center;">Phase</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="4" style="background:#f8f5ef; font-size:12px; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; padding:10px 14px;">Phase 1 — Core System</td></tr>
+          <tr><td class="feat-num">F01</td><td><div class="feat-name">Quản lý User & Phân quyền (RBAC)</div><div class="feat-desc">Tạo/sửa/khóa tài khoản, phân quyền theo role, gán sale vào dự án, audit log</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F02</td><td><div class="feat-name">Quản lý Lead — Vòng đời đầy đủ</div><div class="feat-desc">New→Contacted→Qualified→Booking→Negotiation→Won→Lost · Tag · Lịch sử hoạt động · Tìm kiếm nâng cao</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F03</td><td><div class="feat-name">Phân bổ Lead (Auto + Manual)</div><div class="feat-desc">Rule-based tự động (round-robin, theo dự án) + phân bổ thủ công bởi Leader</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F04</td><td><div class="feat-name">Quản lý Dự án & Sản phẩm BĐS</div><div class="feat-desc">Tạo dự án, quản lý căn/lô theo trạng thái Available / Reserved / Sold</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F05</td><td><div class="feat-name">Customer 360</div><div class="feat-desc">Toàn bộ lịch sử tương tác, lead, hợp đồng, thanh toán của 1 khách trên 1 màn hình</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F06</td><td><div class="feat-name">Quản lý Hợp đồng</div><div class="feat-desc">Tạo từ deal Won, download template, upload PDF đã ký, theo dõi trạng thái Draft/Signed/Cancelled</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F07</td><td><div class="feat-name">Tracking Thanh toán (Manual)</div><div class="feat-desc">Lịch thanh toán nhiều đợt, ghi nhận thủ công, nhắc lịch đến hạn, export Excel</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F08</td><td><div class="feat-name">Quản lý Hoa hồng MLM</div><div class="feat-desc">Tính tự động khi hợp đồng Signed · Cấu trúc đa tầng · Cấu hình được · Export báo cáo</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F09</td><td><div class="feat-name">Calendar & Site Visit</div><div class="feat-desc">Đặt lịch xem nhà, sync Google Calendar, nhắc khách, quản lý tour đa sale</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F10</td><td><div class="feat-name">Workflow Automation cơ bản</div><div class="feat-desc">Rule "Nếu [sự kiện] → [hành động]": auto-assign lead, nhắc sale, gửi tài liệu tự động</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F11</td><td><div class="feat-name">Dashboard & Báo cáo (Role-based, Real-time)</div><div class="feat-desc">Mỗi role có view riêng · Cập nhật real-time · Conversion funnel · KPI tracking · Lọc theo thời gian & dự án</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F12</td><td><div class="feat-name">Export Báo cáo (Excel, PDF)</div><div class="feat-desc">Mọi bảng báo cáo đều export được Excel · Dashboard xuất PDF snapshot</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F13</td><td><div class="feat-name">Sale Kit — Thư viện tài liệu</div><div class="feat-desc">Brochure, bảng giá, chính sách, script tư vấn, FAQ — gắn theo dự án, có version</div></td><td style="text-align:center;"><span class="pill pill-S">S</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+          <tr><td class="feat-num">F14</td><td><div class="feat-name">KPI Tracking & Hoạt động Sale</div><div class="feat-desc">Đặt KPI tháng, đối chiếu thực tế, ghi nhận cuộc gọi / site visit / chăm sóc</div></td><td style="text-align:center;"><span class="pill pill-S">S</span></td><td style="text-align:center;"><span class="pill pill-p1">P1</span></td></tr>
+
+          <tr><td colspan="4" style="background:#f8f5ef; font-size:12px; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; padding:10px 14px;">Phase 2 — External Integrations & Marketing</td></tr>
+          <tr><td class="feat-num">F15</td><td><div class="feat-name">Đồng bộ Lead từ FB/Google Ads</div><div class="feat-desc">Webhook Lead Ads + import CSV · Tự động gắn tag nguồn campaign · Hàng đợi lead lỗi</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p2">P2</span></td></tr>
+          <tr><td class="feat-num">F16</td><td><div class="feat-name">Landing Page System</div><div class="feat-desc">Tạo từ template, gắn form lead, tracking conversion, custom URL</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p2">P2</span></td></tr>
+          <tr><td class="feat-num">F17</td><td><div class="feat-name">Campaign Management</div><div class="feat-desc">Tạo campaign, liên kết landing page, theo dõi CPL / conversion / ROAS</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p2">P2</span></td></tr>
+          <tr><td class="feat-num">F18</td><td><div class="feat-name">Omnichannel Chat</div><div class="feat-desc">Gom Zalo OA + Messenger + Web chat vào 1 inbox · Gán sale · Lưu lịch sử theo khách</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p2">P2</span></td></tr>
+          <tr><td class="feat-num">F19</td><td><div class="feat-name">Affiliate / Referral System</div><div class="feat-desc">Link riêng, attribution 100 ngày, tính hoa hồng 0.5% khi hợp đồng ký, payout manual</div></td><td style="text-align:center;"><span class="pill pill-S">S</span></td><td style="text-align:center;"><span class="pill pill-p2">P2</span></td></tr>
+          <tr><td class="feat-num">F20</td><td><div class="feat-name">Email 1-1 qua Gmail Workspace</div><div class="feat-desc">Sale gửi email cá nhân cho khách từ trong hệ thống, lịch sử lưu vào Customer 360</div></td><td style="text-align:center;"><span class="pill pill-S">S</span></td><td style="text-align:center;"><span class="pill pill-p2">P2</span></td></tr>
+          <tr><td class="feat-num">F21</td><td><div class="feat-name">Google Calendar Sync</div><div class="feat-desc">Lịch site visit và chăm sóc sync 2 chiều với Google Calendar của sale</div></td><td style="text-align:center;"><span class="pill pill-S">S</span></td><td style="text-align:center;"><span class="pill pill-p2">P2</span></td></tr>
+
+          <tr><td colspan="4" style="background:#f8f5ef; font-size:12px; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; padding:10px 14px;">Phase 3 — Satellite Websites & SEO</td></tr>
+          <tr><td class="feat-num">F22</td><td><div class="feat-name">CMS Global</div><div class="feat-desc">Quản lý bài viết SEO, hình ảnh, video tập trung · Publish đồng thời lên nhiều site</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p3">P3</span></td></tr>
+          <tr><td class="feat-num">F23</td><td><div class="feat-name">5 Website vệ tinh (SEO vùng ven)</div><div class="feat-desc">Domain riêng · Tây Ninh · Long An · Bình Dương · Đồng Nai · [1 vùng TBD] · Form lead vào CRM</div></td><td style="text-align:center;"><span class="pill pill-M">M</span></td><td style="text-align:center;"><span class="pill pill-p3">P3</span></td></tr>
+
+          <tr><td colspan="4" style="background:#f8f5ef; font-size:12px; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; padding:10px 14px;">Phase 4+ — AI & Intelligence</td></tr>
+          <tr><td class="feat-num">F24</td><td><div class="feat-name">Lead Scoring (AI)</div><div class="feat-desc">Chấm điểm lead tự động · Dự đoán khả năng mua</div></td><td style="text-align:center;"><span class="pill pill-C">C</span></td><td style="text-align:center;"><span class="pill pill-p4">P4+</span></td></tr>
+          <tr><td class="feat-num">F25</td><td><div class="feat-name">AI Sales Assistant</div><div class="feat-desc">Gợi ý tư vấn, soạn tin nhắn, gợi ý sản phẩm phù hợp khách</div></td><td style="text-align:center;"><span class="pill pill-C">C</span></td><td style="text-align:center;"><span class="pill pill-p4">P4+</span></td></tr>
+          <tr><td class="feat-num">F26</td><td><div class="feat-name">AI Content Engine</div><div class="feat-desc">Sinh tự động: bài SEO, nội dung ads, landing page</div></td><td style="text-align:center;"><span class="pill pill-C">C</span></td><td style="text-align:center;"><span class="pill pill-p4">P4+</span></td></tr>
+          <tr><td class="feat-num">F27</td><td><div class="feat-name">Market Intelligence</div><div class="feat-desc">Phân tích thị trường, so sánh dự án, theo dõi giá BĐS</div></td><td style="text-align:center;"><span class="pill pill-C">C</span></td><td style="text-align:center;"><span class="pill pill-p4">P4+</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="container">
+    <div class="section-tag">05 — Lộ trình</div>
+    <h2>Kế hoạch triển khai theo phase</h2>
+    <div class="phases">
+
+      <div class="phase-item">
+        <div class="phase-left">
+          <div class="phase-dot p1">1</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-label p1">Phase 1 — MVP</div>
+          <div class="phase-title">Hệ thống quản lý lõi</div>
+          <div class="phase-desc">Sale dùng hàng ngày được, lãnh đạo xem báo cáo được — đây là nền tảng cho mọi thứ sau.</div>
+          <div class="tag-list">
+            <span class="tag must">F01 – F14</span>
+            <span class="tag time">⏱ 3 tháng</span>
+            <span class="tag budget">💰 500.000.000 VND</span>
+            <span class="tag">CRM · Lead · Hợp đồng · Hoa hồng MLM · Dashboard</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-left">
+          <div class="phase-dot p2">2</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-label p2">Phase 2 — Integrations</div>
+          <div class="phase-title">Tích hợp nền tảng bên ngoài</div>
+          <div class="phase-desc">Tự động hóa nguồn lead từ ads, mở kênh chat đa nền tảng, kích hoạt affiliate network.</div>
+          <div class="tag-list">
+            <span class="tag must">F15 – F21</span>
+            <span class="tag">Zalo OA · FB/GG Ads Webhook · Omnichannel Chat</span>
+            <span class="tag">Landing Page · Campaign · Affiliate · Google Calendar</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-left">
+          <div class="phase-dot p3">3</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-label p3">Phase 3 — SEO & Satellite Sites</div>
+          <div class="phase-title">Xây kênh organic bất động sản vùng ven</div>
+          <div class="phase-desc">5 website domain riêng, tối ưu SEO vùng ven để tạo nguồn lead organic, giảm phụ thuộc paid ads dài hạn.</div>
+          <div class="tag-list">
+            <span class="tag must">F22 – F23</span>
+            <span class="tag">Tây Ninh · Long An · Bình Dương · Đồng Nai · [TBD]</span>
+            <span class="tag">CMS Global · Domain riêng · SEO on-page</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-left">
+          <div class="phase-dot p4">4</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-label p4">Phase 4+ — AI & Intelligence</div>
+          <div class="phase-title">Tối ưu hóa bằng AI & dữ liệu</div>
+          <div class="phase-desc">Sau khi hệ thống có đủ dữ liệu lịch sử, bật layer AI để tự động hóa tư vấn và content.</div>
+          <div class="tag-list">
+            <span class="tag must">F24 – F27</span>
+            <span class="tag">Lead Scoring · AI Sales Assistant · AI Content · Market Intelligence</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Hoa hồng MLM -->
+    <div style="margin-top: 48px;">
+      <h3 style="margin-bottom: 16px;">🏆 Cấu trúc hoa hồng MLM (Phase 1)</h3>
+      <div class="card" style="overflow: hidden; padding: 0;">
+        <table style="width:100%; border-collapse: collapse; font-size: 14px;">
+          <thead>
+            <tr style="background: var(--navy);">
+              <th style="padding: 12px 18px; text-align:left; color: rgba(255,255,255,.7); font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:700;">Tầng</th>
+              <th style="padding: 12px 18px; text-align:left; color: rgba(255,255,255,.7); font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:700;">Điều kiện nhận</th>
+              <th style="padding: 12px 18px; text-align:center; color: rgba(255,255,255,.7); font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:700;">Tỉ lệ mặc định</th>
+              <th style="padding: 12px 18px; text-align:center; color: rgba(255,255,255,.7); font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:700;">Cấu hình được?</th>
+            </tr>
+          </thead>
+          <tbody style="background: white;">
+            <tr style="border-bottom: 1px solid var(--gray2);">
+              <td style="padding: 13px 18px; font-weight: 700; color: var(--navy);">💼 Sale Member</td>
+              <td style="padding: 13px 18px; color: var(--muted);">Tự kiếm khách hàng</td>
+              <td style="padding: 13px 18px; text-align:center;"><strong style="color: var(--navy); font-size: 18px;">5%</strong></td>
+              <td style="padding: 13px 18px; text-align:center; color: #10b981; font-weight:700;">✓</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--gray2);">
+              <td style="padding: 13px 18px; font-weight: 700; color: var(--navy);">📋 Sale Leader</td>
+              <td style="padding: 13px 18px; color: var(--muted);">Deal từ nhóm mình quản lý</td>
+              <td style="padding: 13px 18px; text-align:center;"><strong style="color: var(--navy); font-size: 18px;">1–2%</strong></td>
+              <td style="padding: 13px 18px; text-align:center; color: #10b981; font-weight:700;">✓</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--gray2);">
+              <td style="padding: 13px 18px; font-weight: 700; color: var(--navy);">🏢 Admin</td>
+              <td style="padding: 13px 18px; color: var(--muted);">Chỉ khi sale do Admin recruit trực tiếp</td>
+              <td style="padding: 13px 18px; text-align:center;"><strong style="color: var(--navy); font-size: 18px;">0.5%</strong></td>
+              <td style="padding: 13px 18px; text-align:center; color: #10b981; font-weight:700;">✓</td>
+            </tr>
+            <tr>
+              <td style="padding: 13px 18px; font-weight: 700; color: var(--navy);">🔗 Referrer (Affiliate)</td>
+              <td style="padding: 13px 18px; color: var(--muted);">Lead từ link referral ký hợp đồng</td>
+              <td style="padding: 13px 18px; text-align:center;"><strong style="color: var(--navy); font-size: 18px;">0.5%</strong></td>
+              <td style="padding: 13px 18px; text-align:center; color: #10b981; font-weight:700;">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NFR -->
+<section id="nfr">
+  <div class="container">
+    <div class="section-tag">06 — Phi chức năng</div>
+    <h2>Yêu cầu kỹ thuật & vận hành</h2>
+    <div class="nfr-grid" style="margin-bottom: 28px;">
+      <div class="nfr-card">
+        <div class="nfr-icon">⚡</div>
+        <div class="nfr-label">Hiệu năng</div>
+        <div class="nfr-val">&lt; 500ms</div>
+        <div class="nfr-note">Response time API cho 95% request</div>
+      </div>
+      <div class="nfr-card">
+        <div class="nfr-icon">👥</div>
+        <div class="nfr-label">Concurrent Users</div>
+        <div class="nfr-val">1.000</div>
+        <div class="nfr-note">Người dùng đồng thời</div>
+      </div>
+      <div class="nfr-card">
+        <div class="nfr-icon">📥</div>
+        <div class="nfr-label">Lead mỗi ngày</div>
+        <div class="nfr-val">1.000</div>
+        <div class="nfr-note">Tối đa lead hệ thống xử lý/ngày</div>
+      </div>
+      <div class="nfr-card">
+        <div class="nfr-icon">🟢</div>
+        <div class="nfr-label">Uptime</div>
+        <div class="nfr-val">99%</div>
+        <div class="nfr-note">~7.3 giờ downtime/tháng tối đa</div>
+      </div>
+      <div class="nfr-card">
+        <div class="nfr-icon">🌐</div>
+        <div class="nfr-label">Trang tải</div>
+        <div class="nfr-val">&lt; 3s</div>
+        <div class="nfr-note">Trên kết nối 4G</div>
+      </div>
+      <div class="nfr-card">
+        <div class="nfr-icon">💾</div>
+        <div class="nfr-label">Backup</div>
+        <div class="nfr-val">Hàng ngày</div>
+        <div class="nfr-note">Giữ 30 ngày, cloud Việt Nam</div>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>🔐 Bảo mật</h3>
+        <ul style="padding-left: 18px; color: #374151; font-size: 14px; line-height: 2;">
+          <li>RBAC — phân quyền chặt theo role</li>
+          <li>Audit log đầy đủ mọi thao tác</li>
+          <li>HTTPS bắt buộc toàn bộ traffic</li>
+          <li>Mã hóa dữ liệu nhạy cảm</li>
+          <li>Tuân thủ <strong>Nghị định 13/2023/NĐ-CP</strong> về bảo vệ dữ liệu cá nhân</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>📱 Tương thích</h3>
+        <ul style="padding-left: 18px; color: #374151; font-size: 14px; line-height: 2;">
+          <li>Chrome, Safari, Firefox, Edge (latest)</li>
+          <li>Responsive từ màn hình 375px (iPhone SE)</li>
+          <li>Ngôn ngữ: <strong>Tiếng Việt 100%</strong></li>
+          <li>Deploy: Cloud Việt Nam (VNG/FPT Cloud)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TÍCH HỢP -->
+<section id="tich-hop">
+  <div class="container">
+    <div class="section-tag">07 — Tích hợp</div>
+    <h2>Kết nối với nền tảng bên ngoài</h2>
+    <div class="integ-grid">
+      <div class="integ-card">
+        <div class="integ-icon" style="background: #e7f3ff;">📘</div>
+        <div>
+          <div class="integ-name">Facebook Lead Ads</div>
+          <div class="integ-desc">Nhận lead tự động qua webhook · Import CSV</div>
+          <div class="integ-phase">Phase 2</div>
+        </div>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon" style="background: #fff3cd;">🟡</div>
+        <div>
+          <div class="integ-name">Google Ads</div>
+          <div class="integ-desc">Webhook lead + tracking conversion</div>
+          <div class="integ-phase">Phase 2</div>
+        </div>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon" style="background: #e8f5e9;">💬</div>
+        <div>
+          <div class="integ-name">Zalo Official Account</div>
+          <div class="integ-desc">Omnichannel chat qua Zalo OA API</div>
+          <div class="integ-phase">Phase 2</div>
+        </div>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon" style="background: #e7f3ff;">💙</div>
+        <div>
+          <div class="integ-name">Facebook Messenger</div>
+          <div class="integ-desc">Gom vào inbox omnichannel</div>
+          <div class="integ-phase">Phase 2</div>
+        </div>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon" style="background: #fce8e8;">📅</div>
+        <div>
+          <div class="integ-name">Google Calendar</div>
+          <div class="integ-desc">Sync lịch site visit của sale</div>
+          <div class="integ-phase">Phase 2</div>
+        </div>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon" style="background: #fce8e8;">📧</div>
+        <div>
+          <div class="integ-name">Gmail Workspace</div>
+          <div class="integ-desc">Gửi email 1-1 từ trong hệ thống</div>
+          <div class="integ-phase">Phase 2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RỦI RO -->
+<section id="rui-ro">
+  <div class="container">
+    <div class="section-tag">08 — Rủi ro</div>
+    <h2>Rủi ro cần lưu ý</h2>
+    <div class="risk-list">
+      <div class="risk-item">
+        <div class="risk-dot high"></div>
+        <div>
+          <div class="risk-name">Budget Phase 1 có thể chật với 14 tính năng</div>
+          <div class="risk-note">500tr là mức tốt nhưng cần Tech Lead đánh giá lại scope. Có thể cần cắt F13, F14 sang Phase 2 nếu budget eo.</div>
+        </div>
+        <div class="risk-level high">Cao</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-dot high"></div>
+        <div>
+          <div class="risk-name">Timeline 3 tháng cho Phase 1 là aggressive</div>
+          <div class="risk-note">PO/Tech Lead cần đánh giá sớm và có thể điều chỉnh scope MVP để đảm bảo ship đúng hạn.</div>
+        </div>
+        <div class="risk-level high">Cao</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-dot high"></div>
+        <div>
+          <div class="risk-name">Tuân thủ Nghị định 13/2023 cần tư vấn pháp lý</div>
+          <div class="risk-note">Cần xác nhận các yêu cầu cụ thể về consent, data retention và quyền xóa dữ liệu với luật sư/DPO trước khi dev.</div>
+        </div>
+        <div class="risk-level high">Cao</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-dot mid"></div>
+        <div>
+          <div class="risk-name">Phụ thuộc Zalo OA API</div>
+          <div class="risk-note">Zalo có thể thay đổi chính sách/API. Cần có fallback qua Messenger hoặc email trong giai đoạn chờ.</div>
+        </div>
+        <div class="risk-level mid">Trung bình</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-dot mid"></div>
+        <div>
+          <div class="risk-name">SEO website vệ tinh phụ thuộc nhiều vào content</div>
+          <div class="risk-note">Hiệu quả SEO cần content chất lượng và thời gian. Team content cần chuẩn bị trước khi launch Phase 3.</div>
+        </div>
+        <div class="risk-level mid">Trung bình</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPEN QUESTIONS -->
+<section id="open-q">
+  <div class="container">
+    <div class="section-tag">09 — Câu hỏi mở</div>
+    <h2>Cần confirm trước khi chốt</h2>
+    <p style="color: var(--muted); margin-bottom: 24px;">Các điểm dưới đây cần được xác nhận để spec có thể chuyển sang trạng thái 🟢 Đã confirm.</p>
+    <div class="oq-list">
+      <div class="oq-item">
+        <div class="oq-num">Q1</div>
+        <div class="oq-text">Website vệ tinh thứ 5 — địa bàn/tỉnh nào ngoài Tây Ninh, Long An, Bình Dương, Đồng Nai?</div>
+      </div>
+      <div class="oq-item">
+        <div class="oq-num">Q2</div>
+        <div class="oq-text">Rule phân bổ lead chi tiết — ngoài round-robin, có cần phân bổ theo hiệu suất hoặc workload không?</div>
+      </div>
+      <div class="oq-item">
+        <div class="oq-num">Q3</div>
+        <div class="oq-text">KPI sale — ai có quyền đặt KPI cho sale (Leader hay Admin)? Có theo dõi KPI riêng theo từng dự án không?</div>
+      </div>
+      <div class="oq-item">
+        <div class="oq-num">Q4</div>
+        <div class="oq-text">Design reference — có brand color, logo, hoặc moodboard/mockup nào để team design tham chiếu không?</div>
+      </div>
+      <div class="oq-item">
+        <div class="oq-num">Q5</div>
+        <div class="oq-text">Kênh giao tiếp chính thức — confirm thay đổi requirement trong dự án sẽ đi qua đâu (email, Zalo nhóm, Slack)?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNOFF -->
+<div class="signoff">
+  <div class="signoff-inner">
+    <h2>Xác nhận tài liệu</h2>
+    <p>Sau khi đọc và đồng ý với nội dung spec, vui lòng ký xác nhận để team bắt đầu giai đoạn tiếp theo.</p>
+    <div class="signoff-boxes">
+      <div class="signoff-box">
+        <div class="signoff-box-label">Khách hàng xác nhận</div>
+        <div class="signoff-box-line"></div>
+        <div style="font-size: 13px; color: rgba(255,255,255,.6);">Họ tên: ________________________</div>
+        <div style="font-size: 13px; color: rgba(255,255,255,.6); margin-top: 10px;">Ngày: ________________________</div>
+        <div style="font-size: 13px; color: rgba(255,255,255,.6); margin-top: 10px;">Chữ ký: ________________________</div>
+      </div>
+      <div class="signoff-box">
+        <div class="signoff-box-label">Action items sau confirm</div>
+        <div class="signoff-box-line"></div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-size: 13px; color: rgba(255,255,255,.65); display: flex; gap: 8px;"><span style="color: var(--gold);">→</span> Trả lời 5 câu hỏi mở</div>
+          <div style="font-size: 13px; color: rgba(255,255,255,.65); display: flex; gap: 8px;"><span style="color: var(--gold);">→</span> Cung cấp brand guideline / logo</div>
+          <div style="font-size: 13px; color: rgba(255,255,255,.65); display: flex; gap: 8px;"><span style="color: var(--gold);">→</span> Chốt kênh giao tiếp dự án</div>
+          <div style="font-size: 13px; color: rgba(255,255,255,.65); display: flex; gap: 8px;"><span style="color: var(--gold);">→</span> Tech Lead đánh giá scope & timeline</div>
+        </div>
+      </div>
+      <div class="signoff-box">
+        <div class="signoff-box-label">Trạng thái hiện tại</div>
+        <div class="signoff-box-line"></div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+          <div style="width: 10px; height: 10px; border-radius: 50%; background: #fbbf24;"></div>
+          <div style="font-size: 14px; font-weight: 700; color: #fcd34d;">Chờ khách confirm</div>
+        </div>
+        <div class="signoff-box-note">Spec sẽ chuyển sang 🟢 Đã confirm sau khi khách ký và trả lời các câu hỏi mở.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  RE-ROS Specification v1.0 · 22/04/2026 · Prepared by VibaLink
+</footer>
+
+<script>
+  // Active nav tab on scroll
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-tab');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.nav-tab[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
