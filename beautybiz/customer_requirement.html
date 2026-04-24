@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Requirements — BeautyBiz Referral Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Beauty palette — rose gold, nude, champagne */
+  --rose:       #C8808A;
+  --rose-dark:  #9E555F;
+  --rose-mid:   #D9959E;
+  --rose-light: #F7ECEE;
+  --rose-pale:  #FDF5F6;
+  --rose-border:rgba(200,128,138,0.2);
+
+  --gold:       #B8915A;
+  --gold-light: #F8F1E8;
+  --gold-border:rgba(184,145,90,0.2);
+
+  --nude:       #E8D5C4;
+  --nude-dark:  #9C7A62;
+  --nude-light: #FBF7F4;
+
+  --mauve:      #8B6B7A;
+  --mauve-light:#F2EBF0;
+
+  --bg:         #FEFCFB;
+  --bg2:        #FBF7F4;
+  --bg3:        #F5EEE9;
+  --border:     rgba(0,0,0,0.06);
+  --border2:    rgba(0,0,0,0.10);
+
+  --text:       #2A1F1A;
+  --text2:      #7A6058;
+  --text3:      #B8A49C;
+
+  --green:      #5A8A6A;
+  --green-bg:   rgba(90,138,106,0.08);
+  --red:        #C05050;
+  --red-bg:     rgba(192,80,80,0.08);
+  --blue:       #5070A0;
+  --blue-bg:    rgba(80,112,160,0.08);
+
+  --font-body:    'Be Vietnam Pro', sans-serif;
+  --font-display: 'Playfair Display', serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --radius:       14px;
+  --radius-sm:    8px;
+  --shadow-sm:    0 1px 4px rgba(100,50,50,0.06);
+  --shadow:       0 4px 20px rgba(100,50,50,0.08);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.65}
+::selection{background:var(--rose-light);color:var(--rose-dark)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--nude);border-radius:2px}
+
+/* ── HEADER ── */
+.doc-header{
+  background: linear-gradient(135deg, #2A1F1A 0%, #5A3040 50%, #8B5060 100%);
+  color: white; padding: 48px 24px 40px; text-align: center; position: relative; overflow: hidden;
+}
+.doc-header::before{
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(200,128,138,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(184,145,90,0.1) 0%, transparent 50%);
+}
+.doc-header::after{
+  content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(200,128,138,0.5), rgba(184,145,90,0.5), transparent);
+}
+.header-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.header-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px}
+.header-logo-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--rose),var(--gold));display:flex;align-items:center;justify-content:center}
+.header-logo-text{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.header-logo-text span{color:var(--rose-mid)}
+.doc-title{font-family:var(--font-display);font-size:clamp(22px,5vw,38px);font-weight:600;line-height:1.15;margin-bottom:10px;letter-spacing:-.01em}
+.doc-subtitle{font-size:14px;opacity:.75;margin-bottom:24px;line-height:1.6}
+.header-meta{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px}
+.meta-pill{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:500;backdrop-filter:blur(4px)}
+.version-pill{background:rgba(200,128,138,0.25);border-color:rgba(200,128,138,0.4)}
+
+/* ── NAV ── */
+.sticky-nav{
+  position:sticky;top:0;z-index:100;background:rgba(254,252,251,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);overflow-x:auto;
+}
+.nav-inner{display:flex;gap:0;min-width:max-content;padding:0 16px}
+.nav-item{
+  padding:12px 16px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;user-select:none;
+}
+.nav-item:hover{color:var(--text);background:var(--bg2)}
+.nav-item.active{color:var(--rose-dark);border-bottom-color:var(--rose)}
+.nav-item .nav-num{font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-right:5px}
+
+/* ── LAYOUT ── */
+.page-wrap{max-width:800px;margin:0 auto;padding:0 20px}
+
+/* ── SECTIONS ── */
+.section{padding:40px 0 0}
+.section:last-child{padding-bottom:80px}
+.section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--rose-border),var(--gold-border),transparent);margin:40px 0 0}
+
+.section-head{margin-bottom:24px}
+.section-num{font-family:var(--font-mono);font-size:11px;color:var(--rose);letter-spacing:.1em;font-weight:600;margin-bottom:6px;text-transform:uppercase}
+.section-title{font-family:var(--font-display);font-size:clamp(20px,4vw,28px);font-weight:500;color:var(--text);letter-spacing:-.02em;line-height:1.2}
+.section-desc{font-size:14px;color:var(--text2);margin-top:8px;line-height:1.65;max-width:600px}
+
+.subsection{margin-bottom:28px}
+.subsection-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.subsection-title::before{content:'';width:3px;height:16px;background:linear-gradient(180deg,var(--rose),var(--gold));border-radius:2px;flex-shrink:0}
+
+/* ── CARDS ── */
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-sm);transition:box-shadow .2s,border-color .2s}
+.card:hover{box-shadow:var(--shadow);border-color:var(--border2)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:20px}
+.card-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+
+/* ── REQ BLOCKS ── */
+.req-block{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden}
+.req-block:hover{border-color:var(--rose-border)}
+.req-header{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;transition:background .15s}
+.req-header:hover{background:var(--rose-pale)}
+.req-code{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--rose-dark);background:var(--rose-light);padding:3px 8px;border-radius:5px;flex-shrink:0;margin-top:1px;border:1px solid var(--rose-border)}
+.req-title{font-size:14px;font-weight:600;color:var(--text);flex:1;line-height:1.4}
+.req-chevron{font-size:11px;color:var(--text3);flex-shrink:0;margin-top:2px;transition:transform .2s}
+.req-chevron.open{transform:rotate(180deg)}
+.req-body{padding:0 18px 16px;font-size:13px;color:var(--text2);line-height:1.65;display:none;border-top:1px solid var(--border)}
+.req-body.open{display:block}
+.req-body p{margin-top:12px}
+.req-body ul{margin:10px 0 0 16px;display:flex;flex-direction:column;gap:5px}
+.req-body li{color:var(--text2);font-size:13px}
+
+/* ── HIGHLIGHT BLOCKS ── */
+.info-box{background:var(--rose-pale);border:1px solid var(--rose-border);border-radius:var(--radius-sm);padding:14px 16px;margin-top:12px}
+.info-box p{font-size:13px;color:#7A3040;line-height:1.6;margin:0}
+.gold-box{background:var(--gold-light);border:1px solid var(--gold-border);border-radius:var(--radius-sm);padding:14px 16px;margin-top:12px}
+.gold-box p{font-size:13px;color:#6B4A20;line-height:1.6;margin:0}
+.code-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-top:12px;font-family:var(--font-mono);font-size:12px;color:var(--text);line-height:1.7;white-space:pre-wrap;word-break:break-all}
+
+/* ── TABLES ── */
+.table-wrap{overflow-x:auto;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:linear-gradient(135deg,var(--rose-light),var(--gold-light));color:var(--text);font-weight:600;padding:10px 14px;text-align:left;font-size:12px;letter-spacing:.02em;border-bottom:1px solid var(--rose-border)}
+tbody td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--rose-pale);color:var(--text)}
+.td-center{text-align:center}
+.badge-yes{background:var(--green-bg);color:var(--green);font-size:12px;font-weight:600;padding:2px 8px;border-radius:8px;display:inline-block}
+.badge-no{background:var(--red-bg);color:var(--red);font-size:12px;font-weight:600;padding:2px 8px;border-radius:8px;display:inline-block}
+.badge-na{color:var(--text3);font-size:13px}
+
+/* ── USER CARDS ── */
+.user-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.user-card{border-radius:var(--radius);padding:20px;border:1px solid}
+.user-card.staff{background:linear-gradient(135deg,#FDF5F6,var(--bg));border-color:var(--rose-border)}
+.user-card.affiliate{background:linear-gradient(135deg,var(--gold-light),var(--bg));border-color:var(--gold-border)}
+.user-card-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.user-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.user-icon.staff{background:var(--rose-light)}
+.user-icon.affiliate{background:var(--gold-light)}
+.user-label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase}
+.user-label.staff{color:var(--rose-dark)}
+.user-label.affiliate{color:var(--gold)}
+.user-name{font-size:15px;font-weight:700;color:var(--text)}
+.user-feature{display:flex;gap:7px;font-size:12px;color:var(--text2);margin-bottom:6px;align-items:flex-start;line-height:1.45}
+.user-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.user-dot.staff{background:var(--rose)}
+.user-dot.affiliate{background:var(--gold)}
+
+/* ── KPI CARDS ── */
+.kpi-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.kpi-card{border-radius:var(--radius-sm);padding:14px;text-align:center;border:1px solid var(--border);background:var(--bg)}
+.kpi-icon{font-size:22px;margin-bottom:6px}
+.kpi-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.kpi-desc{font-size:11px;color:var(--text3);line-height:1.4}
+.kpi-example{font-size:11px;color:var(--rose-dark);font-weight:600;margin-top:5px;font-family:var(--font-mono)}
+
+/* ── RULE GRID ── */
+.rule-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:14px 0}
+.rule-card{border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);background:var(--bg);cursor:pointer;transition:all .15s}
+.rule-card:hover{border-color:var(--rose-border);background:var(--rose-pale);transform:translateY(-1px)}
+.rule-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:9px;font-size:15px}
+.rule-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px}
+.rule-desc{font-size:11px;color:var(--text3);line-height:1.4}
+
+/* ── PHASE BAR ── */
+.phase-bar-wrap{background:var(--bg3);border-radius:var(--radius);padding:16px 18px;margin:14px 0}
+.phase-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.phase-visual{display:flex;border-radius:6px;overflow:hidden;height:24px;margin-bottom:8px}
+.phase-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white}
+.phase-legend{display:flex;gap:12px;flex-wrap:wrap}
+.phase-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+.phase-dot{width:8px;height:8px;border-radius:50%}
+
+/* ── FLOW DIAGRAM ── */
+.flow-diagram{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:14px 0}
+.flow-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:0}
+.flow-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.flow-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.flow-connector{width:1.5px;height:20px;background:linear-gradient(180deg,var(--rose-border),var(--gold-border))}
+.flow-content{flex:1;padding-bottom:16px}
+.flow-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.flow-sub{font-size:12px;color:var(--text2);line-height:1.5}
+.flow-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:8px;margin-top:4px}
+
+/* ── PHASE PRIORITY ── */
+.priority-list{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+.priority-item{display:flex;gap:12px;align-items:flex-start;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px}
+.priority-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;flex-shrink:0;font-family:var(--font-mono)}
+.priority-content{flex:1}
+.priority-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.priority-desc{font-size:12px;color:var(--text2)}
+
+/* ── OBJECTIVES ── */
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:14px 0}
+.obj-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;display:flex;gap:10px;align-items:flex-start}
+.obj-icon{width:32px;height:32px;border-radius:8px;background:var(--rose-light);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.obj-text{font-size:13px;color:var(--text2);line-height:1.5}
+
+/* ── TAGS ── */
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:10px}
+.tag-rose{background:var(--rose-light);color:var(--rose-dark);border:1px solid var(--rose-border)}
+.tag-gold{background:var(--gold-light);color:var(--gold);border:1px solid var(--gold-border)}
+.tag-green{background:var(--green-bg);color:var(--green)}
+.tag-red{background:var(--red-bg);color:var(--red)}
+.tag-blue{background:var(--blue-bg);color:var(--blue)}
+
+/* ── FOOTER ── */
+.doc-footer{text-align:center;padding:32px 20px;background:var(--bg2);border-top:1px solid var(--border);margin-top:0}
+.doc-footer p{font-size:12px;color:var(--text3);line-height:1.7}
+.doc-footer strong{color:var(--rose-dark)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .user-cards,.card-grid-2,.kpi-cards{grid-template-columns:1fr}
+  .doc-header{padding:32px 16px 28px}
+  .page-wrap{padding:0 16px}
+  .nav-item{padding:11px 12px;font-size:12px}
+  .section{padding:28px 0 0}
+  table{font-size:12px}
+  thead th,tbody td{padding:8px 10px}
+  .rule-grid{grid-template-columns:repeat(2,1fr)}
+  .obj-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="header-inner">
+    <div class="header-logo">
+      <div class="header-logo-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3C7.7 3 5 5.7 5 9c0 2.5 1.4 4.7 3.5 5.8V17h5v-2.2C15.6 13.7 17 11.5 17 9c0-3.3-2.7-6-6-6z" fill="white" opacity=".9"/><circle cx="11" cy="9" r="2.5" fill="white" opacity=".5"/></svg>
+      </div>
+      <span class="header-logo-text">Beauty<span>Biz</span></span>
+    </div>
+    <h1 class="doc-title">Referral & Affiliate Platform<br>Customer Requirements</h1>
+    <p class="doc-subtitle">Tài liệu yêu cầu chức năng hệ thống — mô tả đầy đủ nghiệp vụ<br>cho đội kỹ thuật và các bên liên quan</p>
+    <div class="header-meta">
+      <span class="meta-pill version-pill">v2.0</span>
+      <span class="meta-pill">24/04/2026</span>
+      <span class="meta-pill">Business Requirements Document</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <div class="nav-item active" onclick="scrollTo('s1')"><span class="nav-num">01</span>Tổng quan</div>
+    <div class="nav-item" onclick="scrollTo('s2')"><span class="nav-num">02</span>Stakeholders</div>
+    <div class="nav-item" onclick="scrollTo('s3')"><span class="nav-num">03</span>Người dùng</div>
+    <div class="nav-item" onclick="scrollTo('s4')"><span class="nav-num">04</span>Tài khoản</div>
+    <div class="nav-item" onclick="scrollTo('s5')"><span class="nav-num">05</span>Campaign Builder</div>
+    <div class="nav-item" onclick="scrollTo('s6')"><span class="nav-num">06</span>Sale Kit</div>
+    <div class="nav-item" onclick="scrollTo('s7')"><span class="nav-num">07</span>Booking Flow</div>
+    <div class="nav-item" onclick="scrollTo('s8')"><span class="nav-num">08–10</span>Gamification</div>
+    <div class="nav-item" onclick="scrollTo('s11')"><span class="nav-num">11</span>Admin</div>
+    <div class="nav-item" onclick="scrollTo('s12')"><span class="nav-num">12–15</span>Kỹ thuật</div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+<!-- ══ 1. TỔNG QUAN ══ -->
+<section class="section" id="s1">
+  <div class="section-head">
+    <div class="section-num">01 — Tổng quan hệ thống</div>
+    <h2 class="section-title">BeautyBiz Referral & Affiliate Platform</h2>
+    <p class="section-desc">Nền tảng quản lý chương trình giới thiệu khách hàng hỗ trợ <strong>hai loại người dùng song song</strong>: nhân viên nội bộ và cộng tác viên affiliate bên ngoài. Admin tự tạo chiến dịch không cần kỹ thuật can thiệp.</p>
+  </div>
+
+  <div class="obj-grid">
+    <div class="obj-item"><div class="obj-icon">🔗</div><div class="obj-text">Hợp nhất 2 kênh giới thiệu (nội bộ + bên ngoài) vào 1 hệ thống duy nhất</div></div>
+    <div class="obj-item"><div class="obj-icon">⚙️</div><div class="obj-text">Admin tự tạo và điều chỉnh chiến dịch không cần kỹ thuật</div></div>
+    <div class="obj-item"><div class="obj-icon">🎯</div><div class="obj-text">Linh động đặt mục tiêu: lead, booking hoặc checkin — hoặc kết hợp nhiều loại</div></div>
+    <div class="obj-item"><div class="obj-icon">🤖</div><div class="obj-text">Tự động phân bổ ngân sách và tính mức thưởng từ budget ban đầu</div></div>
+    <div class="obj-item"><div class="obj-icon">📞</div><div class="obj-text">Loại bỏ bước telesale — booking tự động hoàn toàn</div></div>
+    <div class="obj-item"><div class="obj-icon">✨</div><div class="obj-text">Tăng nhận diện thương hiệu qua mạng lưới nhân viên và affiliate</div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ 2. STAKEHOLDERS ══ -->
+<section class="section" id="s2">
+  <div class="section-head">
+    <div class="section-num">02 — Các bên liên quan</div>
+    <h2 class="section-title">Stakeholders</h2>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Bên</th><th>Loại</th><th>Vai trò</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Nhân viên nội bộ (Staff)</strong></td><td><span class="tag tag-rose">Internal</span></td><td>Giới thiệu KH, đặt lịch hộ, nhận thưởng theo chương trình nội bộ</td></tr>
+        <tr><td><strong>Affiliate (CTV bên ngoài)</strong></td><td><span class="tag tag-gold">External</span></td><td>Đăng ký tham gia, giới thiệu KH qua kênh cá nhân, nhận hoa hồng</td></tr>
+        <tr><td><strong>Khách hàng (KH)</strong></td><td><span class="tag tag-blue">End-user</span></td><td>Tự đặt lịch hoặc được đặt hộ</td></tr>
+        <tr><td><strong>Admin hệ thống</strong></td><td><span class="tag tag-rose">Internal</span></td><td>Tạo campaign, cấu hình budget/KPI/rules, duyệt affiliate, quản lý chi trả</td></tr>
+        <tr><td><strong>Quản lý chi nhánh</strong></td><td><span class="tag tag-rose">Internal</span></td><td>Theo dõi hiệu suất chi nhánh, duyệt booking bất thường</td></tr>
+        <tr><td><strong>Lễ tân chi nhánh</strong></td><td><span class="tag tag-rose">Internal</span></td><td>Nhập mã khi KH đến trực tiếp, check-in</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ 3. NGƯỜI DÙNG ══ -->
+<section class="section" id="s3">
+  <div class="section-head">
+    <div class="section-num">03 — Phân loại người dùng</div>
+    <h2 class="section-title">Hai loại Referrer</h2>
+    <p class="section-desc">Hệ thống phục vụ song song hai loại người dùng với quyền hạn, công cụ và cơ chế chi trả khác nhau.</p>
+  </div>
+
+  <div class="user-cards">
+    <div class="user-card staff">
+      <div class="user-card-head">
+        <div class="user-icon staff">👤</div>
+        <div><div class="user-label staff">Nhân viên nội bộ</div><div class="user-name">Staff</div></div>
+      </div>
+      <div class="user-feature"><div class="user-dot staff"></div>Được admin tạo tài khoản, không cần đăng ký</div>
+      <div class="user-feature"><div class="user-dot staff"></div>Tham gia tự động vào chương trình nội bộ</div>
+      <div class="user-feature"><div class="user-dot staff"></div>Có thể đặt lịch hộ khách (Luồng 2)</div>
+      <div class="user-feature"><div class="user-dot staff"></div>Thấy leaderboard nội bộ toàn công ty</div>
+      <div class="user-feature"><div class="user-dot staff"></div>Sale Kit theo brand guidelines công ty</div>
+      <div class="user-feature"><div class="user-dot staff"></div>Thưởng chi qua lương hoặc tài khoản ngân hàng</div>
+    </div>
+    <div class="user-card affiliate">
+      <div class="user-card-head">
+        <div class="user-icon affiliate">🌟</div>
+        <div><div class="user-label affiliate">CTV bên ngoài</div><div class="user-name">Affiliate</div></div>
+      </div>
+      <div class="user-feature"><div class="user-dot affiliate"></div>Tự đăng ký qua trang công khai, chờ duyệt</div>
+      <div class="user-feature"><div class="user-dot affiliate"></div>Tham gia campaign được mở cho affiliate</div>
+      <div class="user-feature"><div class="user-dot affiliate"></div>Chỉ share link/QR — không đặt lịch hộ</div>
+      <div class="user-feature"><div class="user-dot affiliate"></div>Leaderboard affiliate riêng biệt</div>
+      <div class="user-feature"><div class="user-dot affiliate"></div>Sale Kit tối ưu cho kênh mạng xã hội cá nhân</div>
+      <div class="user-feature"><div class="user-dot affiliate"></div>Hoa hồng qua ví điện tử / ngân hàng</div>
+    </div>
+  </div>
+
+  <div class="subsection-title">Phân quyền theo vai trò</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Chức năng</th><th class="td-center">Staff</th><th class="td-center">Affiliate</th><th class="td-center">Quản lý CN</th><th class="td-center">Admin</th></tr></thead>
+      <tbody>
+        <tr><td>Share link/QR/code</td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-na">—</span></td><td class="td-center"><span class="badge-na">—</span></td></tr>
+        <tr><td>Đặt lịch hộ khách</td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-na">—</span></td><td class="td-center"><span class="badge-na">—</span></td></tr>
+        <tr><td>Dashboard cá nhân</td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-na">—</span></td><td class="td-center"><span class="badge-na">—</span></td></tr>
+        <tr><td>Leaderboard nội bộ</td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-yes">✓</span></td></tr>
+        <tr><td>Leaderboard affiliate</td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-na">—</span></td><td class="td-center"><span class="badge-yes">✓</span></td></tr>
+        <tr><td>Tải Sale Kit Staff</td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-na">—</span></td><td class="td-center"><span class="badge-na">—</span></td></tr>
+        <tr><td>Tải Sale Kit Affiliate</td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-yes">✓</span></td><td class="td-center"><span class="badge-na">—</span></td><td class="td-center"><span class="badge-na">—</span></td></tr>
+        <tr><td>Tạo / sửa campaign</td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-yes">✓</span></td></tr>
+        <tr><td>Duyệt affiliate</td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-yes">✓</span></td></tr>
+        <tr><td>Duyệt hoa hồng bị flag</td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span style="font-size:11px;color:var(--text2)">✓ (CN mình)</span></td><td class="td-center"><span class="badge-yes">✓</span></td></tr>
+        <tr><td>Báo cáo tổng hợp</td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span class="badge-no">✗</span></td><td class="td-center"><span style="font-size:11px;color:var(--text2)">✓ (CN mình)</span></td><td class="td-center"><span class="badge-yes">✓</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ 4. TÀI KHOẢN ══ -->
+<section class="section" id="s4">
+  <div class="section-head">
+    <div class="section-num">04 — Quản lý tài khoản</div>
+    <h2 class="section-title">Account Management</h2>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">4.1 Tài khoản Staff</div>
+    <div class="req-block">
+      <div class="req-header" onclick="toggle(this)"><span class="req-code">REQ-ACC-001</span><span class="req-title">Tạo tài khoản Staff</span><span class="req-chevron">▼</span></div>
+      <div class="req-body"><p>Admin tạo hàng loạt (import CSV) hoặc từng người. Mỗi tài khoản tự động được cấp: mã code 6 ký tự, link tracking cá nhân, QR code có logo thương hiệu. Staff nhận thông tin đăng nhập qua email/SMS.</p></div>
+    </div>
+    <div class="req-block">
+      <div class="req-header" onclick="toggle(this)"><span class="req-code">REQ-ACC-002</span><span class="req-title">Gắn Staff vào campaign</span><span class="req-chevron">▼</span></div>
+      <div class="req-body"><p>Admin gắn Staff vào một hoặc nhiều campaign. Staff chỉ thấy và tham gia các campaign được gắn. Một Staff có thể tham gia đồng thời nhiều campaign (nội bộ tháng + campaign sự kiện đặc biệt).</p></div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">4.2 Tài khoản Affiliate</div>
+    <div class="req-block">
+      <div class="req-header" onclick="toggle(this)"><span class="req-code">REQ-ACC-003</span><span class="req-title">Đăng ký Affiliate</span><span class="req-chevron">▼</span></div>
+      <div class="req-body"><p>Trang đăng ký công khai thu thập: họ tên, SĐT, email, kênh mạng xã hội chính (Facebook/TikTok/Instagram/Zalo), số followers ước tính, lý do tham gia. Hệ thống gửi email xác nhận sau khi đăng ký.</p></div>
+    </div>
+    <div class="req-block">
+      <div class="req-header" onclick="toggle(this)"><span class="req-code">REQ-ACC-004</span><span class="req-title">Duyệt Affiliate</span><span class="req-chevron">▼</span></div>
+      <div class="req-body"><p>Admin xem danh sách đăng ký, duyệt hoặc từ chối kèm lý do. Khi duyệt, hệ thống tạo tài khoản và gửi welcome kit qua email. Admin cấu hình được điều kiện tự động duyệt (VD: followers &gt; 1.000 → tự động duyệt).</p></div>
+    </div>
+    <div class="req-block">
+      <div class="req-header" onclick="toggle(this)"><span class="req-code">REQ-ACC-005</span><span class="req-title">Cấp hạng Affiliate</span><span class="req-chevron">▼</span></div>
+      <div class="req-body">
+        <p>Hệ thống phân hạng tự động dựa trên tổng lead lịch sử:</p>
+        <div class="code-box">Starter → Silver → Gold → Platinum
+Mỗi hạng: mức hoa hồng khác nhau + quyền truy cập campaign khác nhau
+Admin cấu hình: ngưỡng lead từng hạng + mức thưởng tương ứng</div>
+      </div>
+    </div>
+    <div class="req-block">
+      <div class="req-header" onclick="toggle(this)"><span class="req-code">REQ-ACC-006</span><span class="req-title">Đình chỉ / Xóa Affiliate</span><span class="req-chevron">▼</span></div>
+      <div class="req-body"><p>Admin đình chỉ tạm thời (tạm dừng tracking, giữ hoa hồng chưa chốt chờ review) hoặc xóa vĩnh viễn tài khoản affiliate.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ 5. CAMPAIGN BUILDER ══ -->
+<section class="section" id="s5">
+  <div class="section-head">
+    <div class="section-num">05 — Campaign Builder</div>
+    <h2 class="section-title">Tạo chiến dịch không cần kỹ thuật</h2>
+    <p class="section-desc">Module trung tâm của hệ thống. Admin tự tạo, cấu hình và quản lý chiến dịch hoàn toàn qua giao diện — không cần code, không cần kỹ thuật can thiệp.</p>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">5.1 Thông tin cơ bản</div>
+    <div class="req-block">
+      <div class="req-header" onclick="toggle(this)"><span class="req-code">REQ-CB-001</span><span class="req-title">Tạo campaign mới</span><span class="req-chevron">▼</span></div>
+      <div class="req-body">
+        <p>Mỗi campaign cấu hình được:</p>
+        <ul>
+          <li>Tên, mô tả ngắn, thời gian bắt đầu/kết thúc</li>
+          <li>Đối tượng tham gia: Staff / Affiliate / Cả hai</li>
+          <li>Chi nhánh áp dụng: tất cả hoặc chọn cụ thể</li>
+          <li>Dịch vụ áp dụng: tất cả hoặc chọn nhóm/dịch vụ</li>
+          <li>Trạng thái: Draft / Active / Paused / Ended</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">5.2 Cấu hình ngân sách và KPI</div>
+    <div class="req-block">
+      <div class="req-header" onclick="toggle(this)"><span class="req-code">REQ-CB-002</span><span class="req-title">Cấu hình ngân sách</span><span class="req-chevron">▼</span></div>
+      <div class="req-body"><p>Admin nhập tổng ngân sách campaign. Cấu hình ngưỡng cảnh báo (VD: cảnh báo khi đã dùng 80%). Chọn hành động khi hết ngân sách: tự động dừng campaign / chuyển sang mức thưởng tối thiểu / chỉ cảnh báo admin.</p></div>
+    </div>
+    <div class="req-block">
+      <div class="req-header" onclick="toggle(this)"><span class="req-code">REQ-CB-003</span><span class="req-title">Cấu hình KPI và tự động phân bổ ngân sách</span><span class="req-chevron">▼</span></div>
+      <div class="req-body">
+        <p>Admin chọn loại KPI và nhập số lượng mục tiêu. Hệ thống tự động tính ngược mức thưởng đề xuất từ budget, hoặc tính tổng ngân sách cần từ mức thưởng đã đặt.</p>
+
+        <div class="kpi-cards">
+          <div class="kpi-card"><div class="kpi-icon">📋</div><div class="kpi-name">Lead</div><div class="kpi-desc">Số lượt KH điền form hợp lệ</div><div class="kpi-example">VD: 2.000 lead/tháng</div></div>
+          <div class="kpi-card"><div class="kpi-icon">📅</div><div class="kpi-name">Booking</div><div class="kpi-desc">Số lịch hẹn tạo thành công</div><div class="kpi-example">VD: 1.500 booking/tháng</div></div>
+          <div class="kpi-card"><div class="kpi-icon">✅</div><div class="kpi-name">Checkin</div><div class="kpi-desc">Số KH thực sự đến chi nhánh</div><div class="kpi-example">VD: 1.000 checkin/tháng</div></div>
+        </div>
+
+        <div class="phase-bar-wrap">
+          <div class="phase-label">Budget-to-Reward Calculator — ví dụ: 500tr / 2.000 lead</div>
+          <div class="phase-visual">
+            <div class="phase-seg" style="background:var(--rose);width:40%">Phase A · 200tr</div>
+            <div class="phase-seg" style="background:var(--gold);width:28%">Phase B · 140tr</div>
+            <div class="phase-seg" style="background:var(--mauve);width:16%">Phase C · 80tr</div>
+            <div class="phase-seg" style="background:var(--nude-dark);width:16%">Top · 80tr</div>
+          </div>
+          <div class="phase-legend">
+            <div class="phase-legend-item"><div class="phase-dot" style="background:var(--rose)"></div>500 lead × 400k</div>
+            <div class="phase-legend-item"><div class="phase-dot" style="background:var(--gold)"></div>700 lead × 200k</div>
+            <div class="phase-legend-item"><div class="phase-dot" style="background:var(--mauve)"></div>800 lead × 100k</div>
+            <div class="phase-legend-item"><div class="phase-dot" style="background:var(--nude-dark)"></div>Pool top NV</div>
+          </div>
+        </div>
+
+        <div class="gold-box"><p><strong>Chế độ ngược (Reward-to-Budget):</strong> Admin nhập mức thưởng mong muốn + KPI, hệ thống tính tổng ngân sách cần thiết và cảnh báo nếu vượt ngưỡng.</p></div>
+        <div class="info-box"><p><strong>KPI kết hợp funnel:</strong> Admin phân bổ % ngân sách theo từng bước (VD: 70% lead · 20% booking · 10% checkin). Hệ thống tự tính mức thưởng từng bước.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">5.3 Rule Builder — 11 cơ chế thưởng</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6">Admin bật/tắt và cấu hình từng cơ chế qua form. Hệ thống hỗ trợ kết hợp nhiều cơ chế đồng thời và hiển thị preview công thức tính thưởng trước khi publish.</p>
+
+    <div class="rule-grid">
+      <div class="rule-card" onclick="showRule('phase')"><div class="rule-icon" style="background:var(--rose-light)">📊</div><div class="rule-name">Phase động</div><div class="rule-desc">Thưởng giảm dần theo số lead tích lũy</div></div>
+      <div class="rule-card" onclick="showRule('reward')"><div class="rule-icon" style="background:var(--gold-light)">💰</div><div class="rule-name">Thưởng giao dịch</div><div class="rule-desc">Mức thưởng theo giá trị giao dịch KH</div></div>
+      <div class="rule-card" onclick="showRule('streak')"><div class="rule-icon" style="background:var(--rose-light)">🔥</div><div class="rule-name">Streak Multiplier</div><div class="rule-desc">Nhân thưởng theo chuỗi ngày liên tiếp</div></div>
+      <div class="rule-card" onclick="showRule('team')"><div class="rule-icon" style="background:var(--gold-light)">👥</div><div class="rule-name">Team Battle</div><div class="rule-desc">Tính tổng lead theo đội, thưởng hệ số</div></div>
+      <div class="rule-card" onclick="showRule('combo')"><div class="rule-icon" style="background:var(--mauve-light)">×2</div><div class="rule-name">Combo Mechanic</div><div class="rule-desc">Thưởng x2 khi giới thiệu 2 lead/ngày</div></div>
+      <div class="rule-card" onclick="showRule('revenue')"><div class="rule-icon" style="background:var(--gold-light)">%</div><div class="rule-name">Revenue Share</div><div class="rule-desc">Hoa hồng % doanh thu KH mang lại</div></div>
+      <div class="rule-card" onclick="showRule('mystery')"><div class="rule-icon" style="background:var(--rose-light)">🎁</div><div class="rule-name">Daily Mystery</div><div class="rule-desc">Dịch vụ bí ẩn x3 công bố mỗi sáng</div></div>
+      <div class="rule-card" onclick="showRule('endurance')"><div class="rule-icon" style="background:var(--mauve-light)">⏱</div><div class="rule-name">Endurance</div><div class="rule-desc">Pool bonus cho ai có lead tuần cuối</div></div>
+      <div class="rule-card" onclick="showRule('tournament')"><div class="rule-icon" style="background:var(--gold-light)">🏆</div><div class="rule-name">Tournament</div><div class="rule-desc">Ghép cặp 1v1 theo tuần, điểm tích lũy</div></div>
+      <div class="rule-card" onclick="showRule('flash')"><div class="rule-icon" style="background:var(--rose-light)">⚡</div><div class="rule-name">Flash Week</div><div class="rule-desc">Hệ số x2 trong 7 ngày cuối tháng</div></div>
+      <div class="rule-card" onclick="showRule('auction')"><div class="rule-icon" style="background:var(--mauve-light)">🎯</div><div class="rule-name">Point Auction</div><div class="rule-desc">Tích điểm đổi phần thưởng cuối tháng</div></div>
+    </div>
+
+    <!-- Rule detail panels -->
+    <div id="rule-detail" style="display:none;margin-top:12px">
+      <div class="code-box" id="rule-code"></div>
+    </div>
+
+    <div class="gold-box" style="margin-top:14px"><p><strong>Kết hợp nhiều cơ chế:</strong> Thưởng cuối = (Thưởng phase) × (Hệ số streak) × (Hệ số flash week). Hệ thống hiển thị preview công thức kết hợp và ví dụ cụ thể trước khi publish.</p></div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">5.4 Kiểm tra và vận hành campaign</div>
+    <div class="card-grid">
+      <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">REQ-CB-004 — Preview ngân sách</p><p style="font-size:12px;color:var(--text2);line-height:1.5">Tự động tính tổng ngân sách tối đa/tối thiểu. Cảnh báo nếu vượt ngân sách đặt.</p></div>
+      <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">REQ-CB-005 — Preview góc nhìn user</p><p style="font-size:12px;color:var(--text2);line-height:1.5">Admin xem trước giao diện campaign như Staff/Affiliate sẽ thấy trước khi publish.</p></div>
+      <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">REQ-CB-006 — Publish & lên lịch</p><p style="font-size:12px;color:var(--text2);line-height:1.5">Publish ngay hoặc lên lịch tự động. Gửi notification cho người tham gia khi bắt đầu.</p></div>
+      <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">REQ-CB-007 — Điều chỉnh realtime</p><p style="font-size:12px;color:var(--text2);line-height:1.5">Sửa ngân sách, mức thưởng, tạm dừng/tiếp tục trong khi campaign đang chạy. Log đầy đủ mọi thay đổi.</p></div>
+      <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">REQ-CB-008 — Clone campaign</p><p style="font-size:12px;color:var(--text2);line-height:1.5">Nhân bản campaign cũ làm template. Lưu thư viện template để tái sử dụng hàng tháng.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ 6. SALE KIT ══ -->
+<section class="section" id="s6">
+  <div class="section-head">
+    <div class="section-num">06 — Sale Kit động</div>
+    <h2 class="section-title">Công cụ hỗ trợ theo vai trò</h2>
+    <p class="section-desc">Hệ thống tự nhận diện Staff hoặc Affiliate sau đăng nhập và hiển thị đúng bộ Sale Kit — không cần chọn tay.</p>
+  </div>
+
+  <div class="card-grid-2" style="margin-bottom:20px">
+    <div class="card" style="border-top:3px solid var(--rose)">
+      <p style="font-size:12px;font-weight:700;color:var(--rose-dark);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px">Kit cho Staff</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">Công cụ định danh</div>
+        <div class="user-feature"><div class="user-dot staff"></div>QR code in được, có logo công ty ở giữa</div>
+        <div class="user-feature"><div class="user-dot staff"></div>Link rút gọn: <code style="font-size:11px;background:var(--bg3);padding:1px 5px;border-radius:4px">beautybiz.vn/ref/ten-nv</code></div>
+        <div class="user-feature"><div class="user-dot staff"></div>Mã 6 ký tự, sticker dán điện thoại</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin:8px 0 2px">Content mẫu tháng</div>
+        <div class="user-feature"><div class="user-dot staff"></div>3 Reels/TikTok + caption sẵn (có link NV)</div>
+        <div class="user-feature"><div class="user-dot staff"></div>5 ảnh Story với text overlay</div>
+        <div class="user-feature"><div class="user-dot staff"></div>3 mẫu tin nhắn Zalo tự nhiên</div>
+        <div class="user-feature"><div class="user-dot staff"></div>1 video testimonial KH để repost</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin:8px 0 2px">Starter Kit vật lý</div>
+        <div class="user-feature"><div class="user-dot staff"></div>File PDF name card, sticker, thẻ để bàn</div>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--gold)">
+      <p style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px">Kit cho Affiliate</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">Công cụ định danh</div>
+        <div class="user-feature"><div class="user-dot affiliate"></div>QR code tối ưu kênh social</div>
+        <div class="user-feature"><div class="user-dot affiliate"></div>Link: <code style="font-size:11px;background:var(--bg3);padding:1px 5px;border-radius:4px">beautybiz.vn/a/ma-affiliate</code></div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin:8px 0 2px">Content mẫu tháng</div>
+        <div class="user-feature"><div class="user-dot affiliate"></div>5 template Reels/TikTok phong cách lifestyle</div>
+        <div class="user-feature"><div class="user-dot affiliate"></div>10 ảnh Story/post Facebook/Instagram</div>
+        <div class="user-feature"><div class="user-dot affiliate"></div>Bộ hashtag theo từng nền tảng</div>
+        <div class="user-feature"><div class="user-dot affiliate"></div>Script video 30–60 giây, mẫu caption storytelling</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin:8px 0 2px">Expertise Content</div>
+        <div class="user-feature"><div class="user-dot affiliate"></div>Infographic "5 dấu hiệu da cần điều trị"</div>
+        <div class="user-feature"><div class="user-dot affiliate"></div>Video quy trình, checklist chuẩn bị</div>
+        <div class="user-feature"><div class="user-dot affiliate"></div>Hướng dẫn đăng đúng giờ vàng</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">REQ-SK-COMMON-001<br>Tự nhận diện loại user</p><p style="font-size:12px;color:var(--text2)">Sau đăng nhập, hiển thị đúng bộ kit không cần chọn tay.</p></div>
+    <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">REQ-SK-COMMON-002<br>Cập nhật Kit hàng tháng</p><p style="font-size:12px;color:var(--text2)">Admin upload riêng cho Staff và Affiliate. Tự thay thế và thông báo người dùng.</p></div>
+    <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">REQ-SK-COMMON-003<br>Cập nhật theo campaign</p><p style="font-size:12px;color:var(--text2)">Khi campaign mới kích hoạt, tự cập nhật Sale Kit và gửi notification.</p></div>
+    <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">REQ-SK-COMMON-004<br>Tracking sử dụng Kit</p><p style="font-size:12px;color:var(--text2)">Ghi nhận ai đã xem/tải, tỉ lệ dùng kit so với số lead tạo ra.</p></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ 7. BOOKING FLOW ══ -->
+<section class="section" id="s7">
+  <div class="section-head">
+    <div class="section-num">07 — Luồng Booking</div>
+    <h2 class="section-title">3 luồng tạo lịch hẹn</h2>
+    <p class="section-desc">Tất cả 3 luồng đều tracking tự động và gắn mã người giới thiệu vào đơn — không cần thao tác thủ công.</p>
+  </div>
+
+  <div class="flow-diagram">
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle" style="background:var(--rose-light);color:var(--rose-dark)">1</div><div class="flow-connector"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">KH tự đặt qua link/QR — Luồng 1</div>
+        <div class="flow-sub">KH mở link hoặc quét QR → nhập SĐT → OTP xác thực → chọn dịch vụ + ngày giờ → booking tạo tự động. Áp dụng cho cả Staff và Affiliate.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle" style="background:var(--gold-light);color:var(--gold)">2</div><div class="flow-connector"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">Staff đặt lịch hộ khách — Luồng 2</div>
+        <div class="flow-sub">NV đăng nhập app → nhập thông tin KH → gửi OTP về SĐT KH → KH đọc OTP cho NV → booking tạo với mã NV gắn tự động. <span class="flow-badge" style="background:var(--red-bg);color:var(--red)">Chỉ Staff</span></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle" style="background:var(--mauve-light);color:var(--mauve)">3</div><div class="flow-connector"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">KH đến trực tiếp chi nhánh — Luồng 3</div>
+        <div class="flow-sub">Lễ tân nhập mã code / quét QR của NV hoặc Affiliate khi KH check-in. Hệ thống xác minh KH mới / 12 tháng → ghi nhận hoa hồng tự động.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle" style="background:var(--bg3);color:var(--text2)">→</div><div class="flow-connector"></div></div>
+      <div class="flow-content">
+        <div class="flow-title">Nhắc lịch tự động</div>
+        <div class="flow-sub">SMS/Zalo: 24h trước và 2h trước giờ hẹn. Nội dung gồm tên KH, dịch vụ, địa chỉ chi nhánh, tên người giới thiệu.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-line"><div class="flow-circle" style="background:var(--green-bg);color:var(--green)">✓</div></div>
+      <div class="flow-content" style="padding-bottom:0">
+        <div class="flow-title">KH đến & thanh toán → Ghi nhận thưởng</div>
+        <div class="flow-sub">Hệ thống tự ghi nhận hoa hồng. Staff: chờ 15 ngày → chốt → chi qua lương. Affiliate: chờ 30 ngày → chốt → chi qua ví/ngân hàng.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box"><p><strong>Xác minh KH hợp lệ:</strong> Sau OTP, hệ thống kiểm tra SĐT — KH chưa tồn tại hoặc không có giao dịch trong 12 tháng mới tính là hợp lệ để nhận hoa hồng. KH không hợp lệ vẫn đặt lịch được nhưng không ghi nhận thưởng.</p></div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ 8-10. GAMIFICATION & FRAUD ══ -->
+<section class="section" id="s8">
+  <div class="section-head">
+    <div class="section-num">08–10 — Gamification, Leaderboard & Chống gian lận</div>
+    <h2 class="section-title">Engagement & Bảo vệ hệ thống</h2>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Leaderboard tách biệt theo loại user</div>
+    <div class="card-grid">
+      <div class="card" style="border-left:3px solid var(--rose)">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">Staff Leaderboard</p>
+        <p style="font-size:12px;color:var(--text2);line-height:1.5">Chỉ Staff thấy. Lọc được theo chi nhánh, khu vực. Xếp hạng theo số lead và tiền tích lũy.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--gold)">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">Affiliate Leaderboard</p>
+        <p style="font-size:12px;color:var(--text2);line-height:1.5">Chỉ Affiliate thấy. Phân cấp Starter/Silver/Gold/Platinum. Admin thấy cả hai.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--mauve)">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">Huy hiệu tự động</p>
+        <p style="font-size:12px;color:var(--text2);line-height:1.5">Huy hiệu riêng từng loại user. Cấp tự động khi đạt mốc. VD: "Đại sứ nội bộ", "Top Influencer".</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--nude-dark)">
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px">Điểm Social</p>
+        <p style="font-size:12px;color:var(--text2);line-height:1.5">Story tag thương hiệu +5đ · Click từ post +10đ/người · 100 like +20đ · Video share 10+ lần +50đ</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Chống gian lận — 8 lớp bảo vệ</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="req-block" style="margin-bottom:0"><div class="req-header" onclick="toggle(this)" style="padding:12px 16px"><span class="req-code">REQ-FRAUD-001</span><span class="req-title" style="font-size:13px">Unique SĐT</span><span class="req-chevron">▼</span></div><div class="req-body"><p>1 SĐT = 1 KH duy nhất. Booking thứ 2 từ cùng SĐT trong 12 tháng không tính lead mới.</p></div></div>
+      <div class="req-block" style="margin-bottom:0"><div class="req-header" onclick="toggle(this)" style="padding:12px 16px"><span class="req-code">REQ-FRAUD-002</span><span class="req-title" style="font-size:13px">OTP bắt buộc</span><span class="req-chevron">▼</span></div><div class="req-body"><p>Mọi luồng booking đều bắt buộc xác thực OTP về SĐT KH.</p></div></div>
+      <div class="req-block" style="margin-bottom:0"><div class="req-header" onclick="toggle(this)" style="padding:12px 16px"><span class="req-code">REQ-FRAUD-003</span><span class="req-title" style="font-size:13px">Cờ đỏ tự nhập hộ</span><span class="req-chevron">▼</span></div><div class="req-body"><p>NV đặt hộ &gt;30% tổng booking → flag tự động, chờ quản lý duyệt thủ công.</p></div></div>
+      <div class="req-block" style="margin-bottom:0"><div class="req-header" onclick="toggle(this)" style="padding:12px 16px"><span class="req-code">REQ-FRAUD-004</span><span class="req-title" style="font-size:13px">Thời gian chờ chốt</span><span class="req-chevron">▼</span></div><div class="req-body"><p>Staff: chốt sau 15 ngày. Affiliate: chốt sau 30 ngày. Không hoàn dịch vụ thì mới chi.</p></div></div>
+      <div class="req-block" style="margin-bottom:0"><div class="req-header" onclick="toggle(this)" style="padding:12px 16px"><span class="req-code">REQ-FRAUD-005</span><span class="req-title" style="font-size:13px">Giới hạn IP</span><span class="req-chevron">▼</span></div><div class="req-body"><p>Không quá N lead từ cùng 1 IP trong 24 giờ. Cờ đỏ tự động nếu vượt ngưỡng.</p></div></div>
+      <div class="req-block" style="margin-bottom:0"><div class="req-header" onclick="toggle(this)" style="padding:12px 16px"><span class="req-code">REQ-FRAUD-006</span><span class="req-title" style="font-size:13px">First-click attribution</span><span class="req-chevron">▼</span></div><div class="req-body"><p>Một SĐT chỉ tính hoa hồng cho affiliate đầu tiên giới thiệu. KH click nhiều link → chỉ link đầu tiên được ghi nhận.</p></div></div>
+      <div class="req-block" style="margin-bottom:0"><div class="req-header" onclick="toggle(this)" style="padding:12px 16px"><span class="req-code">REQ-FRAUD-007</span><span class="req-title" style="font-size:13px">Thời gian chờ Affiliate dài hơn</span><span class="req-chevron">▼</span></div><div class="req-body"><p>Affiliate chốt sau 30 ngày (Staff là 15 ngày) để giảm rủi ro từ bên ngoài.</p></div></div>
+      <div class="req-block" style="margin-bottom:0"><div class="req-header" onclick="toggle(this)" style="padding:12px 16px"><span class="req-code">REQ-FRAUD-008</span><span class="req-title" style="font-size:13px">KYC trước rút thưởng</span><span class="req-chevron">▼</span></div><div class="req-body"><p>Affiliate phải xác minh CCCD và tài khoản ngân hàng trước khi rút thưởng lần đầu.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ 11. ADMIN ══ -->
+<section class="section" id="s11">
+  <div class="section-head">
+    <div class="section-num">11 — Quản trị hệ thống</div>
+    <h2 class="section-title">Admin Dashboard</h2>
+  </div>
+  <div class="card-grid">
+    <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">REQ-ADMIN-001<br>Dashboard tổng quan</p><p style="font-size:12px;color:var(--text2);line-height:1.5">Tất cả campaign đang chạy, tiến độ KPI, % ngân sách đã dùng, tốc độ lead/ngày, dự báo có đạt KPI không.</p></div>
+    <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">REQ-ADMIN-002<br>Báo cáo Staff vs Affiliate</p><p style="font-size:12px;color:var(--text2);line-height:1.5">So sánh 2 kênh: chi phí per lead, tỉ lệ show-up, chất lượng lead, tổng hoa hồng đã chi.</p></div>
+    <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">REQ-ADMIN-003<br>Chi trả tách biệt</p><p style="font-size:12px;color:var(--text2);line-height:1.5">Staff qua lương (HR). Affiliate qua ví/ngân hàng. Xuất file chi trả phù hợp từng phương thức.</p></div>
+    <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">REQ-ADMIN-004<br>Thư viện template</p><p style="font-size:12px;color:var(--text2);line-height:1.5">Lưu campaign làm template. Khi tạo mới: chọn template → sửa nhanh → publish.</p></div>
+    <div class="card"><p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px">REQ-ADMIN-005<br>Cấu hình hệ thống</p><p style="font-size:12px;color:var(--text2);line-height:1.5">Thời gian chờ chốt, ngưỡng cờ đỏ, thời hạn OTP, tốc độ leaderboard — không cần kỹ thuật.</p></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ 12–15. KỸ THUẬT & TRIỂN KHAI ══ -->
+<section class="section" id="s12">
+  <div class="section-head">
+    <div class="section-num">12–15 — Yêu cầu kỹ thuật & Triển khai</div>
+    <h2 class="section-title">Non-functional & Roadmap</h2>
+  </div>
+
+  <div class="card-grid-2" style="margin-bottom:20px">
+    <div class="card">
+      <p style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Hiệu năng</p>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--rose)"></div>Trang booking tải &lt;3s trên mobile 4G</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--rose)"></div>OTP gửi trong vòng 30 giây</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--rose)"></div>Leaderboard cập nhật tối đa 1h/lần</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--rose)"></div>Campaign Builder preview &lt;2 giây</div>
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Bảo mật</p>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--gold)"></div>OTP: 5 phút hiệu lực, 3 lần sai → khóa</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--gold)"></div>KYC bắt buộc trước khi Affiliate rút tiền</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--gold)"></div>Dữ liệu KH mã hóa trong database</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--gold)"></div>Log đầy đủ mọi thay đổi cấu hình</div>
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Mở rộng</p>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--mauve)"></div>Hỗ trợ 500 Staff + 2.000 Affiliate đồng thời</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--mauve)"></div>Tối thiểu 20 campaign chạy đồng thời</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--mauve)"></div>Thêm cơ chế thưởng mới không thay core</div>
+      </div>
+    </div>
+    <div class="card">
+      <p style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Tích hợp</p>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--nude-dark)"></div>SMS gateway (cấu hình được)</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--nude-dark)"></div>Zalo OA API, MoMo/ZaloPay</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--nude-dark)"></div>POS/CRM qua REST API</div>
+        <div class="user-feature" style="margin:0"><div class="user-dot" style="background:var(--nude-dark)"></div>Webhook đẩy event sang hệ thống ngoài</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection-title">Lộ trình triển khai đề xuất</div>
+  <div class="priority-list">
+    <div class="priority-item"><span class="priority-badge" style="background:var(--red-bg);color:var(--red)">Phase 1</span><div class="priority-content"><div class="priority-title">3 luồng booking · Tracking tự động · Nhắc lịch · Thưởng cơ bản (Staff)</div><div class="priority-desc">Core — không có thì chương trình không chạy được</div></div><span class="tag tag-red">Critical</span></div>
+    <div class="priority-item"><span class="priority-badge" style="background:var(--rose-light);color:var(--rose-dark)">Phase 2</span><div class="priority-content"><div class="priority-title">Campaign Builder cơ bản · Dashboard Staff · Leaderboard</div><div class="priority-desc">Tạo động lực và gameplay cho Staff</div></div><span class="tag tag-rose">High</span></div>
+    <div class="priority-item"><span class="priority-badge" style="background:var(--gold-light);color:var(--gold)">Phase 3</span><div class="priority-content"><div class="priority-title">Đăng ký Affiliate · Sale Kit động · Campaign Builder đủ 11 cơ chế</div><div class="priority-desc">Mở rộng kênh affiliate bên ngoài</div></div><span class="tag tag-gold">High</span></div>
+    <div class="priority-item"><span class="priority-badge" style="background:var(--mauve-light);color:var(--mauve)">Phase 4</span><div class="priority-content"><div class="priority-title">Gamification đầy đủ · Điểm social · Cấp độ Affiliate · Báo cáo so sánh</div><div class="priority-desc">Tối ưu engagement và phân tích hiệu quả</div></div><span class="tag" style="background:var(--mauve-light);color:var(--mauve)">Medium</span></div>
+    <div class="priority-item"><span class="priority-badge" style="background:var(--bg3);color:var(--text2)">Phase 5</span><div class="priority-content"><div class="priority-title">KYC Affiliate · Ví điện tử · Webhook · Thư viện template campaign</div><div class="priority-desc">Tích hợp và tự động hóa vận hành</div></div><span class="tag" style="background:var(--bg3);color:var(--text2)">Medium</span></div>
+  </div>
+
+  <div class="gold-box" style="margin-top:20px"><p><strong>Phạm vi ngoài hệ thống (Out of Scope):</strong> Xử lý thanh toán dịch vụ (POS đảm nhận) · Quản lý lịch làm việc nhân viên · Kế toán và hóa đơn thuế · App mobile native (giai đoạn 1 dùng web app responsive) · Tự động đăng bài MXH · Quản lý hợp đồng Affiliate</p></div>
+</section>
+
+</div><!-- /page-wrap -->
+
+<div class="doc-footer">
+  <p><strong>BeautyBiz Referral & Affiliate Platform</strong> — Customer Requirements v2.0<br>
+  Tài liệu này mô tả yêu cầu từ góc độ nghiệp vụ.<br>
+  Chi tiết kỹ thuật (API spec, database schema, UI wireframe) sẽ được làm rõ trong Technical Specification riêng.</p>
+</div>
+
+<script>
+const ruleDetails = {
+  phase: `Phase A: [500] lead đầu tiên → [400.000]đ/lead
+Phase B: [700] lead tiếp       → [200.000]đ/lead
+Phase C: [800] lead còn lại    → [100.000]đ/lead
+
+Hệ thống tự tính tổng ngân sách dự kiến vs ngân sách đã đặt.`,
+  reward: `Giao dịch cơ bản (bất kỳ): +[100.000]đ
+Giao dịch > [1.000.000]đ:    +[200.000]đ thêm
+KH quay lại trong [30] ngày: +[150.000]đ thêm`,
+  streak: `Ngày 1–4 liên tiếp có lead: hệ số x[1.0]
+Ngày 5–9 liên tiếp:          hệ số x[1.5]
+Ngày 10+:                    hệ số x[2.0]
+Reset khi không có lead trong [1] ngày`,
+  team: `Chia đội: [ngẫu nhiên] / [admin gán tay]
+Đội xếp hạng 1: hệ số [1.5]x toàn đội
+Đội xếp hạng 2: hệ số [1.2]x
+MVP đội thắng:  bonus thêm [500.000]đ`,
+  combo: `[2] lead cùng ngày: thưởng x[2]
+[1] lead/ngày:   thưởng x[0.5]`,
+  revenue: `Hoa hồng: [5]% doanh thu KH
+Tối thiểu: [50.000]đ/giao dịch
+Tối đa:    [2.000.000]đ/KH/tháng`,
+  mystery: `Mỗi ngày lúc [07:00]: hệ thống công bố 1 dịch vụ bí ẩn
+Lead đăng ký dịch vụ đó trong ngày: thưởng x[3]
+Hết hiệu lực: [23:59] cùng ngày
+Danh sách: admin tải lên theo lịch hoặc chọn ngẫu nhiên`,
+  endurance: `Pool bonus: [80.000.000]đ
+Điều kiện: có ít nhất [1] lead trong tuần [25–30] tháng
+Phân bổ: chia đều cho tất cả đủ điều kiện
+Bonus top: Top [3] nhiều lead → [1.000.000]đ / [500.000]đ / [300.000]đ`,
+  tournament: `Ghép cặp: [ngẫu nhiên] mỗi [tuần]
+Thắng tuần: [300.000]đ + [3] điểm
+Thua tuần:  [1] điểm
+Top [4] điểm → vào bán kết + [1.000.000]đ
+Vô địch tháng: [3.000.000]đ`,
+  flash: `Tuần đặc biệt: ngày [24] đến [30] tháng
+Hệ số: x[2] toàn bộ thưởng
+Pool comeback: [80.000.000]đ chia top [10] nhiều lead tuần này
+Bonus leo hạng: leo [5]+ vị trí → thêm [1.000.000]đ`,
+  auction: `1 lead hợp lệ = [10] điểm
+Phần thưởng đấu giá (admin thêm):
+  - Tour Đà Nẵng 2N1Đ · 5.000.000đ · bid tối thiểu 30 điểm
+  - iPad 11          · 10.000.000đ · bid tối thiểu 50 điểm
+  - Tiền mặt 5tr     · bid tối thiểu 30 điểm
+Thời gian: ngày [28–31] tháng · Blind auction`
+};
+
+function showRule(key) {
+  const detail = document.getElementById('rule-detail');
+  const code = document.getElementById('rule-code');
+  detail.style.display = 'block';
+  code.textContent = ruleDetails[key];
+  detail.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.req-chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Active nav on scroll
+const sections = ['s1','s2','s3','s4','s5','s6','s7','s8','s11','s12'];
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const id = e.target.id;
+      const idx = sections.indexOf(id);
+      if(idx !== -1) {
+        navItems.forEach((n,i) => n.classList.toggle('active', i===idx));
+      }
+    }
+  });
+}, {threshold: 0.3, rootMargin: '-80px 0px -60% 0px'});
+sections.forEach(id => { const el = document.getElementById(id); if(el) observer.observe(el); });
+</script>
+</body>
+</html>

@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeautyBiz Referral & Affiliate Platform — Specification v1.0</title>
+<style>
+  :root {
+    --primary: #3C9BF4;
+    --primary-light: #e0f2ff;
+    --accent: #db2777;
+    --accent-light: #fce7f3;
+    --green: #059669;
+    --green-light: #d1fae5;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --blue: #2563eb;
+    --blue-light: #dbeafe;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --sidebar-w: 260px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; display: flex; min-height: 100vh; }
+
+  /* SIDEBAR */
+  #sidebar {
+    width: var(--sidebar-w); min-width: var(--sidebar-w);
+    background: #0d2137; color: #bde3fd;
+    position: fixed; top: 0; left: 0; height: 100vh;
+    overflow-y: auto; padding: 0 0 40px; z-index: 100;
+  }
+  #sidebar .logo {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid #153251;
+  }
+  #sidebar .logo h1 { font-size: 15px; font-weight: 700; color: #fff; line-height: 1.3; }
+  #sidebar .logo .sub { font-size: 11px; color: #7ec8fb; margin-top: 4px; }
+  #sidebar .meta { padding: 12px 20px; border-bottom: 1px solid #153251; font-size: 11px; }
+  #sidebar .meta span { display: block; color: #93c5fd; margin-bottom: 3px; }
+  #sidebar .meta b { color: #fff; }
+  #sidebar nav { padding: 12px 0; }
+  #sidebar nav .group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #60a5fa; padding: 10px 20px 4px; }
+  #sidebar nav a {
+    display: block; padding: 6px 20px; font-size: 12.5px; color: #bde3fd;
+    text-decoration: none; border-left: 3px solid transparent; transition: all .15s;
+  }
+  #sidebar nav a:hover { color: #fff; background: #153251; border-left-color: #7ec8fb; }
+  #sidebar nav a.active { color: #fff; background: #0e4a8c; border-left-color: var(--accent); }
+
+  /* MAIN */
+  #main { margin-left: var(--sidebar-w); flex: 1; padding: 0 0 80px; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d2137 0%, #1565c0 50%, #0e3d6b 100%);
+    color: #fff; padding: 48px 48px 40px;
+  }
+  .hero .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); border-radius: 20px; padding: 4px 12px; font-size: 12px; margin-bottom: 16px; }
+  .hero h1 { font-size: 28px; font-weight: 800; line-height: 1.25; margin-bottom: 8px; }
+  .hero .tagline { font-size: 15px; color: #bde3fd; margin-bottom: 24px; }
+  .hero .meta-grid { display: flex; flex-wrap: wrap; gap: 24px; }
+  .hero .meta-item { font-size: 12.5px; }
+  .hero .meta-item .label { color: #7ec8fb; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+  .hero .meta-item .val { color: #fff; font-weight: 600; margin-top: 2px; }
+  .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .status-pending { background: var(--amber-light); color: var(--amber); }
+
+  /* CONTENT */
+  .content { padding: 0 48px; }
+  .section { margin-top: 48px; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 2px solid var(--primary-light); padding-bottom: 12px; margin-bottom: 24px;
+  }
+  .section-num {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .section-title { font-size: 20px; font-weight: 700; color: var(--primary); }
+
+  h3 { font-size: 15px; font-weight: 700; color: var(--text); margin: 20px 0 10px; }
+  h4 { font-size: 13.5px; font-weight: 700; color: var(--primary); margin: 16px 0 8px; }
+  p { font-size: 14px; color: var(--text); margin-bottom: 10px; }
+
+  /* CARDS */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+  .card.feature { border-left: 4px solid var(--primary); }
+  .card.warning { border-left: 4px solid var(--amber); background: #fffbeb; }
+  .card.info { border-left: 4px solid var(--blue); background: var(--blue-light); }
+
+  .feature-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .feature-id { background: var(--primary); color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+  .feature-title { font-size: 15px; font-weight: 700; }
+
+  /* TABLES */
+  .table-wrap { overflow-x: auto; margin-bottom: 16px; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f1f5f9; font-weight: 700; padding: 10px 14px; text-align: left; color: var(--text-muted); font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; }
+  td { padding: 9px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: #fafafa; }
+
+  /* AC LIST */
+  .ac-list { list-style: none; }
+  .ac-list li { display: flex; gap: 8px; padding: 5px 0; font-size: 13px; border-bottom: 1px solid #f1f5f9; }
+  .ac-list li:last-child { border-bottom: none; }
+  .ac-list li::before { content: "☐"; color: var(--primary); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  /* BADGES */
+  .badge-must { background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+  .badge-should { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+  .badge-could { background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+  .badge-phase { background: var(--primary-light); color: var(--primary); padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+  .badge-yes { color: var(--green); font-weight: 700; }
+  .badge-no { color: var(--red); font-weight: 700; }
+  .badge-optional { color: var(--amber); font-weight: 600; }
+
+  /* USER STORY */
+  .user-story { background: var(--primary-light); border-left: 3px solid var(--primary); border-radius: 0 8px 8px 0; padding: 10px 16px; font-size: 13px; font-style: italic; color: #4c1d95; margin-bottom: 12px; }
+
+  /* FLOW BOX */
+  .flow-box { background: #0f172a; color: #94a3b8; border-radius: 10px; padding: 16px 20px; font-family: 'Courier New', monospace; font-size: 12.5px; line-height: 1.7; overflow-x: auto; margin-bottom: 12px; }
+  .flow-box .highlight { color: #a78bfa; }
+
+  /* PHASE CARDS */
+  .phase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .phase-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+  .phase-card .phase-num { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--primary); margin-bottom: 4px; }
+  .phase-card .phase-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .phase-card .phase-goal { font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px; }
+  .phase-card .phase-features { font-size: 12px; color: var(--text); }
+  .phase-card.p1 { border-top: 3px solid var(--green); }
+  .phase-card.p2 { border-top: 3px solid var(--blue); }
+  .phase-card.p3 { border-top: 3px solid var(--primary); }
+  .phase-card.p4 { border-top: 3px solid var(--accent); }
+  .phase-card.p5 { border-top: 3px solid var(--amber); }
+
+  /* RISK TABLE */
+  .risk-high { color: var(--red); font-weight: 700; }
+  .risk-mid { color: var(--amber); font-weight: 700; }
+
+  /* ENTITY GRID */
+  .entity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .entity-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .entity-card .entity-name { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+  .entity-card .entity-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .entity-card .entity-attrs { font-size: 11.5px; color: var(--text); font-family: monospace; line-height: 1.6; }
+
+  /* INTEGRATION */
+  .integration-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .integration-row:last-child { border-bottom: none; }
+  .int-name { font-weight: 700; font-size: 13.5px; width: 160px; flex-shrink: 0; }
+  .int-desc { font-size: 13px; color: var(--text-muted); flex: 1; }
+  .int-phase { font-size: 12px; }
+
+  /* GLOSSARY */
+  .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .glossary-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .glossary-item .term { font-weight: 700; font-size: 13px; color: var(--primary); }
+  .glossary-item .def { font-size: 12.5px; color: var(--text-muted); margin-top: 4px; }
+
+  /* OPEN Q */
+  .open-q { list-style: none; }
+  .open-q li { padding: 8px 12px; background: var(--amber-light); border-left: 3px solid var(--amber); border-radius: 0 6px 6px 0; margin-bottom: 8px; font-size: 13px; }
+
+  /* RULE CARDS */
+  .rule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+  .rule-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .rule-card .rule-id { font-size: 11px; font-weight: 700; color: var(--primary); }
+  .rule-card .rule-name { font-size: 14px; font-weight: 700; margin: 4px 0 8px; }
+  .rule-card .rule-desc { font-size: 12.5px; color: var(--text-muted); }
+  .rule-card .rule-example { background: #f8fafc; border-radius: 6px; padding: 8px 10px; font-size: 11.5px; font-family: monospace; margin-top: 8px; color: var(--text); line-height: 1.6; }
+
+  /* PERM TABLE */
+  td.y { color: var(--green); font-weight: 700; text-align: center; }
+  td.n { color: #94a3b8; text-align: center; }
+  td.x { color: var(--red); font-weight: 700; text-align: center; }
+  td.dash { color: #cbd5e1; text-align: center; }
+
+  /* NFR */
+  .nfr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .nfr-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .nfr-card .nfr-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
+  .nfr-card ul { list-style: none; }
+  .nfr-card ul li { font-size: 12.5px; padding: 3px 0; border-bottom: 1px solid #f1f5f9; }
+  .nfr-card ul li:last-child { border-bottom: none; }
+  .nfr-card ul li::before { content: "→ "; color: var(--primary); }
+
+  /* SCREEN TABLE */
+  .screen-platform { background: var(--blue-light); color: var(--blue); padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+
+  /* CHANGELOG */
+  .changelog-item { display: flex; gap: 16px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .changelog-ver { background: var(--primary); color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .changelog-date { font-size: 12px; color: var(--text-muted); width: 90px; flex-shrink: 0; padding-top: 3px; }
+  .changelog-text { font-size: 13px; }
+
+  @media print {
+    #sidebar { display: none; }
+    #main { margin-left: 0; }
+    .hero { background: #0d2137 !important; -webkit-print-color-adjust: exact; }
+    .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="logo">
+    <h1>BeautyBiz Referral<br>& Affiliate Platform</h1>
+    <div class="sub">Specification v1.0</div>
+  </div>
+  <div class="meta">
+    <span><b>VibaLink</b> — Internal Product</span>
+    <span>2026-04-24</span>
+  </div>
+  <nav>
+    <div class="group-label">Tổng quan</div>
+    <a href="#s1">1. Tổng quan hệ thống</a>
+    <a href="#s2">2. Vai trò người dùng</a>
+
+    <div class="group-label">Tính năng</div>
+    <a href="#s3">3. Quản lý tài khoản</a>
+    <a href="#s4">4. Luồng Booking</a>
+    <a href="#s5">5. Nhắc lịch tự động</a>
+    <a href="#s6">6. Campaign Builder</a>
+    <a href="#s7">7. Rule Builder (11 cơ chế)</a>
+    <a href="#s8">8. Sale Kit động</a>
+    <a href="#s9">9. Leaderboard & Gamification</a>
+    <a href="#s10">10. Chống gian lận</a>
+    <a href="#s11">11. Quản trị Admin</a>
+
+    <div class="group-label">Kỹ thuật & Kế hoạch</div>
+    <a href="#s12">12. Yêu cầu phi chức năng</a>
+    <a href="#s13">13. Giao diện & UX</a>
+    <a href="#s14">14. Dữ liệu</a>
+    <a href="#s15">15. Tích hợp</a>
+    <a href="#s16">16. Kế hoạch Phase</a>
+    <a href="#s17">17. Rủi ro & Giả định</a>
+    <a href="#s18">18. Open Questions</a>
+    <a href="#s19">19. Glossary</a>
+    <a href="#s20">20. Changelog</a>
+  </nav>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">🌸 VibaLink Internal Product</div>
+  <h1>BeautyBiz Referral & Affiliate Platform</h1>
+  <p class="tagline">Nền tảng quản lý chương trình giới thiệu cho chuỗi thẩm mỹ viện / spa — Booking tự động, không telesale</p>
+  <div class="meta-grid">
+    <div class="meta-item"><div class="label">Version</div><div class="val">1.0</div></div>
+    <div class="meta-item"><div class="label">Ngày</div><div class="val">24/04/2026</div></div>
+    <div class="meta-item"><div class="label">BA</div><div class="val">BeautyBiz BA Team</div></div>
+    <div class="meta-item"><div class="label">Nguồn</div><div class="val">Phân tích nhu cầu thị trường thẩm mỹ viện / spa Việt Nam</div></div>
+    <div class="meta-item"><div class="label">Status</div><div class="val"><span class="status-badge status-pending">🟡 Đang review nội bộ</span></div></div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- SECTION 1 -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">Tổng quan hệ thống</div>
+  </div>
+
+  <h3>1.1. Mục đích</h3>
+  <p>BeautyBiz Referral & Affiliate Platform là nền tảng quản lý chương trình giới thiệu khách hàng dành cho chuỗi thẩm mỹ viện / spa. Hệ thống hợp nhất hai kênh giới thiệu song song — nhân viên nội bộ (Staff) và cộng tác viên bên ngoài (Affiliate) — vào một nền tảng duy nhất, <strong>loại bỏ hoàn toàn bước trung gian telesale</strong>.</p>
+  <p>Mọi luồng đều dẫn đến <strong>booking tự động</strong>: KH nhận link/QR → xác thực OTP → chọn dịch vụ & lịch → đặt lịch thành công, không cần nhân viên gọi điện xác nhận thủ công. Admin tự tạo, cấu hình và quản lý nhiều chiến dịch độc lập qua giao diện trực quan, không cần kỹ thuật can thiệp.</p>
+
+  <h3>1.2. Bối cảnh thị trường</h3>
+  <div class="card info">
+    <p style="font-size:13px; margin:0;">Thị trường thẩm mỹ viện / spa Việt Nam đang tăng trưởng mạnh với sự cạnh tranh cao giữa các chuỗi. Phần lớn chuỗi vẫn phụ thuộc vào telesale để xác nhận booking — tốn chi phí nhân sự, chậm chuyển đổi và khó đo lường hiệu quả từng kênh giới thiệu. Xu hướng thị trường cho thấy khách hàng ngày càng ưa tự đặt lịch online; đồng thời micro-influencer và KOL beauty là kênh tiếp cận hiệu quả chi phí thấp nhưng chưa được quản lý có hệ thống. BeautyBiz giải quyết cả hai pain point này trong một platform duy nhất.</p>
+  </div>
+
+  <h3>1.3. Mục tiêu kinh doanh</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>#</th><th>Mục tiêu</th></tr>
+      <tr><td>1</td><td>Hợp nhất 2 kênh giới thiệu (nội bộ + bên ngoài) vào 1 hệ thống, xóa bỏ silo dữ liệu và quy trình thủ công</td></tr>
+      <tr><td>2</td><td>Loại bỏ telesale — booking tự động 100%, giảm chi phí vận hành và tăng tốc độ chuyển đổi</td></tr>
+      <tr><td>3</td><td>Admin tự tạo và điều chỉnh chiến dịch trong dưới 10 phút, không cần kỹ thuật</td></tr>
+      <tr><td>4</td><td>Tăng nhận diện thương hiệu qua mạng lưới Staff và Affiliate với Sale Kit chuẩn hóa</td></tr>
+      <tr><td>5</td><td>Đo lường và so sánh hiệu quả từng kênh: chi phí per lead, tỉ lệ show-up, tỉ lệ chuyển đổi</td></tr>
+    </table>
+  </div>
+
+  <h3>1.4. Phạm vi</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+    <div class="card" style="border-left:4px solid var(--green);">
+      <h4 style="color:var(--green); margin-top:0;">✅ In-scope</h4>
+      <ul style="font-size:13px; padding-left:16px; line-height:2;">
+        <li>Quản lý tài khoản Staff và Affiliate</li>
+        <li>3 luồng booking tự động</li>
+        <li>Hệ thống nhắc lịch (SMS + Zalo OA)</li>
+        <li>Campaign Builder tự phục vụ (11 cơ chế thưởng)</li>
+        <li>Sale Kit động theo loại user</li>
+        <li>Leaderboard tách biệt Staff / Affiliate</li>
+        <li>Gamification: huy hiệu, cấp độ, điểm</li>
+        <li>Chống gian lận (OTP, IP limit, KYC)</li>
+        <li>Admin dashboard, báo cáo, xuất file chi trả</li>
+        <li>Tích hợp: SMS, Zalo OA, POS/CRM, MoMo/ZaloPay</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:4px solid var(--red);">
+      <h4 style="color:var(--red); margin-top:0;">🚫 Out-of-scope</h4>
+      <ul style="font-size:13px; padding-left:16px; line-height:2;">
+        <li>Xử lý thanh toán dịch vụ (do POS đảm nhận)</li>
+        <li>Quản lý lịch làm việc nhân viên</li>
+        <li>Hệ thống kế toán và xuất hóa đơn thuế</li>
+        <li>Ứng dụng mobile native (Phase 1)</li>
+        <li>Tự động đăng bài MXH thay người dùng</li>
+        <li>Quản lý hợp đồng Affiliate</li>
+        <li>Tích hợp API HR/payroll (chỉ xuất file)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">Vai trò người dùng</div>
+  </div>
+
+  <h3>2.1. Danh sách vai trò</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Role</th><th>Loại</th><th>Mô tả</th></tr>
+      <tr><td><strong>Khách hàng (KH)</strong></td><td>End-user</td><td>Đặt lịch qua link/QR. Không có tài khoản — chỉ xác thực OTP qua SĐT</td></tr>
+      <tr><td><strong>Staff</strong></td><td>Internal</td><td>Nhân viên nội bộ. Admin tạo tài khoản, tự động tham gia chương trình nội bộ</td></tr>
+      <tr><td><strong>Affiliate</strong></td><td>External</td><td>CTV bên ngoài có kênh MXH. Tự đăng ký, chờ admin duyệt</td></tr>
+      <tr><td><strong>Lễ tân</strong></td><td>Internal</td><td>Check-in KH đến trực tiếp tại chi nhánh</td></tr>
+      <tr><td><strong>Quản lý chi nhánh</strong></td><td>Internal</td><td>Xem báo cáo và duyệt hoa hồng bị cờ đỏ của chi nhánh mình</td></tr>
+      <tr><td><strong>Admin</strong></td><td>Internal</td><td>Quyền cao nhất: tạo campaign, duyệt affiliate, quản lý chi trả toàn hệ thống</td></tr>
+    </table>
+  </div>
+
+  <h3>2.2. Ma trận phân quyền</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Chức năng</th><th>KH</th><th>Staff</th><th>Affiliate</th><th>Lễ tân</th><th>QL CN</th><th>Admin</th></tr>
+      <tr><td>Tự đặt lịch</td><td class="y">✓</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+      <tr><td>Share link/QR/code</td><td class="dash">—</td><td class="y">✓</td><td class="y">✓</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+      <tr><td>Đặt lịch hộ KH</td><td class="dash">—</td><td class="y">✓</td><td class="x">✗</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+      <tr><td>Xem dashboard cá nhân</td><td class="dash">—</td><td class="y">✓</td><td class="y">✓</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+      <tr><td>Check-in tại quầy</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="y">✓</td><td class="dash">—</td><td class="dash">—</td></tr>
+      <tr><td>Tải Sale Kit Staff</td><td class="dash">—</td><td class="y">✓</td><td class="x">✗</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+      <tr><td>Tải Sale Kit Affiliate</td><td class="dash">—</td><td class="x">✗</td><td class="y">✓</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+      <tr><td>Xem leaderboard nội bộ</td><td class="dash">—</td><td class="y">✓</td><td class="x">✗</td><td class="dash">—</td><td>✓ <small>(CN mình)</small></td><td class="y">✓</td></tr>
+      <tr><td>Xem leaderboard Affiliate</td><td class="dash">—</td><td class="x">✗</td><td class="y">✓</td><td class="dash">—</td><td class="dash">—</td><td class="y">✓</td></tr>
+      <tr><td>Tạo / sửa campaign</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="y">✓</td></tr>
+      <tr><td>Duyệt Affiliate</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="y">✓</td></tr>
+      <tr><td>Duyệt hoa hồng bị flag</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td>✓ <small>(CN mình)</small></td><td class="y">✓</td></tr>
+      <tr><td>Báo cáo tổng hợp</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td>✓ <small>(CN mình)</small></td><td class="y">✓</td></tr>
+      <tr><td>Cấu hình hệ thống</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="y">✓</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">Quản lý tài khoản</div>
+  </div>
+
+  <!-- F01 -->
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F01</span>
+      <span class="feature-title">Tài khoản Staff</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 1</span>
+    </div>
+    <div class="user-story">Là <strong>Admin</strong>, tôi muốn <strong>tạo hàng loạt tài khoản Staff qua import CSV</strong>, để <strong>onboard nhanh toàn bộ nhân viên không tốn thời gian nhập tay từng người</strong>.</div>
+    <ul class="ac-list">
+      <li>Import CSV (họ tên, SĐT, email, chi nhánh, phòng ban) → tạo tài khoản hàng loạt</li>
+      <li>Mỗi tài khoản tự động được cấp: mã code 6 ký tự <code>BB-XXXX</code>, link tracking <code>beautybiz.vn/ref/[ma-nv]</code>, QR code có logo thương hiệu</li>
+      <li>Staff nhận thông tin đăng nhập qua email hoặc SMS</li>
+      <li>Admin cũng có thể tạo từng tài khoản thủ công</li>
+      <li>Staff được gắn vào 1 hoặc nhiều campaign đồng thời</li>
+      <li>Khi 1 booking/lead hợp lệ với nhiều campaign: ghi nhận cho <strong>campaign có thời điểm lead tạo sớm nhất</strong></li>
+      <li>CSV có dòng lỗi → bỏ qua dòng đó, báo tổng kết: X thành công / Y lỗi (kèm dòng cụ thể)</li>
+    </ul>
+  </div>
+
+  <!-- F02 -->
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F02</span>
+      <span class="feature-title">Tài khoản Affiliate</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 3</span>
+    </div>
+
+    <h4>F02a — Đăng ký Affiliate</h4>
+    <div class="user-story">Là <strong>CTV muốn tham gia</strong>, tôi muốn <strong>đăng ký qua trang công khai</strong>, để <strong>được xét duyệt và nhận công cụ giới thiệu</strong>.</div>
+    <ul class="ac-list">
+      <li>Trang đăng ký công khai thu thập: họ tên, SĐT, email, kênh MXH chính (Facebook/TikTok/Instagram/Zalo), số followers ước tính (tự báo cáo), lý do tham gia</li>
+      <li>Hệ thống gửi email xác nhận đăng ký nhận được</li>
+      <li>Applicant thấy trạng thái "Đang chờ xét duyệt"</li>
+    </ul>
+
+    <h4>F02b — Duyệt Affiliate</h4>
+    <ul class="ac-list">
+      <li>Admin xem danh sách đăng ký đầy đủ → duyệt (approve) hoặc từ chối (reject) kèm lý do</li>
+      <li>Khi duyệt: tạo tài khoản, gửi welcome kit qua email (thông tin đăng nhập, link tracking, QR)</li>
+      <li>Admin cấu hình được điều kiện tự động duyệt (VD: followers tự báo cáo > 1.000 → tự động duyệt) — lưu ý: followers là số tự khai</li>
+      <li>Admin đình chỉ tạm thời hoặc xóa vĩnh viễn tài khoản bất kỳ lúc nào</li>
+    </ul>
+
+    <h4>F02c — Phân hạng Affiliate</h4>
+    <ul class="ac-list">
+      <li>Hệ thống phân hạng tự động theo tổng lead lịch sử: <strong>Starter → Silver → Gold → Platinum</strong></li>
+      <li>Mỗi hạng có: mức hoa hồng riêng, quyền truy cập campaign riêng</li>
+      <li>Admin cấu hình được ngưỡng số lead và mức thưởng từng hạng</li>
+      <li>Affiliate thấy: cấp độ hiện tại, tổng lead, khoảng cách đến hạng tiếp theo</li>
+      <li>Cấp độ nâng lên tự động khi đạt ngưỡng — không hạ hạng</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title">Luồng Booking</div>
+  </div>
+
+  <div class="card warning">
+    <strong>Điều kiện eligibility chung:</strong> KH đủ điều kiện được tính hoa hồng khi <strong>(a)</strong> KH chưa từng đến chi nhánh nào trong chuỗi, <strong>HOẶC (b)</strong> KH đã đến nhưng lần check-in cuối cách thời điểm tạo booking <strong>hơn 12 tháng</strong>. Nếu không đủ điều kiện: vẫn cho đặt lịch bình thường nhưng không ghi nhận hoa hồng.
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F03</span>
+      <span class="feature-title">Luồng 1 — KH tự đặt lịch qua Link / QR</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 1</span>
+    </div>
+    <div class="flow-box">
+      <span class="highlight">[KH nhận link/QR]</span> → Landing page → Nhập SĐT → OTP (30 giây) → Check eligibility → Chọn dịch vụ + chi nhánh + lịch → Xác nhận → <span class="highlight">SMS booking + ghi nhận lead</span>
+    </div>
+    <ul class="ac-list">
+      <li>KH mở link/quét QR → landing page hiển thị dịch vụ & chi nhánh áp dụng trong campaign</li>
+      <li>OTP hiệu lực 5 phút, tối đa 3 lần nhập sai → khóa 15 phút</li>
+      <li>Sau OTP: kiểm tra eligibility — nếu không đủ điều kiện: thông báo rõ, vẫn cho đặt lịch nhưng không tính hoa hồng</li>
+      <li>KH chọn dịch vụ, chi nhánh, ngày, giờ → xem tóm tắt → xác nhận → nhận SMS</li>
+      <li>Hệ thống ghi nhận lead cho referrer, kết nối với campaign tương ứng</li>
+      <li>Affiliate: ghi nhận thêm nguồn traffic (Facebook/TikTok/Zalo/Direct), thời gian click, thiết bị</li>
+      <li><strong>First-click Affiliate:</strong> nếu KH click link nhiều Affiliate → chỉ Affiliate đầu tiên được ghi nhận (trong vòng 30 ngày kể từ lần click đầu)</li>
+      <li>Link campaign hết hạn → thông báo rõ, không cho đặt</li>
+    </ul>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F04</span>
+      <span class="feature-title">Luồng 2 — Staff đặt lịch hộ KH</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 1</span>
+    </div>
+    <div class="flow-box">
+      <span class="highlight">[Staff đăng nhập]</span> → Tab "Đặt lịch hộ" → Nhập SĐT KH → OTP gửi đến KH → KH đọc OTP cho Staff → Chọn dịch vụ + lịch → Xác nhận → <span class="highlight">SMS KH + ghi nhận lead cho Staff</span>
+    </div>
+    <ul class="ac-list">
+      <li>OTP gửi đến SĐT của KH — không phải Staff — KH phải tự đọc mã cho Staff nhập</li>
+      <li>Kiểm tra eligibility KH (giống Luồng 1)</li>
+      <li>Booking đánh dấu "Được đặt bởi Staff", KH nhận SMS xác nhận</li>
+      <li>Staff không thể đặt lịch hộ bằng SĐT của chính mình</li>
+      <li>KH không nhận được OTP: gửi lại sau 60 giây, tối đa 3 lần</li>
+    </ul>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F05</span>
+      <span class="feature-title">Luồng 3 — KH đến trực tiếp chi nhánh</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 1</span>
+    </div>
+    <div class="flow-box">
+      <span class="highlight">[KH đến quầy]</span> → Lễ tân nhập SĐT KH + mã referral code → Check eligibility → Xác nhận check-in → <span class="highlight">Ghi nhận hoa hồng cho referrer</span>
+    </div>
+    <ul class="ac-list">
+      <li>Lễ tân nhập SĐT KH + mã referral 6 ký tự (BB-XXXX)</li>
+      <li>Hệ thống check eligibility — báo rõ kết quả cho lễ tân</li>
+      <li>Referrer nhận thông báo khi KH check-in thành công</li>
+      <li>Mã referral không tồn tại hoặc referrer bị đình chỉ → không ghi nhận hoa hồng, thông báo lễ tân</li>
+      <li>Không có mã referral → check-in bình thường, không tính hoa hồng</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 5 -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div class="section-title">Hệ thống nhắc lịch tự động</div>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F06</span>
+      <span class="feature-title">Nhắc lịch tự động</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 1</span>
+    </div>
+    <ul class="ac-list">
+      <li><strong>Nhắc lần 1 — Trước 24 giờ:</strong> SMS và/hoặc Zalo OA, kèm tên dịch vụ, địa chỉ chi nhánh, ngày giờ, link bản đồ</li>
+      <li><strong>Nhắc lần 2 — Trước 2 giờ:</strong> SMS ngắn gọn xác nhận lịch hẹn</li>
+      <li>Admin cấu hình được: kênh gửi, thời điểm nhắc, template nội dung</li>
+      <li>Nếu KH hủy lịch → dừng gửi nhắc</li>
+      <li>Gửi thất bại → retry tối đa 3 lần (cách 5 phút), log lỗi</li>
+      <li>Booking tạo trong &lt; 24 giờ trước giờ hẹn → bỏ nhắc lần 1, vẫn gửi lần 2</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 6 -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div class="section-title">Campaign Builder</div>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F07</span>
+      <span class="feature-title">Tạo & cấu hình Campaign</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 2</span>
+    </div>
+    <div class="user-story">Là <strong>Admin</strong>, tôi muốn <strong>tạo chiến dịch hoàn chỉnh trong dưới 10 phút qua giao diện</strong>, để <strong>linh hoạt chạy nhiều chương trình không cần nhờ dev</strong>.</div>
+    <ul class="ac-list">
+      <li>Thông tin cơ bản: tên, mô tả, thời gian bắt đầu/kết thúc</li>
+      <li>Chọn đối tượng tham gia: chỉ Staff / chỉ Affiliate / cả hai</li>
+      <li>Chọn chi nhánh áp dụng: tất cả hoặc chọn cụ thể</li>
+      <li>Chọn dịch vụ áp dụng: tất cả hoặc chọn nhóm/dịch vụ cụ thể</li>
+      <li>Trạng thái campaign: Draft / Active / Paused / Ended</li>
+      <li>Ngân sách: nhập tổng, cấu hình ngưỡng cảnh báo (%), hành động khi hết ngân sách (tự động dừng / chuyển mức thưởng tối thiểu / chỉ cảnh báo)</li>
+    </ul>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F08</span>
+      <span class="feature-title">Budget ↔ Reward Calculator</span>
+      <span class="badge-should">Should</span>
+      <span class="badge-phase">Phase 2</span>
+    </div>
+    <ul class="ac-list">
+      <li><strong>Budget→Reward:</strong> Admin nhập budget + KPI mục tiêu → hệ thống đề xuất cấu trúc thưởng theo phase, admin có thể chỉnh từng phase, tổng ngân sách cập nhật realtime</li>
+      <li><strong>Reward→Budget:</strong> Admin nhập mức thưởng + KPI → hệ thống tính tổng ngân sách cần, cảnh báo nếu vượt ngưỡng</li>
+      <li><strong>KPI kết hợp funnel:</strong> phân bổ ngân sách theo tỉ lệ (VD: 70% lead / 20% booking / 10% checkin) → hệ thống tính mức thưởng từng bước</li>
+      <li>3 loại KPI: <strong>Lead</strong> (lượt điền form hợp lệ) / <strong>Booking</strong> (lịch hẹn tạo thành công) / <strong>Checkin</strong> (KH thực sự đến)</li>
+      <li>Realtime dashboard: tiến độ KPI vs mục tiêu, cảnh báo khi sắp đạt 90% hoặc có nguy cơ không đạt</li>
+    </ul>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F10</span>
+      <span class="feature-title">Preview & Publish Campaign</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 2</span>
+    </div>
+    <ul class="ac-list">
+      <li>Preview ngân sách: tổng tối đa (100% KPI), tối thiểu (chỉ mức cơ bản), cảnh báo vượt ngân sách</li>
+      <li>Preview giao diện user: Admin xem trước campaign như Staff/Affiliate sẽ thấy</li>
+      <li>Publish ngay hoặc lên lịch kích hoạt tự động vào ngày giờ cụ thể</li>
+      <li>Hệ thống gửi notification toàn bộ người tham gia khi campaign bắt đầu</li>
+      <li>Điều chỉnh realtime khi campaign đang chạy: tăng/giảm ngân sách, sửa mức thưởng phase chưa bắt đầu, tạm dừng/tiếp tục</li>
+      <li>Mọi thay đổi có audit log đầy đủ (ai, lúc nào, thay đổi gì)</li>
+      <li>Clone campaign cũ làm template — lưu vào thư viện tái sử dụng</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 7 -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <div class="section-title">Rule Builder — 11 cơ chế thưởng</div>
+  </div>
+
+  <div class="card warning" style="margin-bottom:20px;">
+    <strong>Nguyên tắc kết hợp:</strong> Admin bật nhiều cơ chế đồng thời. Công thức tổng hợp:<br>
+    <code style="font-size:14px;">Thưởng cuối = (Thưởng phase) × (Hệ số streak) × (Hệ số flash week) + [Bonus cố định]</code><br>
+    Hệ thống hiển thị ví dụ minh họa cụ thể trước khi publish để admin xác nhận.
+  </div>
+
+  <div class="rule-grid">
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-001</div>
+      <div class="rule-name">Phase động (Tiered Reward)</div>
+      <div class="rule-desc">Mức thưởng giảm dần theo từng giai đoạn khi số lead tăng. Admin cấu hình từ 1 đến N phase.</div>
+      <div class="rule-example">Phase A: 500 lead đầu → 400.000đ/lead<br>Phase B: 700 lead tiếp → 200.000đ/lead<br>Phase C: 800 lead còn lại → 100.000đ/lead</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-002</div>
+      <div class="rule-name">Mức thưởng theo giao dịch</div>
+      <div class="rule-desc">Thưởng thêm dựa trên giá trị giao dịch hoặc KH quay lại. Dữ liệu lấy từ POS.</div>
+      <div class="rule-example">Bất kỳ giao dịch: +100.000đ<br>Giao dịch &gt; 1.000.000đ: +200.000đ thêm<br>KH quay lại trong 30 ngày: +150.000đ</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-003</div>
+      <div class="rule-name">Streak Multiplier</div>
+      <div class="rule-desc">Hệ số nhân tăng theo số ngày liên tiếp có lead. Reset khi mất 1 ngày không có lead.</div>
+      <div class="rule-example">Ngày 1–4 liên tiếp: ×1.0<br>Ngày 5–9 liên tiếp: ×1.5<br>Ngày 10+: ×2.0<br>Reset khi nghỉ 1 ngày</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-004</div>
+      <div class="rule-name">Team Battle</div>
+      <div class="rule-desc">Thi đua theo đội. Áp dụng riêng biệt cho Staff và Affiliate — mỗi đối tượng 1 chương trình độc lập.</div>
+      <div class="rule-example">Chia đội: ngẫu nhiên / gán tay<br>Đội #1: ×1.5 toàn đội<br>Đội #2: ×1.2<br>MVP đội thắng: +500.000đ</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-005</div>
+      <div class="rule-name">Combo Mechanic</div>
+      <div class="rule-desc">Thưởng nhân theo số lead trong cùng một ngày. Tính theo ngày calendar (00:00–23:59 GMT+7).</div>
+      <div class="rule-example">2 lead/ngày: thưởng ×2<br>1 lead/ngày: thưởng ×0.5</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-006</div>
+      <div class="rule-name">Revenue Share</div>
+      <div class="rule-desc">Hoa hồng theo % doanh thu KH. Chỉ chốt sau khi giao dịch thanh toán xong.</div>
+      <div class="rule-example">Hoa hồng: 5% doanh thu<br>Tối thiểu: 50.000đ/giao dịch<br>Tối đa: 2.000.000đ/KH/tháng</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-007</div>
+      <div class="rule-name">Daily Mystery</div>
+      <div class="rule-desc">Mỗi ngày công bố 1 dịch vụ bí ẩn — lead đúng dịch vụ được nhân thưởng cao.</div>
+      <div class="rule-example">07:00: công bố dịch vụ bí ẩn<br>Lead đúng dịch vụ: ×3<br>Hết hiệu lực: 23:59 cùng ngày<br>Admin chuẩn bị lịch hoặc random</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-008</div>
+      <div class="rule-name">Endurance (Pool cuối kỳ)</div>
+      <div class="rule-desc">Pool thưởng chia đều cho những người duy trì được lead đến cuối kỳ campaign.</div>
+      <div class="rule-example">Pool: 80.000.000đ<br>Điều kiện: ≥1 lead trong tuần 25–30<br>Chia đều cho đủ điều kiện<br>Top 3: 1.000.000đ / 500.000đ / 300.000đ</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-009</div>
+      <div class="rule-name">Tournament (1v1)</div>
+      <div class="rule-desc">Đấu 1vs1 theo tuần, tích điểm vào bán kết/chung kết. Staff và Affiliate có chương trình riêng.</div>
+      <div class="rule-example">Ghép cặp ngẫu nhiên mỗi tuần<br>Thắng tuần: 300.000đ + 3 điểm<br>Thua: 1 điểm<br>Top 4 điểm: bán kết + 1.000.000đ<br>Vô địch tháng: 3.000.000đ</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-010</div>
+      <div class="rule-name">Flash Week</div>
+      <div class="rule-desc">Tuần đặc biệt với hệ số nhân ×2 toàn bộ thưởng + pool comeback + bonus leo hạng.</div>
+      <div class="rule-example">Tuần: ngày 24–30 tháng<br>Hệ số: ×2 toàn bộ thưởng<br>Pool comeback: 80.000.000đ<br>Leo 5+ vị trí: +1.000.000đ</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-id">REQ-RB-011</div>
+      <div class="rule-name">Point Auction (Đấu giá mù)</div>
+      <div class="rule-desc">Điểm tích lũy toàn hệ thống suốt vòng đời tài khoản. Dùng để đấu giá phần thưởng theo cơ chế blind auction.</div>
+      <div class="rule-example">1 lead hợp lệ = 10 điểm<br>Điểm tích lũy vĩnh viễn<br>Blind auction: không thấy bid người khác<br>VD: Tour Đà Nẵng · bid tối thiểu 30 điểm</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 8 -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <div class="section-title">Sale Kit động</div>
+  </div>
+
+  <div class="card info" style="margin-bottom:16px;">
+    <strong>Auto-detect:</strong> Hệ thống tự nhận diện loại tài khoản (Staff / Affiliate) ngay sau đăng nhập → hiển thị đúng bộ kit. Không cần chọn tay.
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+    <div class="card feature">
+      <div class="feature-header">
+        <span class="feature-id">F11</span>
+        <span class="feature-title">Sale Kit Staff</span>
+        <span class="badge-should">Should</span>
+        <span class="badge-phase">Phase 3</span>
+      </div>
+      <h4>Công cụ định danh</h4>
+      <ul class="ac-list">
+        <li>QR code có logo công ty (in được ra name card)</li>
+        <li>Link rút gọn: <code>beautybiz.vn/ref/[ma-nv]</code></li>
+        <li>Mã code 6 ký tự: <code>BB-XXXX</code></li>
+        <li>File sticker dán điện thoại (PNG/SVG)</li>
+      </ul>
+      <h4>Content mẫu hàng tháng</h4>
+      <ul class="ac-list">
+        <li>3 Reels/TikTok trước-sau + caption tiếng Việt (đã nhúng link NV)</li>
+        <li>5 ảnh Story Instagram/Facebook với text overlay + link NV</li>
+        <li>3 mẫu tin nhắn Zalo (ngắn, tự nhiên)</li>
+        <li>1 video testimonial KH để repost</li>
+      </ul>
+      <h4>Hướng dẫn & Starter Kit vật lý</h4>
+      <ul class="ac-list">
+        <li>Tài liệu 1 trang "5 cách có lead đầu tiên trong tuần"</li>
+        <li>Bộ Q&A thường gặp + gợi ý trả lời</li>
+        <li>Name card PDF chuẩn in, sticker, thẻ để bàn</li>
+      </ul>
+    </div>
+    <div class="card feature">
+      <div class="feature-header">
+        <span class="feature-id">F12</span>
+        <span class="feature-title">Sale Kit Affiliate</span>
+        <span class="badge-should">Should</span>
+        <span class="badge-phase">Phase 3</span>
+      </div>
+      <h4>Công cụ định danh</h4>
+      <ul class="ac-list">
+        <li>QR code branding phù hợp kênh social</li>
+        <li>Link tracking: <code>beautybiz.vn/a/[ma-affiliate]</code></li>
+        <li>Affiliate ID duy nhất</li>
+      </ul>
+      <h4>Content mẫu hàng tháng</h4>
+      <ul class="ac-list">
+        <li>5 template Reels/TikTok phong cách lifestyle</li>
+        <li>10 ảnh Story/post Facebook/Instagram</li>
+        <li>Bộ hashtag gợi ý theo từng nền tảng</li>
+        <li>Script video 30–60 giây, caption dài storytelling</li>
+      </ul>
+      <h4>Expertise Content & Hướng dẫn</h4>
+      <ul class="ac-list">
+        <li>Infographic về chăm sóc da/thẩm mỹ</li>
+        <li>Lịch đăng bài theo giờ vàng từng nền tảng</li>
+        <li>Hướng dẫn tránh lỗi spam, bị ẩn reach</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card feature" style="margin-top:16px;">
+    <div class="feature-header">
+      <span class="feature-id">F13</span>
+      <span class="feature-title">Quản lý Sale Kit (Admin)</span>
+      <span class="badge-should">Should</span>
+      <span class="badge-phase">Phase 3</span>
+    </div>
+    <ul class="ac-list">
+      <li>Admin upload bộ content mới riêng cho Staff và Affiliate hàng tháng → hệ thống thay thế tự động, thông báo người dùng</li>
+      <li>Khi campaign kích hoạt: tự động cập nhật Sale Kit liên quan và gửi notification</li>
+      <li>Tracking: ai đã xem/tải kit, tỉ lệ sử dụng kit so với số lead tạo ra</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 9 -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <div class="section-title">Leaderboard & Gamification</div>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F14</span>
+      <span class="feature-title">Leaderboard tách biệt</span>
+      <span class="badge-should">Should</span>
+      <span class="badge-phase">Phase 2–3</span>
+    </div>
+    <ul class="ac-list">
+      <li><strong>Staff:</strong> leaderboard nội bộ, lọc được theo chi nhánh/khu vực. Quản lý CN mặc định xem chi nhánh mình, không xem chi nhánh khác</li>
+      <li><strong>Affiliate:</strong> leaderboard riêng, hiển thị hạng (Starter/Silver/Gold/Platinum) bên cạnh tên</li>
+      <li><strong>Admin:</strong> thấy cả hai; xem leaderboard gộp với badge phân biệt loại user</li>
+      <li>Cập nhật theo chu kỳ cấu hình được (mặc định tối đa 1 giờ/lần)</li>
+      <li>Referrer thấy: thứ hạng hiện tại, số lead/booking/checkin trong kỳ, thưởng dự kiến</li>
+    </ul>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F15</span>
+      <span class="feature-title">Huy hiệu tự động & Cấp độ</span>
+      <span class="badge-could">Could</span>
+      <span class="badge-phase">Phase 4</span>
+    </div>
+    <ul class="ac-list">
+      <li>Huy hiệu riêng biệt: Staff có "Đại sứ nội bộ", "Star Closer"; Affiliate có "Top Influencer", "Rising Star"</li>
+      <li>Tự động cấp khi đạt mốc lead/booking đã cấu hình</li>
+      <li>Admin cấu hình: tên huy hiệu, điều kiện, icon</li>
+      <li>Referrer nhận thông báo khi được cấp huy hiệu mới</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 10 -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <div class="section-title">Chống gian lận</div>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F16</span>
+      <span class="feature-title">Hệ thống chống gian lận</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 1</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Rule</th><th>Mô tả</th><th>Áp dụng</th></tr>
+        <tr><td><strong>OTP bắt buộc</strong></td><td>Mọi booking yêu cầu xác thực OTP qua SĐT KH</td><td>Tất cả luồng</td></tr>
+        <tr><td><strong>Chống self-referral</strong></td><td>Staff/Affiliate không thể dùng SĐT mình đặt lịch qua link mình để nhận hoa hồng</td><td>Tất cả</td></tr>
+        <tr><td><strong>Chỉ chốt khi check-in</strong></td><td>Hoa hồng chỉ vào trạng thái "Chờ chốt" sau khi KH thực sự check-in</td><td>Tất cả</td></tr>
+        <tr><td><strong>Flag pattern bất thường</strong></td><td>Nhiều booking cùng SĐT, nhiều SĐT từ 1 IP, tỉ lệ no-show bất thường → tự động cờ đỏ</td><td>Tất cả</td></tr>
+        <tr><td><strong>IP limit</strong></td><td>Không quá N lead từ cùng 1 IP trong 24 giờ (N cấu hình được)</td><td>Đặc biệt Affiliate</td></tr>
+        <tr><td><strong>First-click attribution</strong></td><td>1 SĐT chỉ tính hoa hồng cho 1 Affiliate (người đầu tiên), tracking 30 ngày</td><td>Affiliate</td></tr>
+        <tr><td><strong>Thời gian chờ chốt</strong></td><td>Staff: 15 ngày sau check-in. Affiliate: 30 ngày sau check-in</td><td>Khác nhau theo loại</td></tr>
+        <tr><td><strong>KYC Affiliate</strong></td><td>Nộp CCCD + tài khoản ngân hàng → admin duyệt thủ công trước khi rút thưởng lần đầu</td><td>Affiliate</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 11 -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <div class="section-title">Quản trị Admin</div>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F17</span>
+      <span class="feature-title">Admin Dashboard</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 2</span>
+    </div>
+    <ul class="ac-list">
+      <li>Tất cả campaign đang chạy: tiến độ KPI, % ngân sách đã dùng, tốc độ lead/ngày, dự báo đạt KPI</li>
+      <li>Báo cáo so sánh Staff vs Affiliate: chi phí per lead, tỉ lệ show-up, tỉ lệ chuyển đổi thành KH trả tiền, tổng hoa hồng đã chi</li>
+    </ul>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F18</span>
+      <span class="feature-title">Quản lý chi trả</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 1</span>
+    </div>
+    <div class="user-story">Là <strong>Admin</strong>, tôi muốn <strong>xuất file báo cáo chi trả riêng cho Staff và Affiliate</strong>, để <strong>bộ phận quản lý xử lý thanh toán bên ngoài hệ thống</strong>.</div>
+    <ul class="ac-list">
+      <li><strong>Staff:</strong> xuất file danh sách thưởng (tên, mã NV, chi nhánh, số tiền) cho HR xử lý qua lương — không tích hợp API HR</li>
+      <li><strong>Affiliate:</strong> xuất file hoa hồng (tên, Affiliate ID, số tài khoản, số tiền) để chi qua ví/ngân hàng</li>
+      <li>Trạng thái: Chờ chốt / Đã chốt / Đã chi / Tạm giữ (bị flag)</li>
+      <li>Admin mark "Đã chi" thủ công sau khi xử lý ngoài hệ thống</li>
+    </ul>
+  </div>
+
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F19</span>
+      <span class="feature-title">Cấu hình hệ thống</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 1</span>
+    </div>
+    <ul class="ac-list">
+      <li>Thời gian chờ chốt thưởng (Staff / Affiliate riêng)</li>
+      <li>Ngưỡng cờ đỏ IP, thời hạn OTP, số lần sai tối đa</li>
+      <li>Chu kỳ cập nhật leaderboard</li>
+      <li>Múi giờ hệ thống (mặc định GMT+7)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- SECTION 12 -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <div class="section-num">12</div>
+    <div class="section-title">Yêu cầu phi chức năng</div>
+  </div>
+
+  <div class="nfr-grid">
+    <div class="nfr-card">
+      <div class="nfr-title">⚡ Performance</div>
+      <ul>
+        <li>Trang booking KH tải &lt; 3 giây (4G)</li>
+        <li>OTP gửi trong vòng 30 giây</li>
+        <li>Campaign Builder: lưu & preview &lt; 2 giây</li>
+        <li>Form booking KH hoàn thành &lt; 60 giây</li>
+        <li>Admin tạo campaign cơ bản &lt; 10 phút</li>
+        <li>Sale Kit: tìm và tải &lt; 2 phút</li>
+        <li>Leaderboard cập nhật ≤ 1 giờ/lần</li>
+      </ul>
+    </div>
+    <div class="nfr-card">
+      <div class="nfr-title">📈 Khả năng mở rộng</div>
+      <ul>
+        <li>≥ 500 Staff đồng thời</li>
+        <li>≥ 2.000 Affiliate đồng thời</li>
+        <li>≥ 20 campaign chạy song song</li>
+        <li>Thêm cơ chế thưởng mới không đụng core</li>
+      </ul>
+    </div>
+    <div class="nfr-card">
+      <div class="nfr-title">🔒 Bảo mật</div>
+      <ul>
+        <li>OTP: 5 phút, tối đa 3 sai → khóa 15 phút</li>
+        <li>KYC Affiliate trước khi rút lần đầu</li>
+        <li>Dữ liệu KH mã hóa trong database</li>
+        <li>HTTPS bắt buộc toàn bộ</li>
+        <li>Audit log mọi thay đổi campaign</li>
+        <li>Phân quyền role nghiêm ngặt</li>
+      </ul>
+    </div>
+    <div class="nfr-card">
+      <div class="nfr-title">🖥 Compatibility</div>
+      <ul>
+        <li>Web app responsive (mobile-first)</li>
+        <li>Chrome, Safari, Firefox (2 version gần nhất)</li>
+        <li>iOS 14+, Android 8+</li>
+        <li>Responsive từ 320px</li>
+        <li>Giao diện: Tiếng Việt toàn bộ</li>
+      </ul>
+    </div>
+    <div class="nfr-card">
+      <div class="nfr-title">🟢 Availability</div>
+      <ul>
+        <li>Uptime 99% (~7h downtime/tháng)</li>
+        <li>Backup hàng ngày, giữ ≥ 30 ngày</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 13 -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <div class="section-num">13</div>
+    <div class="section-title">Giao diện & UX</div>
+  </div>
+
+  <h3>13.1. Danh sách màn hình</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>#</th><th>Tên màn</th><th>Mô tả</th><th>Platform</th></tr>
+      <tr><td>S01</td><td><strong>Landing / Form booking</strong></td><td>Trang đặt lịch công khai qua link/QR</td><td><span class="screen-platform">Web mobile-first</span></td></tr>
+      <tr><td>S02</td><td><strong>OTP xác thực</strong></td><td>Nhập và xác thực mã OTP</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S03</td><td><strong>Chọn dịch vụ & lịch</strong></td><td>KH chọn dịch vụ, chi nhánh, ngày giờ</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S04</td><td><strong>Xác nhận booking</strong></td><td>Tóm tắt trước khi xác nhận</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S05</td><td><strong>Đăng ký Affiliate</strong></td><td>Form đăng ký công khai</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S06</td><td><strong>Đăng nhập</strong></td><td>Chung cho tất cả vai trò</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S07</td><td><strong>Dashboard Staff</strong></td><td>Tổng quan cá nhân, lead, thưởng, streak</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S08</td><td><strong>Đặt lịch hộ KH</strong></td><td>Form Staff đặt lịch cho KH</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S09</td><td><strong>Sale Kit Staff</strong></td><td>Tải công cụ và nội dung</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S10</td><td><strong>Leaderboard nội bộ</strong></td><td>Xếp hạng Staff, lọc theo chi nhánh</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S11</td><td><strong>Dashboard Affiliate</strong></td><td>Tổng quan cá nhân, hoa hồng, cấp độ</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S12</td><td><strong>Sale Kit Affiliate</strong></td><td>Tải công cụ và nội dung</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S13</td><td><strong>Leaderboard Affiliate</strong></td><td>Xếp hạng Affiliate theo hạng</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S14</td><td><strong>Point Auction</strong></td><td>Xem điểm, tham gia đấu giá</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S15</td><td><strong>Check-in tại quầy</strong></td><td>Lễ tân nhập SĐT + mã code</td><td><span class="screen-platform">Web (tablet)</span></td></tr>
+      <tr><td>S16</td><td><strong>Dashboard QL Chi nhánh</strong></td><td>Báo cáo, duyệt hoa hồng CN</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S17</td><td><strong>Admin — Dashboard</strong></td><td>Tổng quan toàn hệ thống</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S18</td><td><strong>Admin — Campaign Builder</strong></td><td>Tạo/sửa campaign</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S19</td><td><strong>Admin — Rule Builder</strong></td><td>Cấu hình 11 cơ chế thưởng</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S20</td><td><strong>Admin — Quản lý Affiliate</strong></td><td>Duyệt, phân hạng, KYC</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S21</td><td><strong>Admin — Chi trả</strong></td><td>Xuất báo cáo, đánh dấu đã chi</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S22</td><td><strong>Admin — Cấu hình</strong></td><td>Cài đặt hệ thống</td><td><span class="screen-platform">Web</span></td></tr>
+      <tr><td>S23</td><td><strong>Admin — Thư viện Template</strong></td><td>Clone và quản lý template campaign</td><td><span class="screen-platform">Web</span></td></tr>
+    </table>
+  </div>
+
+  <h3>13.2. User flows chính</h3>
+  <div class="flow-box">
+<span style="color:#f472b6; font-weight:700;">Flow 1: KH tự đặt lịch qua link Affiliate</span>
+[Link/QR] → S01 Landing → S02 OTP → Check eligibility → S03 Chọn DV + lịch → S04 Xác nhận → <span class="highlight">SMS ✓</span>
+
+<span style="color:#f472b6; font-weight:700;">Flow 2: Staff đặt lịch hộ KH</span>
+S06 Đăng nhập → S07 Dashboard → S08 Đặt hộ → Nhập SĐT KH → OTP gửi KH → KH đọc OTP → Staff nhập → S03 → Xác nhận → <span class="highlight">SMS KH ✓</span>
+
+<span style="color:#f472b6; font-weight:700;">Flow 3: KH đến trực tiếp</span>
+KH đến quầy → S15 Lễ tân nhập SĐT + mã code → Check eligibility → <span class="highlight">Check-in ✓</span>
+
+<span style="color:#f472b6; font-weight:700;">Flow 4: Admin tạo campaign</span>
+S17 Dashboard → S18 Campaign Builder → Budget/KPI → S19 Rule Builder → Preview → Publish/Lên lịch → <span class="highlight">Notification người tham gia ✓</span>
+
+<span style="color:#f472b6; font-weight:700;">Flow 5: Affiliate đăng ký</span>
+S05 Đăng ký → Email xác nhận → [Chờ duyệt] → Admin duyệt (S20) → Welcome kit email → S06 → S11 Dashboard ✓
+  </div>
+</div>
+
+<!-- SECTION 14 -->
+<div class="section" id="s14">
+  <div class="section-header">
+    <div class="section-num">14</div>
+    <div class="section-title">Dữ liệu</div>
+  </div>
+
+  <h3>14.1. Entity chính</h3>
+  <div class="entity-grid">
+    <div class="entity-card"><div class="entity-name">User</div><div class="entity-desc">Người dùng có tài khoản</div><div class="entity-attrs">id, phone, email, name,<br>role, status, created_at</div></div>
+    <div class="entity-card"><div class="entity-name">Staff</div><div class="entity-desc">Nhân viên nội bộ</div><div class="entity-attrs">referral_code, referral_link,<br>qr_code, branch_id, employee_id</div></div>
+    <div class="entity-card"><div class="entity-name">Affiliate</div><div class="entity-desc">CTV bên ngoài</div><div class="entity-attrs">affiliate_id, tier,<br>social_channels, followers_count,<br>kyc_status, bank_account</div></div>
+    <div class="entity-card"><div class="entity-name">Campaign</div><div class="entity-desc">Chiến dịch giới thiệu</div><div class="entity-attrs">name, start_date, end_date,<br>budget, kpi_type, kpi_target,<br>audience_type, status</div></div>
+    <div class="entity-card"><div class="entity-name">CampaignRule</div><div class="entity-desc">Cơ chế thưởng của campaign</div><div class="entity-attrs">campaign_id, rule_type,<br>config_json</div></div>
+    <div class="entity-card"><div class="entity-name">Lead</div><div class="entity-desc">Lượt giới thiệu KH hợp lệ</div><div class="entity-attrs">customer_phone, referrer_id,<br>campaign_id, source,<br>traffic_source, created_at</div></div>
+    <div class="entity-card"><div class="entity-name">Booking</div><div class="entity-desc">Lịch hẹn dịch vụ</div><div class="entity-attrs">lead_id, customer_phone,<br>service_id, branch_id,<br>scheduled_at, status, booking_type</div></div>
+    <div class="entity-card"><div class="entity-name">CheckIn</div><div class="entity-desc">KH đến thực tế</div><div class="entity-attrs">booking_id, checkin_at,<br>branch_id, verified_by</div></div>
+    <div class="entity-card"><div class="entity-name">Transaction</div><div class="entity-desc">Giao dịch thanh toán từ POS</div><div class="entity-attrs">booking_id, amount,<br>paid_at, pos_reference</div></div>
+    <div class="entity-card"><div class="entity-name">RewardRecord</div><div class="entity-desc">Bản ghi thưởng</div><div class="entity-attrs">referrer_id, lead_id,<br>campaign_id, amount,<br>status, reward_type, settled_at</div></div>
+    <div class="entity-card"><div class="entity-name">PointRecord</div><div class="entity-desc">Điểm tích lũy vĩnh viễn</div><div class="entity-attrs">user_id, points, source_type,<br>source_ref_id, created_at</div></div>
+    <div class="entity-card"><div class="entity-name">AuctionItem</div><div class="entity-desc">Phần thưởng đấu giá</div><div class="entity-attrs">campaign_id, name, value,<br>min_bid, start_at, end_at</div></div>
+    <div class="entity-card"><div class="entity-name">SaleKit</div><div class="entity-desc">Bộ nội dung Sale Kit</div><div class="entity-attrs">user_type, campaign_id,<br>month, content_type, file_url</div></div>
+    <div class="entity-card"><div class="entity-name">AuditLog</div><div class="entity-desc">Lịch sử thay đổi hệ thống</div><div class="entity-attrs">entity_type, entity_id,<br>changed_by, changed_at,<br>before_json, after_json</div></div>
+  </div>
+
+  <h3>14.2. Data flow tổng quan</h3>
+  <div class="flow-box">
+[KH click link] → Lead ghi nhận (referrer + campaign + source + traffic)
+       ↓
+[KH đặt lịch] → Booking tạo
+       ↓
+[KH check-in] → CheckIn ghi nhận → RewardRecord: <span class="highlight">"Chờ chốt"</span>
+       ↓
+[KH thanh toán] → Transaction từ POS API (Revenue Share tính tại đây)
+       ↓
+[Sau N ngày: Staff 15 / Affiliate 30] → RewardRecord: <span class="highlight">"Đã chốt"</span>
+       ↓
+[Admin xuất báo cáo] → Xử lý chi trả ngoài hệ thống → Mark <span class="highlight">"Đã chi"</span>
+  </div>
+
+  <h3>14.3. Data retention</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Loại dữ liệu</th><th>Giữ trong</th><th>Lý do</th></tr>
+      <tr><td>Booking & Lead</td><td>Vĩnh viễn</td><td>Phục vụ check eligibility 12 tháng</td></tr>
+      <tr><td>Audit log</td><td>≥ 2 năm</td><td>Tuân thủ & kiểm tra</td></tr>
+      <tr><td>Ảnh KYC Affiliate</td><td>Suốt vòng đời tài khoản</td><td>Pháp lý</td></tr>
+      <tr><td>Dữ liệu OTP</td><td>24 giờ</td><td>Bảo mật</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 15 -->
+<div class="section" id="s15">
+  <div class="section-header">
+    <div class="section-num">15</div>
+    <div class="section-title">Tích hợp bên thứ ba</div>
+  </div>
+
+  <div class="card">
+    <div class="integration-row"><div class="int-name">📱 SMS Gateway</div><div class="int-desc">Gửi OTP, nhắc lịch, xác nhận booking. Admin cấu hình được nhà cung cấp.</div><div class="int-phase"><span class="badge-must">Must</span> <span class="badge-phase">Phase 1</span></div></div>
+    <div class="integration-row"><div class="int-name">💬 Zalo OA API</div><div class="int-desc">Nhắc lịch, thông báo campaign, thông báo thưởng. Cần Zalo OA đã đăng ký.</div><div class="int-phase"><span class="badge-should">Should</span> <span class="badge-phase">Phase 2</span></div></div>
+    <div class="integration-row"><div class="int-name">🏪 POS / CRM</div><div class="int-desc">Đối chiếu giao dịch, lấy doanh thu cho Revenue Share. REST API, chỉ đọc dữ liệu.</div><div class="int-phase"><span class="badge-should">Should</span> <span class="badge-phase">Phase 2</span></div></div>
+    <div class="integration-row"><div class="int-name">💳 MoMo / ZaloPay</div><div class="int-desc">Chi hoa hồng Affiliate qua ví điện tử.</div><div class="int-phase"><span class="badge-should">Should</span> <span class="badge-phase">Phase 5</span></div></div>
+    <div class="integration-row"><div class="int-name">🔗 Webhook</div><div class="int-desc">Đẩy event (booking mới, lead mới, thưởng chốt) sang hệ thống ngoài qua HTTP POST.</div><div class="int-phase"><span class="badge-could">Could</span> <span class="badge-phase">Phase 5</span></div></div>
+  </div>
+
+  <h3>Platform mong muốn</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Platform</th><th>Cần?</th><th>Ghi chú</th></tr>
+      <tr><td>Backend API</td><td class="badge-yes">✅</td><td>Luôn cần</td></tr>
+      <tr><td>Web app (responsive)</td><td class="badge-yes">✅</td><td>Mobile-first cho Staff / Affiliate / KH</td></tr>
+      <tr><td>Admin panel</td><td class="badge-yes">✅</td><td>Tích hợp trong web app, phân quyền theo role</td></tr>
+      <tr><td>Mobile iOS native</td><td class="badge-no">❌</td><td>Out-of-scope Phase 1</td></tr>
+      <tr><td>Mobile Android native</td><td class="badge-no">❌</td><td>Out-of-scope Phase 1</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- SECTION 16 -->
+<div class="section" id="s16">
+  <div class="section-header">
+    <div class="section-num">16</div>
+    <div class="section-title">Kế hoạch Phase</div>
+  </div>
+
+  <div class="phase-grid">
+    <div class="phase-card p1">
+      <div class="phase-num">Phase 1</div>
+      <div class="phase-name">MVP — Booking & Thưởng cơ bản</div>
+      <div class="phase-goal">🎯 Hệ thống vận hành được thực tế — loại bỏ telesale, booking tự động, thưởng Staff hoạt động</div>
+      <div class="phase-features"><strong>Features:</strong> F01, F03, F04, F05, F06, F16, F18, F19 + SMS Gateway</div>
+    </div>
+    <div class="phase-card p2">
+      <div class="phase-num">Phase 2</div>
+      <div class="phase-name">Campaign Builder & Dashboard</div>
+      <div class="phase-goal">🎯 Admin tự tạo và quản lý chiến dịch. Staff có dashboard đầy đủ.</div>
+      <div class="phase-features"><strong>Features:</strong> F07, F08, F10, F14 (Staff LB), F17 + Zalo OA + POS/CRM</div>
+    </div>
+    <div class="phase-card p3">
+      <div class="phase-num">Phase 3</div>
+      <div class="phase-name">Affiliate & Sale Kit</div>
+      <div class="phase-goal">🎯 Mở kênh Affiliate, Sale Kit chuẩn hóa, Rule Builder đầy đủ cơ chế cơ bản</div>
+      <div class="phase-features"><strong>Features:</strong> F02, F09 (Streak/Team/Combo/Revenue/Mystery), F11, F12, F13, F14 (Aff LB)</div>
+    </div>
+    <div class="phase-card p4">
+      <div class="phase-num">Phase 4</div>
+      <div class="phase-name">Gamification nâng cao</div>
+      <div class="phase-goal">🎯 Tăng engagement, cạnh tranh lành mạnh giữa người dùng</div>
+      <div class="phase-features"><strong>Features:</strong> F09 (Endurance/Tournament/Flash Week/Point Auction), F15, Báo cáo Staff vs Affiliate</div>
+    </div>
+    <div class="phase-card p5">
+      <div class="phase-num">Phase 5</div>
+      <div class="phase-name">Tích hợp tài chính & Automation</div>
+      <div class="phase-goal">🎯 Chi trả Affiliate tự động, kết nối hệ sinh thái</div>
+      <div class="phase-features"><strong>Features:</strong> MoMo/ZaloPay, Webhook, Thư viện template campaign</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 17 -->
+<div class="section" id="s17">
+  <div class="section-header">
+    <div class="section-num">17</div>
+    <div class="section-title">Rủi ro & Giả định</div>
+  </div>
+
+  <h3>17.1. Rủi ro từ góc nhìn business</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Rủi ro</th><th>Impact</th><th>Mitigation</th></tr>
+      <tr><td>Staff không adopt app, giữ thói quen cũ</td><td class="risk-high">Cao</td><td>Onboarding training, Sale Kit đơn giản hóa, tracking hiệu quả rõ ràng</td></tr>
+      <tr><td>POS hiện tại không có API hoặc API không ổn định</td><td class="risk-mid">Trung bình</td><td>Revenue Share và báo cáo tài chính chi tiết phụ thuộc POS — cần xác nhận trước Phase 2</td></tr>
+      <tr><td>Affiliate gian lận qua self-referral hoặc lead ảo</td><td class="risk-high">Cao</td><td>First-click attribution, OTP bắt buộc, IP limit, thời gian chờ 30 ngày, KYC</td></tr>
+      <tr><td>Sale Kit lỗi thời nếu admin không cập nhật đúng hạn</td><td class="risk-mid">Trung bình</td><td>Cảnh báo admin khi kit sắp hết hạn. Cần quy trình nội bộ cập nhật hàng tháng</td></tr>
+      <tr><td>Thiếu dữ liệu lịch sử KH để check eligibility 12 tháng</td><td class="risk-high">Cao</td><td>Cần import dữ liệu check-in lịch sử từ POS trước khi go-live Phase 1</td></tr>
+    </table>
+  </div>
+
+  <h3>17.2. Giả định</h3>
+  <ul class="ac-list">
+    <li>Công ty đã có POS/hệ thống quản lý booking — platform này thay thế luồng telesale, không thay thế POS</li>
+    <li>Dữ liệu check-in lịch sử KH có thể export từ POS để import vào hệ thống mới</li>
+    <li>Múi giờ hệ thống: Vietnam (GMT+7) duy nhất</li>
+    <li>Tất cả chi nhánh trong Việt Nam — không có chi nhánh nước ngoài</li>
+    <li>Admin panel là một phần của web app, phân quyền theo role</li>
+    <li>Số followers Affiliate tự báo cáo khi đăng ký — hệ thống không tự xác minh qua API MXH</li>
+    <li>Phần thưởng Staff không tích hợp API HR/lương — chỉ xuất file báo cáo</li>
+  </ul>
+
+  <h3>17.3. Phụ thuộc</h3>
+  <ul class="ac-list">
+    <li>Dữ liệu lịch sử check-in KH từ POS → cần trước khi go-live Phase 1</li>
+    <li>API credentials POS/CRM → cần trước Phase 2</li>
+    <li>Zalo OA đã đăng ký và cấp key → cần trước Phase 2</li>
+    <li>Design Figma hoặc brand guidelines → cần trước khi code frontend</li>
+    <li>Nội dung Sale Kit tháng đầu (content, hình ảnh) → cần từ Phase 3</li>
+    <li>Danh sách chi nhánh và dịch vụ đầy đủ → cần từ Phase 1</li>
+  </ul>
+</div>
+
+<!-- SECTION 18 -->
+<div class="section" id="s18">
+  <div class="section-header">
+    <div class="section-num">18</div>
+    <div class="section-title">Open Questions</div>
+  </div>
+
+  <ul class="open-q">
+    <li>⏱ <strong>Timeline:</strong> Mong muốn go-live Phase 1 trong bao nhiêu tuần/tháng?</li>
+    <li>🏢 <strong>Số lượng chi nhánh</strong> hiện tại và dự kiến mở rộng?</li>
+    <li>🏪 <strong>POS hiện tại là phần mềm gì?</strong> Có API sẵn không? (ảnh hưởng timeline Phase 2)</li>
+    <li>📦 <strong>Dữ liệu lịch sử KH:</strong> Có thể export từ hệ thống cũ không? Định dạng gì?</li>
+    <li>👥 <strong>Điều kiện tự động duyệt Affiliate</strong> theo followers tự báo cáo: chấp nhận rủi ro không chính xác, hay muốn thêm bước xác minh?</li>
+    <li>⚡ <strong>Flash Week và Endurance:</strong> Áp dụng riêng cho Staff, riêng cho Affiliate, hay kết hợp cả hai trong 1 campaign?</li>
+  </ul>
+</div>
+
+<!-- SECTION 19 -->
+<div class="section" id="s19">
+  <div class="section-header">
+    <div class="section-num">19</div>
+    <div class="section-title">Glossary</div>
+  </div>
+
+  <div class="glossary-grid">
+    <div class="glossary-item"><div class="term">Staff</div><div class="def">Nhân viên nội bộ tham gia chương trình giới thiệu</div></div>
+    <div class="glossary-item"><div class="term">Affiliate (CTV)</div><div class="def">Cộng tác viên bên ngoài, có kênh MXH cá nhân</div></div>
+    <div class="glossary-item"><div class="term">Lead</div><div class="def">Lượt KH điền form / đặt lịch hợp lệ qua link/QR của referrer</div></div>
+    <div class="glossary-item"><div class="term">Booking</div><div class="def">Lịch hẹn dịch vụ được tạo thành công trong hệ thống</div></div>
+    <div class="glossary-item"><div class="term">Check-in</div><div class="def">KH thực sự đến chi nhánh và được xác nhận có mặt</div></div>
+    <div class="glossary-item"><div class="term">Referrer</div><div class="def">Người giới thiệu — Staff hoặc Affiliate</div></div>
+    <div class="glossary-item"><div class="term">Campaign</div><div class="def">Chiến dịch giới thiệu với ngân sách, KPI và luật thưởng riêng</div></div>
+    <div class="glossary-item"><div class="term">First-click attribution</div><div class="def">Quy tắc: chỉ Affiliate đầu tiên mà KH click link được hưởng hoa hồng</div></div>
+    <div class="glossary-item"><div class="term">KYC</div><div class="def">Know Your Customer — xác minh danh tính Affiliate bằng CCCD + tài khoản ngân hàng (manual)</div></div>
+    <div class="glossary-item"><div class="term">Phase động (Tiered)</div><div class="def">Cơ chế thưởng giảm dần theo từng giai đoạn khi số lead tăng</div></div>
+    <div class="glossary-item"><div class="term">Streak</div><div class="def">Số ngày liên tiếp có lead — càng dài, hệ số nhân thưởng càng cao</div></div>
+    <div class="glossary-item"><div class="term">Blind auction</div><div class="def">Đấu giá mù: người tham gia không thấy mức bid của người khác</div></div>
+    <div class="glossary-item"><div class="term">Sale Kit</div><div class="def">Bộ công cụ và nội dung sẵn sàng để Staff/Affiliate chia sẻ</div></div>
+    <div class="glossary-item"><div class="term">Eligibility</div><div class="def">Điều kiện hợp lệ: KH mới hoặc chưa check-in trong 12 tháng</div></div>
+    <div class="glossary-item"><div class="term">Show-up rate</div><div class="def">Tỉ lệ KH đặt lịch và thực sự đến chi nhánh (checkin/booking)</div></div>
+    <div class="glossary-item"><div class="term">No-show</div><div class="def">KH đặt lịch nhưng không đến — không tính hoa hồng</div></div>
+  </div>
+</div>
+
+<!-- SECTION 20 -->
+<div class="section" id="s20">
+  <div class="section-header">
+    <div class="section-num">20</div>
+    <div class="section-title">Changelog</div>
+  </div>
+  <div class="card">
+    <div class="changelog-item">
+      <span class="changelog-ver">v1.0</span>
+      <span class="changelog-date">2026-04-24</span>
+      <span class="changelog-text">Initial draft — phân tích nhu cầu thị trường thẩm mỹ viện/spa Việt Nam, phát triển đầy đủ 3 luồng booking, 11 cơ chế thưởng, Sale Kit động, Leaderboard tách biệt Staff/Affiliate.</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- .content -->
+</div><!-- #main -->
+
+<script>
+  // Active sidebar link on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const links = document.querySelectorAll('#sidebar nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+    links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + current); });
+  });
+</script>
+</body>
+</html>
