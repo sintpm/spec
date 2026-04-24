@@ -202,8 +202,144 @@
   .changelog-date { font-size: 12px; color: var(--text-muted); width: 90px; flex-shrink: 0; padding-top: 3px; }
   .changelog-text { font-size: 13px; }
 
+  /* ── HAMBURGER BUTTON (mobile only) ── */
+  #menu-toggle {
+    display: none;
+    position: fixed; top: 12px; left: 12px; z-index: 200;
+    width: 44px; height: 44px; border-radius: 10px;
+    background: #0d2137; border: none; cursor: pointer;
+    flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.35);
+  }
+  #menu-toggle span {
+    display: block; width: 22px; height: 2.5px;
+    background: #bde3fd; border-radius: 2px; transition: all .25s;
+  }
+  #menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  #menu-toggle.open span:nth-child(2) { opacity: 0; }
+  #menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* ── SIDEBAR OVERLAY (mobile) ── */
+  #sidebar-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5);
+    z-index: 99; backdrop-filter: blur(2px);
+  }
+  #sidebar-overlay.show { display: block; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    :root { --sidebar-w: 280px; }
+
+    #menu-toggle { display: flex; }
+
+    /* Sidebar slides in from left */
+    #sidebar {
+      transform: translateX(-100%);
+      transition: transform .28s cubic-bezier(.4,0,.2,1);
+      z-index: 150;
+    }
+    #sidebar.open { transform: translateX(0); }
+
+    /* Main fills full width */
+    #main { margin-left: 0; padding-bottom: 60px; }
+
+    /* Hero */
+    .hero { padding: 56px 20px 28px; }
+    .hero h1 { font-size: 21px; line-height: 1.3; }
+    .hero .tagline { font-size: 14px; }
+    .hero .meta-grid { gap: 14px; }
+    .hero .meta-item .label { font-size: 11px; }
+    .hero .meta-item .val { font-size: 13.5px; }
+
+    /* Content */
+    .content { padding: 0 16px; }
+    .section { margin-top: 36px; }
+    .section-title { font-size: 17px; }
+
+    /* Typography — bigger & clearer on small screens */
+    h3 { font-size: 16px; margin: 18px 0 10px; }
+    h4 { font-size: 14.5px; }
+    p  { font-size: 14.5px; line-height: 1.65; }
+
+    /* Cards */
+    .card { padding: 16px; }
+    .feature-header { flex-wrap: wrap; gap: 6px; }
+    .feature-title { font-size: 15px; }
+
+    /* AC list */
+    .ac-list li { font-size: 14px; padding: 7px 0; }
+
+    /* Tables */
+    table { font-size: 13.5px; }
+    th { font-size: 12px; padding: 9px 10px; }
+    td { padding: 8px 10px; font-size: 13.5px; }
+
+    /* User story */
+    .user-story { font-size: 14px; }
+
+    /* Flow box */
+    .flow-box { font-size: 12px; padding: 14px 14px; }
+
+    /* Grids → single column */
+    .phase-grid,
+    .rule-grid,
+    .entity-grid,
+    .glossary-grid,
+    .nfr-grid { grid-template-columns: 1fr; }
+
+    /* Two-column in-scope/out-of-scope → stack */
+    div[style*="grid-template-columns:1fr 1fr"] { display: block !important; }
+    div[style*="grid-template-columns:1fr 1fr"] > .card { margin-bottom: 12px; }
+
+    /* Sale Kit two-col → stack */
+    div[style*="grid-template-columns:1fr 1fr; gap:16px"] { display: block !important; }
+
+    /* Integration rows → stack */
+    .integration-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .int-name { width: auto; font-size: 14px; }
+    .int-desc { font-size: 13.5px; }
+
+    /* Open questions */
+    .open-q li { font-size: 14px; padding: 10px 12px; }
+
+    /* Glossary */
+    .glossary-item .term { font-size: 14px; }
+    .glossary-item .def  { font-size: 13.5px; }
+
+    /* NFR cards */
+    .nfr-card ul li { font-size: 13.5px; padding: 5px 0; }
+    .nfr-card .nfr-title { font-size: 13px; }
+
+    /* Phase cards */
+    .phase-card .phase-name { font-size: 15px; }
+    .phase-card .phase-goal { font-size: 13.5px; }
+    .phase-card .phase-features { font-size: 13px; }
+
+    /* Rule cards */
+    .rule-card .rule-name { font-size: 15px; }
+    .rule-card .rule-desc { font-size: 13.5px; }
+    .rule-card .rule-example { font-size: 12.5px; }
+
+    /* Entity cards */
+    .entity-card .entity-name { font-size: 14px; }
+    .entity-card .entity-desc { font-size: 13px; }
+    .entity-card .entity-attrs { font-size: 12.5px; }
+
+    /* Badges wrap */
+    .badge-must, .badge-should, .badge-could, .badge-phase { font-size: 12px; padding: 3px 9px; }
+
+    /* Changelog */
+    .changelog-item { flex-direction: column; gap: 6px; }
+    .changelog-date { width: auto; }
+    .changelog-text { font-size: 14px; }
+
+    /* Section number circle */
+    .section-num { width: 30px; height: 30px; font-size: 13px; }
+  }
+
+  /* ── PRINT ── */
   @media print {
-    #sidebar { display: none; }
+    #sidebar, #menu-toggle, #sidebar-overlay { display: none; }
     #main { margin-left: 0; }
     .hero { background: #0d2137 !important; -webkit-print-color-adjust: exact; }
     .card { break-inside: avoid; }
@@ -211,6 +347,12 @@
 </style>
 </head>
 <body>
+
+<!-- HAMBURGER (mobile) -->
+<button id="menu-toggle" aria-label="Mở menu">
+  <span></span><span></span><span></span>
+</button>
+<div id="sidebar-overlay"></div>
 
 <!-- SIDEBAR -->
 <nav id="sidebar">
@@ -1221,14 +1363,28 @@ S05 Đăng ký → Email xác nhận → [Chờ duyệt] → Admin duyệt (S20)
 </div><!-- #main -->
 
 <script>
-  // Active sidebar link on scroll
+  // ── Active sidebar link on scroll ──
   const sections = document.querySelectorAll('.section[id]');
-  const links = document.querySelectorAll('#sidebar nav a');
+  const links    = document.querySelectorAll('#sidebar nav a');
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
-    links.forEach(l => { l.classList.toggle('active', l.getAttribute('href') === '#' + current); });
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
   });
+
+  // ── Mobile hamburger ──
+  const toggle  = document.getElementById('menu-toggle');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+
+  function openSidebar()  { sidebar.classList.add('open'); overlay.classList.add('show'); toggle.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('show'); toggle.classList.remove('open'); document.body.style.overflow = ''; }
+
+  toggle.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+  overlay.addEventListener('click', closeSidebar);
+
+  // Close sidebar when a nav link is tapped on mobile
+  links.forEach(l => l.addEventListener('click', () => { if (window.innerWidth <= 768) closeSidebar(); }));
 </script>
 </body>
 </html>
