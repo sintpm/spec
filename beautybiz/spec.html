@@ -202,6 +202,42 @@
   .changelog-date { font-size: 12px; color: var(--text-muted); width: 90px; flex-shrink: 0; padding-top: 3px; }
   .changelog-text { font-size: 13px; }
 
+  /* ── PROMOTION ── */
+  .promo-new-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: linear-gradient(90deg,#f59e0b,#ef4444); color:#fff;
+    font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 12px;
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .promo-type-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 14px 0; }
+  .promo-type-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; text-align: center; }
+  .promo-type-card .pt-icon { font-size: 28px; margin-bottom: 6px; }
+  .promo-type-card .pt-name { font-size: 13.5px; font-weight: 700; color: var(--text); }
+  .promo-type-card .pt-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .promo-banner-mockup {
+    background: linear-gradient(120deg,#fff7ed,#fef3c7);
+    border: 2px dashed var(--amber); border-radius: 12px; padding: 18px 20px; margin: 12px 0;
+  }
+  .promo-banner-mockup .pb-tag { font-size: 11px; font-weight: 700; color: var(--amber); text-transform: uppercase; letter-spacing: .06em; }
+  .promo-banner-mockup .pb-headline { font-size: 18px; font-weight: 800; color: #92400e; margin: 4px 0; }
+  .promo-banner-mockup .pb-sub { font-size: 13px; color: #78350f; }
+  .promo-banner-mockup .pb-meta { display: flex; gap: 16px; margin-top: 10px; font-size: 12px; color: #92400e; }
+  .promo-banner-mockup .pb-meta span { display: flex; align-items: center; gap: 4px; }
+  .promo-flow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .promo-flow-step { background: var(--card); border: 1px solid var(--border); padding: 16px 14px; position: relative; text-align: center; }
+  .promo-flow-step:not(:last-child)::after { content:"→"; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--primary); z-index: 1; }
+  .promo-flow-step .pfs-num { width: 28px; height: 28px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin: 0 auto 8px; }
+  .promo-flow-step .pfs-label { font-size: 12.5px; font-weight: 700; }
+  .promo-flow-step .pfs-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 3px; }
+  @media (max-width: 768px) {
+    .promo-type-grid { grid-template-columns: 1fr 1fr; }
+    .promo-flow-grid { grid-template-columns: 1fr; }
+    .promo-flow-step:not(:last-child)::after { content:"↓"; right: auto; top: auto; bottom: -14px; left: 50%; transform: translateX(-50%); }
+    .promo-flow-step { padding: 14px; }
+    .promo-banner-mockup .pb-headline { font-size: 15px; }
+    .promo-banner-mockup .pb-meta { flex-direction: column; gap: 4px; }
+  }
+
   /* ── HAMBURGER BUTTON (mobile only) ── */
   #menu-toggle {
     display: none;
@@ -375,7 +411,8 @@
     <a href="#s5">5. Nhắc lịch tự động</a>
     <a href="#s6">6. Campaign Builder</a>
     <a href="#s7">7. Rule Builder (11 cơ chế)</a>
-    <a href="#s8">8. Sale Kit động</a>
+    <a href="#s-promo" style="color:#fcd34d; font-weight:700;">★ 8. Promotion cho KH</a>
+    <a href="#s8">9. Sale Kit động</a>
     <a href="#s9">9. Leaderboard & Gamification</a>
     <a href="#s10">10. Chống gian lận</a>
     <a href="#s11">11. Quản trị Admin</a>
@@ -815,6 +852,309 @@
       <div class="rule-example">1 lead hợp lệ = 10 điểm<br>Điểm tích lũy vĩnh viễn<br>Blind auction: không thấy bid người khác<br>VD: Tour Đà Nẵng · bid tối thiểu 30 điểm</div>
     </div>
   </div>
+</div>
+
+<!-- SECTION PROMO -->
+<div class="section" id="s-promo">
+  <div class="section-header">
+    <div class="section-num" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">★</div>
+    <div class="section-title">Promotion cho Khách hàng</div>
+    <span class="promo-new-badge">Mới</span>
+  </div>
+
+  <!-- WHY -->
+  <div class="card info" style="margin-bottom:20px;">
+    <strong>Phân tích vấn đề:</strong> Affiliate/Staff chia sẻ link để kiếm hoa hồng — nhưng nếu khách hàng mở link mà <em>không thấy lợi ích gì cho bản thân</em>, tỉ lệ chốt booking sẽ thấp. Promotion giải quyết chính xác điểm này: khách hàng nhận được ưu đãi thực, referrer chốt được lead, cả hai bên đều có động lực. Promotion được thiết lập theo từng campaign — admin kiểm soát hoàn toàn loại ưu đãi, điều kiện áp dụng, ngân sách và cách hiển thị.
+  </div>
+
+  <!-- PROMO TYPES -->
+  <h3>Các loại Promotion hỗ trợ</h3>
+  <div class="promo-type-grid">
+    <div class="promo-type-card">
+      <div class="pt-icon">💸</div>
+      <div class="pt-name">Giảm giá trực tiếp</div>
+      <div class="pt-desc">Giảm % hoặc số tiền cố định cho dịch vụ đầu tiên</div>
+    </div>
+    <div class="promo-type-card">
+      <div class="pt-icon">🎁</div>
+      <div class="pt-name">Tặng dịch vụ kèm</div>
+      <div class="pt-desc">Tặng thêm dịch vụ phụ khi sử dụng dịch vụ chính</div>
+    </div>
+    <div class="promo-type-card">
+      <div class="pt-icon">🎟️</div>
+      <div class="pt-name">Voucher lần sau</div>
+      <div class="pt-desc">KH nhận voucher sau check-in để dùng lần tiếp theo</div>
+    </div>
+    <div class="promo-type-card">
+      <div class="pt-icon">📦</div>
+      <div class="pt-name">Bundle / Combo</div>
+      <div class="pt-desc">Mua combo dịch vụ giá ưu đãi so với mua lẻ</div>
+    </div>
+    <div class="promo-type-card">
+      <div class="pt-icon">⚡</div>
+      <div class="pt-name">Flash Deal</div>
+      <div class="pt-desc">Ưu đãi giới hạn thời gian và số lượng — tạo urgency</div>
+    </div>
+  </div>
+
+  <!-- FLOW OVERVIEW -->
+  <h3>Luồng tổng quan: KH nhận Promotion</h3>
+  <div class="promo-flow-grid" style="border-radius:10px; overflow:hidden; border:1px solid var(--border);">
+    <div class="promo-flow-step">
+      <div class="pfs-num">1</div>
+      <div class="pfs-label">Mở Link / QR</div>
+      <div class="pfs-sub">Promotion banner hiển thị nổi bật trên landing page</div>
+    </div>
+    <div class="promo-flow-step">
+      <div class="pfs-num">2</div>
+      <div class="pfs-label">Đặt lịch</div>
+      <div class="pfs-sub">Promotion tự động gắn vào booking — không cần nhập code</div>
+    </div>
+    <div class="promo-flow-step">
+      <div class="pfs-num">3</div>
+      <div class="pfs-label">SMS xác nhận</div>
+      <div class="pfs-sub">KH nhận nhắc nhở ưu đãi đang chờ tại chi nhánh</div>
+    </div>
+    <div class="promo-flow-step">
+      <div class="pfs-num">4</div>
+      <div class="pfs-label">Check-in</div>
+      <div class="pfs-sub">Lễ tân thấy ưu đãi trong hệ thống → áp dụng đúng</div>
+    </div>
+    <div class="promo-flow-step">
+      <div class="pfs-num">5</div>
+      <div class="pfs-label">Nhận ưu đãi</div>
+      <div class="pfs-sub">Giảm giá / tặng dịch vụ / nhận voucher qua SMS</div>
+    </div>
+    <div class="promo-flow-step">
+      <div class="pfs-num">6</div>
+      <div class="pfs-label">Referrer chốt</div>
+      <div class="pfs-sub">Lead được ghi nhận, hoa hồng referrer vào hàng đợi</div>
+    </div>
+  </div>
+
+  <!-- MOCKUP BANNER -->
+  <h3>Giao diện KH thấy trên Landing Page</h3>
+  <div class="promo-banner-mockup">
+    <div class="pb-tag">🎉 Ưu đãi dành riêng cho bạn</div>
+    <div class="pb-headline">Giảm 30% dịch vụ đầu tiên — tặng thêm rửa mặt</div>
+    <div class="pb-sub">Áp dụng cho khách hàng mới đặt lịch qua link này. Không cần nhập mã.</div>
+    <div class="pb-meta">
+      <span>⏱ Còn 2 ngày 14 giờ</span>
+      <span>👤 Còn 47 / 100 suất</span>
+      <span>✅ Áp dụng tự động khi đặt lịch</span>
+    </div>
+  </div>
+  <p style="font-size:13px; color:var(--text-muted); margin-top:-4px;">* Mockup minh họa — nội dung thực tế do Admin cấu hình</p>
+
+  <!-- FEATURE F-PROMO-01 -->
+  <div class="card feature" style="margin-top:20px;">
+    <div class="feature-header">
+      <span class="feature-id">F-PROMO-01</span>
+      <span class="feature-title">Tạo & cấu hình Promotion (Admin)</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 2</span>
+    </div>
+    <div class="user-story">Là <strong>Admin</strong>, tôi muốn <strong>gắn ưu đãi cho KH vào từng campaign</strong>, để <strong>tăng tỉ lệ chốt booking từ link của Staff và Affiliate</strong>.</div>
+
+    <h4>Thông tin cơ bản</h4>
+    <ul class="ac-list">
+      <li>Admin tạo promotion trong giao diện Campaign Builder — như một tab/bước riêng sau khi cấu hình Rule Builder</li>
+      <li>Mỗi campaign có thể có <strong>0 hoặc 1 promotion đang active</strong> tại một thời điểm</li>
+      <li>Promotion có thể lên lịch tự động theo ngày giờ (VD: chỉ áp dụng cuối tuần) hoặc chạy suốt campaign</li>
+    </ul>
+
+    <h4>Cấu hình theo loại Promotion</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Loại</th><th>Tham số cần cấu hình</th><th>Ví dụ</th></tr>
+        <tr>
+          <td><strong>💸 Giảm giá</strong></td>
+          <td>Loại giảm (% / số tiền cố định), giá trị, dịch vụ áp dụng</td>
+          <td>Giảm 30% hoặc giảm 200.000đ cho dịch vụ phun môi</td>
+        </tr>
+        <tr>
+          <td><strong>🎁 Tặng dịch vụ</strong></td>
+          <td>Tên dịch vụ tặng kèm, điều kiện (dịch vụ chính tối thiểu bao nhiêu)</td>
+          <td>Tặng rửa mặt (trị giá 150.000đ) khi làm tóc từ 500.000đ trở lên</td>
+        </tr>
+        <tr>
+          <td><strong>🎟️ Voucher lần sau</strong></td>
+          <td>Giá trị voucher, thời hạn voucher (ngày), dịch vụ áp dụng voucher</td>
+          <td>Nhận voucher 100.000đ dùng trong 30 ngày cho lần sau</td>
+        </tr>
+        <tr>
+          <td><strong>📦 Bundle</strong></td>
+          <td>Danh sách dịch vụ trong combo, giá combo, giá lẻ tổng cộng để so sánh</td>
+          <td>Combo phun môi + điêu khắc mày: 3.500.000đ (tiết kiệm 800.000đ)</td>
+        </tr>
+        <tr>
+          <td><strong>⚡ Flash Deal</strong></td>
+          <td>Loại ưu đãi, thời điểm bắt đầu/kết thúc, số lượng suất giới hạn</td>
+          <td>50 suất đầu tiên: giảm 50% — chỉ từ 9:00–12:00 thứ 7</td>
+        </tr>
+      </table>
+    </div>
+
+    <h4>Điều kiện áp dụng</h4>
+    <ul class="ac-list">
+      <li><strong>Đối tượng nhận promotion:</strong> chỉ KH đủ điều kiện eligibility (mới hoặc &gt;12 tháng chưa đến) <em>hoặc</em> tất cả KH đặt qua link campaign — Admin chọn</li>
+      <li><strong>Giới hạn lượt:</strong> tổng số KH được nhận promotion (VD: 100 suất), sau khi hết suất promotion không hiển thị nữa nhưng booking vẫn diễn ra bình thường</li>
+      <li><strong>Giới hạn per-user:</strong> mỗi SĐT chỉ nhận promotion 1 lần trong campaign (chống lạm dụng)</li>
+      <li><strong>Dịch vụ áp dụng:</strong> tất cả dịch vụ trong campaign hoặc chọn dịch vụ cụ thể</li>
+      <li><strong>Chi nhánh áp dụng:</strong> tất cả chi nhánh trong campaign hoặc chọn cụ thể</li>
+      <li><strong>Budget promotion riêng:</strong> Admin đặt ngân sách cho promotion tách biệt với ngân sách hoa hồng referrer</li>
+    </ul>
+
+    <h4>Quản lý trạng thái</h4>
+    <ul class="ac-list">
+      <li>Trạng thái promotion: Draft / Scheduled / Active / Paused / Ended (hết hạn) / Depleted (hết suất)</li>
+      <li>Admin tạm dừng promotion đang chạy bất kỳ lúc nào — booking đang pending giữ nguyên promotion đã gắn</li>
+      <li>Admin thay đổi giá trị promotion đang chạy: chỉ áp dụng cho booking mới, không hồi tố</li>
+      <li>Mọi thay đổi có audit log</li>
+    </ul>
+  </div>
+
+  <!-- FEATURE F-PROMO-02 -->
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F-PROMO-02</span>
+      <span class="feature-title">Hiển thị Promotion trên Landing Page (KH)</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 2</span>
+    </div>
+    <div class="user-story">Là <strong>KH nhận link từ người quen</strong>, tôi muốn <strong>thấy ngay ưu đãi tôi sẽ nhận được khi đặt lịch</strong>, để <strong>có thêm lý do thực sự để chốt booking ngay bây giờ</strong>.</div>
+    <ul class="ac-list">
+      <li>Promotion banner hiển thị <strong>nổi bật trên đầu landing page</strong>, trước khi KH nhập SĐT — không cần scroll</li>
+      <li>Banner gồm: tag "Ưu đãi dành riêng cho bạn", tiêu đề promotion, mô tả ngắn gọn điều kiện, thông báo "Áp dụng tự động — không cần nhập mã"</li>
+      <li><strong>Flash Deal:</strong> hiển thị countdown timer realtime (giờ:phút:giây) và số suất còn lại</li>
+      <li><strong>Giới hạn số lượng:</strong> hiển thị "Còn X suất" — cập nhật realtime (hoặc refresh mỗi 30 giây)</li>
+      <li>Khi promotion hết suất hoặc hết hạn: banner biến mất hoàn toàn, landing page vẫn hoạt động bình thường (không hiển thị "đã hết ưu đãi" để tránh làm nản lòng KH)</li>
+      <li>Khi KH không đủ điều kiện eligibility (đã đến trong 12 tháng): nếu admin chọn "chỉ KH mới" thì không hiển thị banner — booking vẫn diễn ra bình thường không promotion</li>
+      <li>Trên trang xác nhận booking (sau khi đặt lịch thành công): hiển thị lại ưu đãi KH sẽ nhận, hướng dẫn cụ thể cách nhận (VD: "Nhắc nhân viên lễ tân khi đến chi nhánh")</li>
+    </ul>
+
+    <h4>Quy tắc hiển thị theo loại promotion</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Loại</th><th>Landing page</th><th>Trang xác nhận booking</th><th>SMS xác nhận</th></tr>
+        <tr><td>💸 Giảm giá</td><td>Banner + giá trị giảm rõ ràng</td><td>"Bạn sẽ được giảm X khi thanh toán"</td><td>"Ưu đãi: giảm X — nhắc lễ tân khi đến"</td></tr>
+        <tr><td>🎁 Tặng dịch vụ</td><td>Banner + tên dịch vụ tặng kèm</td><td>"Bạn sẽ nhận [tên DV] miễn phí"</td><td>"Ưu đãi: tặng [DV] — nhắc lễ tân khi đến"</td></tr>
+        <tr><td>🎟️ Voucher</td><td>Banner + giá trị voucher</td><td>"Voucher X sẽ gửi SMS sau khi bạn check-in"</td><td>"Ưu đãi: nhận voucher X sau check-in"</td></tr>
+        <tr><td>📦 Bundle</td><td>Banner + giá combo vs giá lẻ</td><td>"Combo đã đặt: [DV1] + [DV2] — giá X"</td><td>"Combo: [DV1] + [DV2] — giá X"</td></tr>
+        <tr><td>⚡ Flash Deal</td><td>Banner + countdown + còn X suất</td><td>"Chúc mừng! Bạn đã giữ được suất ưu đãi"</td><td>"Ưu đãi Flash: giảm X — nhắc lễ tân"</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- FEATURE F-PROMO-03 -->
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F-PROMO-03</span>
+      <span class="feature-title">Áp dụng Promotion tại điểm chốt</span>
+      <span class="badge-must">Must</span>
+      <span class="badge-phase">Phase 2</span>
+    </div>
+
+    <h4>Tại quầy check-in (Lễ tân)</h4>
+    <ul class="ac-list">
+      <li>Khi Lễ tân tra cứu booking của KH: hệ thống hiển thị nổi bật banner promotion gắn với booking đó</li>
+      <li>Banner cho Lễ tân gồm: tên promotion, hành động cần làm (VD: "Giảm 200.000đ khi thanh toán" / "Tặng thêm rửa mặt" / "Ghi nhận để gửi voucher SMS")</li>
+      <li>Lễ tân xác nhận đã áp dụng promotion → hệ thống ghi nhận (timestamp, người xác nhận)</li>
+      <li>Với <strong>Voucher lần sau</strong>: sau khi Lễ tân xác nhận check-in → hệ thống tự động gửi SMS voucher code cho KH trong vòng 5 phút</li>
+      <li>Nếu Lễ tân skip không xác nhận: hệ thống cảnh báo "Booking này có promotion chưa áp dụng"</li>
+    </ul>
+
+    <h4>Voucher — cơ chế</h4>
+    <ul class="ac-list">
+      <li>Voucher code được generate tự động (unique per KH per campaign)</li>
+      <li>Format: <code>BB-XXXX-XXXX</code> — 8 ký tự ngẫu nhiên</li>
+      <li>KH nhận qua SMS: "Chúc mừng! Voucher [BB-XXXX-XXXX] trị giá X, hiệu lực đến [ngày]. Xuất trình khi đến BeautyBiz lần sau."</li>
+      <li>Lễ tân tra cứu và xác minh voucher khi KH đến dùng</li>
+      <li>Voucher chỉ dùng được 1 lần, hết hạn theo ngày cấu hình, không áp dụng cùng promotion khác</li>
+    </ul>
+
+    <h4>Luồng 2 (Staff đặt hộ) — áp dụng promotion</h4>
+    <ul class="ac-list">
+      <li>Khi Staff đặt lịch hộ KH: nếu campaign đang có promotion active → hệ thống tự động gắn vào booking</li>
+      <li>Staff thấy thông báo: "Khách hàng này sẽ nhận [tên promotion] — thông báo cho khách"</li>
+      <li>Luồng 3 (KH đến trực tiếp): Lễ tân nhập mã referral code → nếu campaign có promotion và KH đủ điều kiện → tự động gắn promotion vào check-in record</li>
+    </ul>
+
+    <h4>Edge cases</h4>
+    <ul class="ac-list">
+      <li>KH đặt lịch khi còn promotion → đến check-in nhưng promotion đã hết hạn/hết suất: vẫn áp dụng đủ (promotion đã gắn tại thời điểm booking)</li>
+      <li>KH hủy booking → promotion slot được trả lại (số suất tăng lại 1)</li>
+      <li>KH no-show (không đến): promotion không được áp dụng — slot trả lại sau 24 giờ kể từ giờ hẹn</li>
+      <li>Promotion bundle: nếu tại chi nhánh không có nhân viên làm dịch vụ kèm → Lễ tân có thể flag "không thể áp dụng" → gửi lên Quản lý CN giải quyết</li>
+    </ul>
+  </div>
+
+  <!-- FEATURE F-PROMO-04 -->
+  <div class="card feature">
+    <div class="feature-header">
+      <span class="feature-id">F-PROMO-04</span>
+      <span class="feature-title">Theo dõi hiệu quả Promotion (Admin)</span>
+      <span class="badge-should">Should</span>
+      <span class="badge-phase">Phase 2</span>
+    </div>
+    <div class="user-story">Là <strong>Admin</strong>, tôi muốn <strong>đo được promotion có thực sự giúp tăng conversion không</strong>, để <strong>tối ưu ngân sách và thiết kế ưu đãi tốt hơn cho campaign sau</strong>.</div>
+    <ul class="ac-list">
+      <li><strong>Promotion funnel:</strong> Landing page views → Booking (conversion rate) → Check-in (show-up rate) → Promotion redeemed</li>
+      <li><strong>Ngân sách promotion:</strong> tổng đã chi (số lượt × giá trị ưu đãi), % budget đã dùng, dự báo tổng chi khi hết suất</li>
+      <li><strong>So sánh:</strong> conversion rate của link có promotion vs link không có promotion trong cùng campaign (nếu admin chạy A/B)</li>
+      <li><strong>Voucher tracking:</strong> số voucher đã gửi, số voucher đã được dùng trong kỳ tiếp theo (retention metric)</li>
+      <li><strong>Cảnh báo:</strong> khi đã dùng 80% budget promotion hoặc còn dưới 10 suất</li>
+    </ul>
+
+    <h4>Tích hợp với báo cáo tổng (Admin Dashboard)</h4>
+    <ul class="ac-list">
+      <li>Dashboard thêm cột "Chi phí KH acquisition" = (hoa hồng referrer + giá trị promotion) / số KH thực sự thanh toán</li>
+      <li>Phân tích: campaign có promotion có chất lượng lead (show-up rate, doanh thu) tốt hơn không có promotion?</li>
+    </ul>
+  </div>
+
+  <!-- PERM UPDATE -->
+  <h3>Cập nhật phân quyền liên quan đến Promotion</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Chức năng</th><th>Staff</th><th>Affiliate</th><th>Lễ tân</th><th>QL CN</th><th>Admin</th></tr>
+      <tr><td>Thấy promotion trên landing page (KH)</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td><td class="dash">KH thấy</td></tr>
+      <tr><td>Tạo / sửa promotion</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td class="y">✓</td></tr>
+      <tr><td>Xác nhận áp dụng promotion tại quầy</td><td class="x">✗</td><td class="x">✗</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Flag "không thể áp dụng promotion"</td><td class="x">✗</td><td class="x">✗</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Tra cứu & xác minh voucher</td><td class="x">✗</td><td class="x">✗</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Xem báo cáo hiệu quả promotion</td><td class="x">✗</td><td class="x">✗</td><td class="x">✗</td><td>✓ (CN mình)</td><td class="y">✓</td></tr>
+    </table>
+  </div>
+
+  <!-- ENTITY ADD -->
+  <h3>Entity bổ sung</h3>
+  <div class="entity-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px,1fr));">
+    <div class="entity-card">
+      <div class="entity-name">Promotion</div>
+      <div class="entity-desc">Chương trình ưu đãi gắn với campaign</div>
+      <div class="entity-attrs">id, campaign_id, type,<br>value, value_type, conditions,<br>max_slots, slots_used,<br>budget, start_at, end_at, status</div>
+    </div>
+    <div class="entity-card">
+      <div class="entity-name">PromotionRedemption</div>
+      <div class="entity-desc">Lượt KH nhận promotion</div>
+      <div class="entity-attrs">id, promotion_id, booking_id,<br>customer_phone, redeemed_at,<br>confirmed_by, status</div>
+    </div>
+    <div class="entity-card">
+      <div class="entity-name">Voucher</div>
+      <div class="entity-desc">Voucher gửi cho KH sau check-in</div>
+      <div class="entity-attrs">id, promotion_id, customer_phone,<br>code, value, expires_at,<br>used_at, used_booking_id</div>
+    </div>
+  </div>
+
+  <!-- OPEN QUESTIONS -->
+  <h3>Câu hỏi mở — Promotion</h3>
+  <ul class="open-q">
+    <li>🏷️ <strong>Kết hợp promotion + Flash Week / Daily Mystery:</strong> Nếu campaign bật cả Rule Builder Flash Week (x2 hoa hồng cho referrer) VÀ promotion cho KH cùng lúc — cần xác nhận ngân sách tổng có tính cả hai không?</li>
+    <li>🎟️ <strong>Voucher cross-campaign:</strong> Voucher nhận từ campaign A có dùng được trong campaign B không? Hay chỉ dùng được tại chi nhánh trong hệ thống (không gắn campaign)?</li>
+    <li>📊 <strong>A/B testing promotion:</strong> Có nhu cầu test 2 loại promotion khác nhau trong cùng 1 campaign để so sánh hiệu quả không (VD: 50% link nhận giảm giá, 50% nhận voucher)?</li>
+    <li>💳 <strong>Giảm giá trực tiếp:</strong> Hệ thống có cần gửi tín hiệu giảm giá xuống POS tự động, hay Lễ tân áp dụng thủ công và POS nhập tay?</li>
+  </ul>
 </div>
 
 <!-- SECTION 8 -->
