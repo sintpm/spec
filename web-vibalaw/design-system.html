@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System — Vibalaw</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .ds-section { padding: var(--space-12) 0; border-bottom: 1px solid var(--color-border); }
+  .ds-section h2 { margin-bottom: var(--space-3); }
+  .ds-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+  .swatch { background: var(--color-bg-white); border: 1px solid var(--color-border); padding: var(--space-4); }
+  .swatch .chip { height: 100px; margin-bottom: var(--space-3); }
+  .swatch .name { font-weight: 600; font-size: var(--text-sm); margin-bottom: 4px; }
+  .swatch .meta { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+  .type-row { display: grid; grid-template-columns: 120px 1fr; gap: var(--space-6); padding: var(--space-5) 0; border-bottom: 1px solid var(--color-border); align-items: baseline; }
+  .type-row:last-child { border-bottom: 0; }
+  .type-row .meta { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); }
+  .demo-block { background: var(--color-bg-white); border: 1px solid var(--color-border); padding: var(--space-8); margin-bottom: var(--space-4); }
+  .demo-block.dark { background: var(--color-primary-darker); }
+</style>
+</head>
+<body>
+
+<header style="padding: var(--space-6) 0; background: var(--color-primary-darker); color: #fff;">
+  <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+    <div style="display:flex; align-items:center; gap: var(--space-3);">
+      <img src="logo.png" alt="Vibalaw" style="height:40px; filter:brightness(0) invert(1);">
+      <div style="border-left: 1px solid rgba(255,255,255,0.3); padding-left: var(--space-3); font-family: var(--font-heading); font-style: italic; color: var(--color-accent);">Design System</div>
+    </div>
+    <nav style="display:flex; gap: var(--space-5); font-size: var(--text-sm);">
+      <a href="index.html" style="color:rgba(255,255,255,0.8);">Homepage</a>
+      <a href="service-pillar.html" style="color:rgba(255,255,255,0.8);">Service</a>
+      <a href="attorney.html" style="color:rgba(255,255,255,0.8);">Attorney</a>
+      <a href="insight.html" style="color:rgba(255,255,255,0.8);">Insight</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="padding-top: var(--space-12); padding-bottom: var(--space-20);">
+
+  <div style="margin-bottom: var(--space-12);">
+    <span class="eyebrow">Vibalaw v1.0</span>
+    <h1 style="margin-bottom: var(--space-4);">Design System</h1>
+    <p class="lead">Guidelines, tokens và components cho website Vibalaw. Tinh thần "private banking aesthetic" — sang trọng, chuyên nghiệp, tin cậy.</p>
+  </div>
+
+  <!-- COLORS -->
+  <section class="ds-section">
+    <span class="ds-label">01</span>
+    <h2>Colors</h2>
+    <p class="text-muted" style="margin-bottom: var(--space-8);">Bảng màu được trích từ logo Vibalaw, kết hợp champagne gold accent để tạo "private banking aesthetic". Áp dụng nguyên tắc 60-30-10: 60% neutral, 30% navy, 10% gold accent.</p>
+
+    <h4 style="margin-bottom: var(--space-5);">Primary palette</h4>
+    <div class="grid grid-4" style="margin-bottom: var(--space-10);">
+      <div class="swatch"><div class="chip" style="background: #0F1A42;"></div><div class="name">Primary darker</div><div class="meta">#0F1A42</div></div>
+      <div class="swatch"><div class="chip" style="background: #1A2961;"></div><div class="name">Primary dark</div><div class="meta">#1A2961</div></div>
+      <div class="swatch"><div class="chip" style="background: #2D3F85;"></div><div class="name">Primary <span class="badge badge-primary" style="margin-left:6px;">Brand</span></div><div class="meta">#2D3F85</div></div>
+      <div class="swatch"><div class="chip" style="background: #4A5BA8;"></div><div class="name">Primary light</div><div class="meta">#4A5BA8</div></div>
+    </div>
+
+    <h4 style="margin-bottom: var(--space-5);">Accent (Champagne Gold)</h4>
+    <div class="grid grid-3" style="margin-bottom: var(--space-10);">
+      <div class="swatch"><div class="chip" style="background: #A88A47;"></div><div class="name">Accent dark</div><div class="meta">#A88A47</div></div>
+      <div class="swatch"><div class="chip" style="background: #C9A961;"></div><div class="name">Accent</div><div class="meta">#C9A961</div></div>
+      <div class="swatch"><div class="chip" style="background: #E8D5A1;"></div><div class="name">Accent light</div><div class="meta">#E8D5A1</div></div>
+    </div>
+
+    <h4 style="margin-bottom: var(--space-5);">Neutrals & Surfaces</h4>
+    <div class="grid grid-4" style="margin-bottom: var(--space-10);">
+      <div class="swatch"><div class="chip" style="background: #1A1A1A;"></div><div class="name">Text</div><div class="meta">#1A1A1A</div></div>
+      <div class="swatch"><div class="chip" style="background: #404040;"></div><div class="name">Text body</div><div class="meta">#404040</div></div>
+      <div class="swatch"><div class="chip" style="background: #6B7280;"></div><div class="name">Text muted</div><div class="meta">#6B7280</div></div>
+      <div class="swatch"><div class="chip" style="background: #9CA3AF;"></div><div class="name">Text subtle</div><div class="meta">#9CA3AF</div></div>
+      <div class="swatch"><div class="chip" style="background: #FFFFFF; border: 1px solid #E5E7EB;"></div><div class="name">White</div><div class="meta">#FFFFFF</div></div>
+      <div class="swatch"><div class="chip" style="background: #FAFAF7; border: 1px solid #E5E7EB;"></div><div class="name">BG cream</div><div class="meta">#FAFAF7</div></div>
+      <div class="swatch"><div class="chip" style="background: #F5F2EB; border: 1px solid #E5E7EB;"></div><div class="name">BG warm</div><div class="meta">#F5F2EB</div></div>
+      <div class="swatch"><div class="chip" style="background: #E5E7EB;"></div><div class="name">Border</div><div class="meta">#E5E7EB</div></div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="ds-section">
+    <span class="ds-label">02</span>
+    <h2>Typography</h2>
+    <p class="text-muted" style="margin-bottom: var(--space-8);">Headings dùng <strong>Playfair Display</strong> (serif cao cấp, gợi cảm giác classic legal). Body dùng <strong>Inter</strong> (sans-serif hiện đại, dễ đọc). Eyebrow + label dùng letter-spacing rộng cho cảm giác "premium magazine".</p>
+
+    <div style="background: var(--color-bg-white); border: 1px solid var(--color-border); padding: var(--space-8);">
+      <div class="type-row">
+        <span class="meta">H1 / 56–72px</span>
+        <h1 style="margin:0;">Vì Bạn, đồng hành cùng bạn</h1>
+      </div>
+      <div class="type-row">
+        <span class="meta">H2 / 40–56px</span>
+        <h2 style="margin:0;">Bảng phí tham khảo</h2>
+      </div>
+      <div class="type-row">
+        <span class="meta">H3 / 30–40px</span>
+        <h3 style="margin:0;">Quy trình xử lý 6 bước</h3>
+      </div>
+      <div class="type-row">
+        <span class="meta">H4 / 24px</span>
+        <h4 style="margin:0;">Đối tác pháp lý tin cậy</h4>
+      </div>
+      <div class="type-row">
+        <span class="meta">Lead / 18px</span>
+        <p class="lead" style="margin:0;">Hơn 15 năm kinh nghiệm tư vấn doanh nghiệp, đất đai, sở hữu trí tuệ và tố tụng.</p>
+      </div>
+      <div class="type-row">
+        <span class="meta">Body / 16px</span>
+        <p style="margin:0;">Vibalaw cung cấp dịch vụ pháp lý toàn diện cho hơn 800 doanh nghiệp tại Việt Nam — từ startup công nghệ đến tập đoàn niêm yết.</p>
+      </div>
+      <div class="type-row">
+        <span class="meta">Eyebrow / 12px</span>
+        <span class="eyebrow" style="margin:0;">Lĩnh vực hành nghề</span>
+      </div>
+      <div class="type-row">
+        <span class="meta">Caption / 12px</span>
+        <span style="font-size: var(--text-xs); color: var(--color-text-muted);">28 tháng 4, 2026 · 12 phút đọc</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACING & RADIUS -->
+  <section class="ds-section">
+    <span class="ds-label">03</span>
+    <h2>Spacing & Radius</h2>
+    <p class="text-muted" style="margin-bottom: var(--space-8);">Spacing scale 8px base. <strong>Sharp corners (0–4px radius)</strong> để giữ cảm giác cao cấp — tránh radius lớn vì gây cảm giác "tech consumer" thay vì "legal firm".</p>
+    <div style="background: var(--color-bg-white); border: 1px solid var(--color-border); padding: var(--space-8);">
+      <div style="display:flex; gap:var(--space-4); align-items:flex-end; flex-wrap:wrap; margin-bottom: var(--space-8);">
+        <div style="text-align:center;"><div style="width:16px; height:16px; background:var(--color-primary);"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">16px</div></div>
+        <div style="text-align:center;"><div style="width:24px; height:24px; background:var(--color-primary);"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">24px</div></div>
+        <div style="text-align:center;"><div style="width:32px; height:32px; background:var(--color-primary);"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">32px</div></div>
+        <div style="text-align:center;"><div style="width:48px; height:48px; background:var(--color-primary);"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">48px</div></div>
+        <div style="text-align:center;"><div style="width:64px; height:64px; background:var(--color-primary);"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">64px</div></div>
+        <div style="text-align:center;"><div style="width:96px; height:96px; background:var(--color-primary);"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">96px</div></div>
+      </div>
+      <div style="display:flex; gap:var(--space-4); align-items:flex-end;">
+        <div style="text-align:center;"><div style="width:80px; height:80px; background:var(--color-primary); border-radius:0;"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">0px (default)</div></div>
+        <div style="text-align:center;"><div style="width:80px; height:80px; background:var(--color-primary); border-radius:2px;"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">2px (sm)</div></div>
+        <div style="text-align:center;"><div style="width:80px; height:80px; background:var(--color-primary); border-radius:4px;"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">4px (md)</div></div>
+        <div style="text-align:center; opacity:0.4;"><div style="width:80px; height:80px; background:var(--color-primary); border-radius:8px;"></div><div style="font-family:var(--font-mono); font-size:11px; margin-top:6px;">8px (avoid)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="ds-section">
+    <span class="ds-label">04</span>
+    <h2>Buttons</h2>
+    <p class="text-muted" style="margin-bottom: var(--space-8);">5 variants × 3 sizes. Primary cho action chính (đặt lịch), Accent (gold) cho lời kêu gọi quan trọng nhất, Secondary cho action phụ, Ghost cho minor action.</p>
+    <div class="demo-block">
+      <p class="ds-label" style="margin-bottom: var(--space-3);">Default</p>
+      <div style="display:flex; gap:var(--space-3); flex-wrap:wrap; margin-bottom: var(--space-6);">
+        <button class="btn btn-primary">Đặt lịch tư vấn</button>
+        <button class="btn btn-accent">Tải tài liệu</button>
+        <button class="btn btn-secondary">Xem chi tiết</button>
+        <button class="btn btn-ghost">Hủy</button>
+      </div>
+      <p class="ds-label" style="margin-bottom: var(--space-3);">Large</p>
+      <div style="display:flex; gap:var(--space-3); flex-wrap:wrap; margin-bottom: var(--space-6);">
+        <button class="btn btn-primary btn-lg">Đặt lịch tư vấn</button>
+        <button class="btn btn-accent btn-lg">Tải tài liệu</button>
+        <button class="btn btn-secondary btn-lg">Xem chi tiết</button>
+      </div>
+      <p class="ds-label" style="margin-bottom: var(--space-3);">Small</p>
+      <div style="display:flex; gap:var(--space-3); flex-wrap:wrap;">
+        <button class="btn btn-primary btn-sm">Đặt lịch</button>
+        <button class="btn btn-accent btn-sm">Tải về</button>
+        <button class="btn btn-secondary btn-sm">Xem</button>
+      </div>
+    </div>
+    <div class="demo-block dark">
+      <p class="ds-label" style="margin-bottom: var(--space-3); color:rgba(255,255,255,0.6);">On dark background</p>
+      <div style="display:flex; gap:var(--space-3); flex-wrap:wrap;">
+        <button class="btn btn-accent btn-lg">Đặt lịch tư vấn</button>
+        <button class="btn btn-on-dark btn-lg">Hotline 1900 6868</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <section class="ds-section">
+    <span class="ds-label">05</span>
+    <h2>Badges & Tags</h2>
+    <div class="demo-block">
+      <div style="display:flex; gap:var(--space-3); flex-wrap:wrap; margin-bottom: var(--space-5);">
+        <span class="badge badge-primary">M&A</span>
+        <span class="badge badge-accent">Tải miễn phí</span>
+        <span class="badge badge-success">Đã verified</span>
+        <span class="badge badge-outline">Mới đăng</span>
+      </div>
+      <div style="display:flex; gap:var(--space-3); flex-wrap:wrap;">
+        <span class="card-tag">M&A · 12 phút đọc</span>
+        <span class="card-tag">Đất đai · 8 phút đọc</span>
+        <span class="card-tag">Q&A · Hôn nhân</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM ELEMENTS -->
+  <section class="ds-section">
+    <span class="ds-label">06</span>
+    <h2>Form Elements</h2>
+    <div class="grid grid-2">
+      <div class="form-card">
+        <h4 style="font-family:var(--font-heading); margin-bottom:var(--space-2);">Form trên nền sáng</h4>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); margin-bottom:var(--space-6);">Form đặt lịch tư vấn</p>
+        <div class="form-group">
+          <label class="form-label">Họ và tên <span class="required">*</span></label>
+          <input type="text" class="form-control" placeholder="Nguyễn Văn A">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email <span class="required">*</span></label>
+          <input type="email" class="form-control" placeholder="email@example.com">
+          <p class="form-help">Chúng tôi sẽ gửi xác nhận qua email này</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lĩnh vực cần tư vấn</label>
+          <select class="form-control">
+            <option>-- Chọn lĩnh vực --</option>
+            <option>Tư vấn doanh nghiệp</option>
+            <option>Đất đai - nhà ở</option>
+            <option>Hôn nhân gia đình</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mô tả vụ việc</label>
+          <textarea class="form-control" rows="3" placeholder="Mô tả ngắn gọn vấn đề của bạn..."></textarea>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" id="ds-consent">
+          <label for="ds-consent">Tôi đồng ý cho Vibalaw xử lý thông tin theo Chính sách bảo mật</label>
+        </div>
+        <button class="btn btn-primary" style="width:100%; margin-top:var(--space-4);">Gửi yêu cầu</button>
+      </div>
+      <div class="sidebar-card dark" style="margin:0;">
+        <h4 style="font-family:var(--font-heading); margin-bottom:var(--space-2);">Form trên nền tối</h4>
+        <p style="font-size:var(--text-sm); margin-bottom:var(--space-6);">Sticky sidebar form</p>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Họ và tên *" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); color:#fff;">
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-control" placeholder="Email *" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); color:#fff;">
+        </div>
+        <div class="form-group">
+          <input type="tel" class="form-control" placeholder="Số điện thoại *" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); color:#fff;">
+        </div>
+        <div class="form-check" style="color:rgba(255,255,255,0.75); font-size:var(--text-xs);">
+          <input type="checkbox" id="ds-consent2">
+          <label for="ds-consent2">Đồng ý xử lý dữ liệu</label>
+        </div>
+        <button class="btn btn-accent" style="width:100%; margin-top:var(--space-2);">Gửi yêu cầu</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="ds-section">
+    <span class="ds-label">07</span>
+    <h2>Cards</h2>
+    <div class="grid grid-3">
+      <article class="card service-card">
+        <div class="icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16"/></svg></div>
+        <h4 style="font-size:var(--text-lg);">Service card</h4>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted);">Có icon, title, mô tả ngắn</p>
+      </article>
+      <article class="card attorney-card">
+        <div class="photo"><span class="placeholder">NA</span></div>
+        <div class="info">
+          <div class="name">Attorney card</div>
+          <div class="title">Profile luật sư</div>
+          <div class="practice">M&A · Đầu tư</div>
+        </div>
+      </article>
+      <article class="card case-card">
+        <div class="case-banner"><small>Case study</small>12 tỷ<small style="margin-top:var(--space-3); font-size:var(--text-xs); color:rgba(255,255,255,0.5); letter-spacing:0.04em;">Thu hồi công nợ</small></div>
+        <div class="case-body">
+          <h5 style="font-size:var(--text-base); margin:0;">Case study card với KPI banner nổi bật</h5>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ACCORDION -->
+  <section class="ds-section">
+    <span class="ds-label">08</span>
+    <h2>Accordion</h2>
+    <p class="text-muted" style="margin-bottom: var(--space-8);">Dùng cho FAQ, "Vấn đề thường gặp", chi tiết quy trình. Mặc định mở 1 item đầu tiên.</p>
+    <div class="demo-block">
+      <div class="accordion">
+        <details class="accordion-item" open>
+          <summary class="accordion-trigger"><span>Tư vấn sơ bộ 30 phút có thật sự miễn phí?</span><span class="icon"></span></summary>
+          <div class="accordion-content"><p>Hoàn toàn miễn phí. Đây là cách Vibalaw để khách hàng đánh giá chất lượng và sự phù hợp trước khi quyết định.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary class="accordion-trigger"><span>Vibalaw có phục vụ doanh nghiệp nhỏ không?</span><span class="icon"></span></summary>
+          <div class="accordion-content"><p>Có. Hơn 40% khách hàng doanh nghiệp của Vibalaw là SME và startup.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary class="accordion-trigger"><span>Có thể tư vấn online qua video call không?</span><span class="icon"></span></summary>
+          <div class="accordion-content"><p>Có, qua Google Meet hoặc Zoom.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="ds-section">
+    <span class="ds-label">09</span>
+    <h2>Timeline</h2>
+    <p class="text-muted" style="margin-bottom: var(--space-8);">Dùng cho quy trình xử lý vụ việc, learning roadmap, lịch sử kinh nghiệm.</p>
+    <div class="demo-block">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-step">Bước 01 · Ngày 1</div>
+          <h4 class="timeline-title">Tư vấn sơ bộ miễn phí</h4>
+          <p>Lắng nghe vấn đề, đánh giá nhanh tính khả thi.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-step">Bước 02 · Ngày 2–3</div>
+          <h4 class="timeline-title">Phân tích pháp lý chi tiết</h4>
+          <p>Sau khi nhận tài liệu, luật sư phân tích và gửi báo giá minh bạch.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-step">Bước 03</div>
+          <h4 class="timeline-title">Ký hợp đồng dịch vụ</h4>
+          <p>Hợp đồng rõ phạm vi, deliverables, timeline, KPI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE -->
+  <section class="ds-section">
+    <span class="ds-label">10</span>
+    <h2>Tables</h2>
+    <div class="demo-block" style="padding: var(--space-2);">
+      <table class="table table-fee">
+        <thead>
+          <tr>
+            <th>Hạng mục dịch vụ</th>
+            <th style="text-align:right;">Từ</th>
+            <th style="text-align:right;">Đến</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Rà soát hợp đồng đơn (≤ 20 trang)</td><td style="text-align:right;">3.000.000đ</td><td style="text-align:right;">8.000.000đ</td></tr>
+          <tr><td>Soạn thảo hợp đồng theo yêu cầu</td><td style="text-align:right;">5.000.000đ</td><td style="text-align:right;">25.000.000đ</td></tr>
+          <tr><td>Tư vấn thường trực doanh nghiệp</td><td style="text-align:right;">60.000.000đ</td><td style="text-align:right;">300.000.000đ</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CALLOUTS -->
+  <section class="ds-section">
+    <span class="ds-label">11</span>
+    <h2>Callouts & TL;DR</h2>
+    <p class="text-muted" style="margin-bottom: var(--space-8);">Highlight thông tin quan trọng trong bài viết dài.</p>
+    <div class="tldr">
+      <span class="tldr-label">TL;DR — Tóm tắt nhanh</span>
+      <p>Due Diligence pháp lý cho M&A trên 50 tỷ phải bao quát 7 nhóm vấn đề. Bỏ sót bất kỳ nhóm nào đều có thể dẫn đến rủi ro nghiêm trọng cho bên mua.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-title">📌 Nguyên tắc vàng</div>
+      <p style="margin:0;">Một DD tốt không tìm ra "deal-breaker" — nó tìm ra <strong>mọi vấn đề</strong> để bên mua quyết định.</p>
+    </div>
+    <div class="callout" style="background:var(--color-bg-cream); border-left-color:var(--color-accent);">
+      <div class="callout-title" style="color:var(--color-accent-dark);">💼 Tải template miễn phí</div>
+      <p style="margin-bottom:var(--space-3);">Vibalaw chia sẻ template DD Report đang sử dụng cho 30+ thương vụ thực tế.</p>
+      <a href="#" class="btn btn-primary">Tải template (DOCX)</a>
+    </div>
+  </section>
+
+  <!-- DESIGN PRINCIPLES -->
+  <section class="ds-section">
+    <span class="ds-label">12</span>
+    <h2>Design Principles</h2>
+    <div class="grid grid-2" style="margin-top: var(--space-8);">
+      <div style="padding:var(--space-6); border-left:3px solid var(--color-accent); background:var(--color-bg-white);">
+        <h4 style="font-family:var(--font-heading); margin-bottom:var(--space-3);">01 · Minimalism with intent</h4>
+        <p style="font-size:var(--text-sm); color:var(--color-text-body); margin:0;">Không trống, nhưng không thừa. Mỗi element trên trang phải có lý do tồn tại.</p>
+      </div>
+      <div style="padding:var(--space-6); border-left:3px solid var(--color-accent); background:var(--color-bg-white);">
+        <h4 style="font-family:var(--font-heading); margin-bottom:var(--space-3);">02 · Whitespace generous</h4>
+        <p style="font-size:var(--text-sm); color:var(--color-text-body); margin:0;">Tránh cảm giác "đông đúc". Padding section ≥ 80px, gap giữa cards ≥ 24px.</p>
+      </div>
+      <div style="padding:var(--space-6); border-left:3px solid var(--color-accent); background:var(--color-bg-white);">
+        <h4 style="font-family:var(--font-heading); margin-bottom:var(--space-3);">03 · Hierarchy rõ ràng</h4>
+        <p style="font-size:var(--text-sm); color:var(--color-text-body); margin:0;">Mắt biết đi đâu trước. Eyebrow → H2 → Lead → Body. Một CTA chính / section.</p>
+      </div>
+      <div style="padding:var(--space-6); border-left:3px solid var(--color-accent); background:var(--color-bg-white);">
+        <h4 style="font-family:var(--font-heading); margin-bottom:var(--space-3);">04 · Sharp corners</h4>
+        <p style="font-size:var(--text-sm); color:var(--color-text-body); margin:0;">Radius 0–4px. Tránh radius lớn vì gây cảm giác "tech consumer" thay vì "legal premium".</p>
+      </div>
+      <div style="padding:var(--space-6); border-left:3px solid var(--color-accent); background:var(--color-bg-white);">
+        <h4 style="font-family:var(--font-heading); margin-bottom:var(--space-3);">05 · Subtle animations</h4>
+        <p style="font-size:var(--text-sm); color:var(--color-text-body); margin:0;">Transition 150–400ms. Hover translate 1–4px. Không animation gây xao nhãng.</p>
+      </div>
+      <div style="padding:var(--space-6); border-left:3px solid var(--color-accent); background:var(--color-bg-white);">
+        <h4 style="font-family:var(--font-heading); margin-bottom:var(--space-3);">06 · Typography mix</h4>
+        <p style="font-size:var(--text-sm); color:var(--color-text-body); margin:0;">Serif (Playfair) cho heading + accent. Sans (Inter) cho body. Italic cho touchpoint cảm xúc.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USAGE -->
+  <section class="ds-section" style="border-bottom:0;">
+    <span class="ds-label">13</span>
+    <h2>Usage trong dự án</h2>
+    <div class="callout">
+      <div class="callout-title">Cách dùng styles.css</div>
+      <p style="margin-bottom:var(--space-3);"><strong>1.</strong> Mọi page link <code style="background:var(--color-bg-cream); padding:2px 6px; font-size:0.85em;">&lt;link rel="stylesheet" href="styles.css"&gt;</code></p>
+      <p style="margin-bottom:var(--space-3);"><strong>2.</strong> Brand color qua CSS variable: <code style="background:var(--color-bg-cream); padding:2px 6px; font-size:0.85em;">var(--color-primary)</code></p>
+      <p style="margin-bottom:var(--space-3);"><strong>3.</strong> Components đã có sẵn class — dùng <code style="background:var(--color-bg-cream); padding:2px 6px; font-size:0.85em;">.btn .card .form-control .accordion</code> v.v.</p>
+      <p style="margin:0;"><strong>4.</strong> Khi handoff cho dev: gửi kèm <code style="background:var(--color-bg-cream); padding:2px 6px; font-size:0.85em;">styles.css</code> + 4 file HTML mockup làm reference.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer style="background: var(--color-primary-darker); color: rgba(255,255,255,0.6); padding: var(--space-12) 0; text-align: center; font-size: var(--text-sm);">
+  <div class="container">
+    <p style="margin:0;">Vibalaw Design System v1.0 · Apr 2026 · Brand color #2D3F85 trích từ logo</p>
+  </div>
+</footer>
+
+</body>
+</html>

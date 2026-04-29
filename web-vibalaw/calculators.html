@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculators pháp lý — Vibalaw</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-top"><div class="header-top-inner"><div><span style="margin-right:1.5rem;">📞 1900 6868</span></div><div><a href="contact.html">Liên hệ</a></div></div></div>
+  <div class="header-main">
+    <a href="index.html" class="brand"><img src="logo.png" alt="Vibalaw"></a>
+    <nav class="main-nav">
+      <a href="service-pillar.html" class="nav-link">Dịch vụ</a><a href="insight.html" class="nav-link">Kiến thức</a>
+      <a href="case-study.html" class="nav-link">Case studies</a><a href="attorney.html" class="nav-link">Đội ngũ</a>
+      <a href="library.html" class="nav-link">Thư viện</a>
+      <a href="tools.html" class="nav-link" style="color:var(--color-primary);">Công cụ</a>
+    </nav>
+    <div class="header-cta"><a href="booking.html" class="btn btn-secondary btn-sm">Đặt lịch tư vấn</a></div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="hero-bg-image" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&q=80&auto=format&fit=crop'); opacity: 0.12;"></div>
+  <div class="container" style="position:relative; z-index:1;">
+    <nav class="breadcrumb"><a href="index.html">Trang chủ</a><span class="separator">/</span><a href="tools.html">Công cụ</a><span class="separator">/</span><span style="color:var(--color-accent);">Calculators</span></nav>
+    <h1 style="margin-bottom:var(--space-6);">3 <em style="color:var(--color-accent); font-style:italic;">Calculator</em> pháp lý</h1>
+    <p>Tính nhanh án phí Tòa án, thuế TNCN và lãi suất chậm trả. Pure client-side, kết quả ngay tức thời, không cần đăng nhập.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid-3">
+
+      <!-- 1. Án phí -->
+      <div class="calc-card">
+        <span class="eyebrow">Calculator 1</span>
+        <h3 style="font-size:var(--text-xl); margin-bottom:var(--space-2);">Tính án phí Tòa án</h3>
+        <p class="text-muted" style="font-size:var(--text-sm); margin-bottom:var(--space-6);">Theo Nghị quyết 326/2016/UBTVQH14</p>
+
+        <div class="form-group"><label class="form-label">Loại vụ án</label><select class="form-control"><option>Dân sự không có giá ngạch</option><option selected>Dân sự có giá ngạch</option><option>Hôn nhân (không tài sản)</option><option>Lao động</option></select></div>
+        <div class="form-group"><label class="form-label">Giá trị tranh chấp (VND)</label><input type="text" class="form-control" value="1.500.000.000"></div>
+
+        <div class="calc-result">
+          <div class="label">Án phí phải nộp</div>
+          <div class="value">36.000.000đ</div>
+          <div style="font-size:var(--text-xs); color:rgba(255,255,255,0.6); margin-top:var(--space-2);">2.4% giá trị tranh chấp</div>
+        </div>
+      </div>
+
+      <!-- 2. Thuế TNCN -->
+      <div class="calc-card">
+        <span class="eyebrow">Calculator 2</span>
+        <h3 style="font-size:var(--text-xl); margin-bottom:var(--space-2);">Tính thuế TNCN</h3>
+        <p class="text-muted" style="font-size:var(--text-sm); margin-bottom:var(--space-6);">Lương từ tiền lương, công</p>
+
+        <div class="form-group"><label class="form-label">Lương gross (VND/tháng)</label><input type="text" class="form-control" value="50.000.000"></div>
+        <div class="form-group"><label class="form-label">Người phụ thuộc</label><select class="form-control"><option>0</option><option selected>1</option><option>2</option><option>3+</option></select></div>
+        <div class="form-group"><label class="form-label">Đóng BHXH ?</label><div style="display:flex; gap:var(--space-3);"><label><input type="radio" name="bh" checked> Có</label><label><input type="radio" name="bh"> Không</label></div></div>
+
+        <div class="calc-result">
+          <div class="label">Thuế TNCN/tháng</div>
+          <div class="value">3.985.000đ</div>
+          <div style="font-size:var(--text-xs); color:rgba(255,255,255,0.6); margin-top:var(--space-2);">Lương net: 41.665.000đ</div>
+        </div>
+      </div>
+
+      <!-- 3. Lãi chậm trả -->
+      <div class="calc-card">
+        <span class="eyebrow">Calculator 3</span>
+        <h3 style="font-size:var(--text-xl); margin-bottom:var(--space-2);">Tính lãi chậm trả</h3>
+        <p class="text-muted" style="font-size:var(--text-sm); margin-bottom:var(--space-6);">Theo BLDS 2015 Điều 357</p>
+
+        <div class="form-group"><label class="form-label">Số tiền nợ gốc (VND)</label><input type="text" class="form-control" value="500.000.000"></div>
+        <div class="form-group"><label class="form-label">Ngày bắt đầu chậm trả</label><input type="date" class="form-control" value="2025-11-15"></div>
+        <div class="form-group"><label class="form-label">Đến ngày</label><input type="date" class="form-control" value="2026-04-28"></div>
+
+        <div class="calc-result">
+          <div class="label">Lãi chậm trả</div>
+          <div class="value">12.890.411đ</div>
+          <div style="font-size:var(--text-xs); color:rgba(255,255,255,0.6); margin-top:var(--space-2);">165 ngày · Lãi suất 9%/năm</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="callout" style="margin-top:var(--space-12); max-width:880px; margin-left:auto; margin-right:auto;">
+      <div class="callout-title">⚠️ Lưu ý</div>
+      <p style="margin:0;">Kết quả từ calculator chỉ mang tính tham khảo dựa trên các quy định pháp luật phổ biến. Trường hợp cụ thể có thể khác do các yếu tố đặc thù — tình tiết vụ việc, thỏa thuận giữa các bên, văn bản hướng dẫn mới. Vui lòng <a href="booking.html" style="color:var(--color-primary); border-bottom:1px solid;">tư vấn với luật sư</a> để có kết quả chính xác.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band"><div class="cta-band-inner"><div><span class="eyebrow" style="color:var(--color-accent);">Cần tính chi tiết hơn?</span><h2 style="margin-bottom:var(--space-4);">Tư vấn 30 phút <em style="color:var(--color-accent); font-style:italic;">miễn phí</em> với luật sư</h2></div><div class="actions"><a href="booking.html" class="btn btn-accent btn-lg">Đặt lịch ngay</a></div></div></section>
+
+<footer class="site-footer"><div class="container"><div class="footer-top"><div class="footer-brand"><img src="logo.png" alt="Vibalaw"><p>Vibalaw — Hãng luật uy tín.</p></div><div class="footer-col"><h6>Công cụ</h6><a href="tools.html">Tất cả</a><a href="fee-estimator.html">Fee Estimator</a><a href="health-check.html">Health Check</a></div><div class="footer-col"><h6>Tài nguyên</h6><a href="insight.html">Bài viết</a><a href="library.html">Thư viện</a></div><div class="footer-col"><h6>Liên hệ</h6><a href="tel:19006868" style="color:var(--color-accent); font-weight:600;">📞 1900 6868</a></div></div><div class="footer-bottom"><div>© 2026 VIBALAW.</div></div></div></footer>
+</body>
+</html>

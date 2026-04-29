@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibalaw — Design Preview (19 pages)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { background: linear-gradient(180deg, #FAFAF7 0%, #F5F2EB 100%); }
+  .group-title { font-family: var(--font-heading); font-size: var(--text-2xl); margin-bottom: var(--space-2); }
+  .group-meta { font-size: var(--text-sm); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: var(--space-6); }
+  .preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-5); margin-bottom: var(--space-12); }
+  .page-card { background: var(--color-bg-white); border: 1px solid var(--color-border); transition: all var(--transition-base); display: flex; flex-direction: column; overflow: hidden; }
+  .page-card:hover { border-color: var(--color-primary); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .page-thumb { aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: var(--color-primary-lighter); }
+  .page-thumb .label { font-family: var(--font-heading); font-size: var(--text-2xl); color: rgba(255,255,255,0.6); font-style: italic; }
+  .page-thumb.dark { background: linear-gradient(135deg, #0F1A42 0%, #2D3F85 100%); }
+  .page-thumb.gold { background: linear-gradient(135deg, #C9A961 0%, #A88A47 100%); }
+  .page-thumb.cream { background: linear-gradient(135deg, #FAFAF7 0%, #F5F2EB 100%); }
+  .page-info { padding: var(--space-5); flex: 1; display: flex; flex-direction: column; }
+  .page-info .tag { font-size: var(--text-xs); color: var(--color-accent-dark); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; margin-bottom: var(--space-2); }
+  .page-info h4 { font-size: var(--text-lg); margin-bottom: var(--space-2); font-family: var(--font-heading); }
+  .page-info p { font-size: var(--text-sm); color: var(--color-text-body); margin: 0 0 var(--space-3); flex: 1; }
+  .page-info .link { font-size: var(--text-sm); font-weight: 600; color: var(--color-primary); }
+  .page-info .link::after { content: '  →'; }
+</style>
+</head>
+<body>
+
+<header style="background: var(--color-primary-darker); color: #fff; padding: var(--space-12) 0;">
+  <div class="container" style="text-align:center;">
+    <img src="logo.png" alt="Vibalaw" style="height:56px; filter:brightness(0) invert(1); margin:0 auto var(--space-6); display:block;">
+    <span class="eyebrow" style="color:var(--color-accent);">Design Preview · April 2026</span>
+    <h1 style="color:#fff; margin-bottom:var(--space-4);">Vibalaw Website Mockup</h1>
+    <p style="color:rgba(255,255,255,0.78); font-size:var(--text-lg); max-width:640px; margin:0 auto;">21 trang HTML mockup interactive — full design system, responsive desktop + mobile. Brand color #2D3F85 trích từ logo Vibalaw, accent champagne gold #C9A961.</p>
+    <div style="display:flex; gap:var(--space-6); justify-content:center; margin-top:var(--space-8); flex-wrap:wrap;">
+      <div><div style="font-family:var(--font-heading); font-size:var(--text-3xl); color:var(--color-accent); font-weight:600;">21</div><div style="font-size:var(--text-xs); color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.16em;">Pages</div></div>
+      <div><div style="font-family:var(--font-heading); font-size:var(--text-3xl); color:var(--color-accent); font-weight:600;">15</div><div style="font-size:var(--text-xs); color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.16em;">Features</div></div>
+      <div><div style="font-family:var(--font-heading); font-size:var(--text-3xl); color:var(--color-accent); font-weight:600;">35+</div><div style="font-size:var(--text-xs); color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.16em;">Components</div></div>
+      <div><div style="font-family:var(--font-heading); font-size:var(--text-3xl); color:var(--color-accent); font-weight:600;">~6.000</div><div style="font-size:var(--text-xs); color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.16em;">LOC</div></div>
+    </div>
+  </div>
+</header>
+
+<main class="container" style="padding:var(--space-16) var(--space-6);">
+
+  <!-- GROUP A: Foundation -->
+  <h2 class="group-title">A · Foundation</h2>
+  <p class="group-meta">Reference cho designer / dev</p>
+  <div class="preview-grid">
+    <a href="design-system.html" class="page-card">
+      <div class="page-thumb gold"><span class="label" style="color:white;">DS</span></div>
+      <div class="page-info"><span class="tag">Design System</span><h4>Design System</h4><p>Colors, typography, spacing, components, principles.</p><span class="link">Xem</span></div>
+    </a>
+  </div>
+
+  <!-- GROUP B: Public landing pages -->
+  <h2 class="group-title">B · Trang chính (public)</h2>
+  <p class="group-meta">F1 → F4 · F6 — pillar pages cho khách</p>
+  <div class="preview-grid">
+    <a href="index.html" class="page-card">
+      <div class="page-thumb dark"><div style="text-align:center; color:white;"><div style="font-family:var(--font-heading); font-style:italic; font-size:var(--text-2xl);">Vì Bạn,</div><div style="font-family:var(--font-heading); font-style:italic; font-size:var(--text-2xl); color:var(--color-accent);">đồng hành</div></div></div>
+      <div class="page-info"><span class="tag">F1 · Homepage</span><h4>Trang chủ</h4><p>Hero, 6 entry points, 10 lĩnh vực, case studies, team, insights, awards, CTA.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="service-pillar.html" class="page-card">
+      <div class="page-thumb dark"><span class="label">Pillar</span></div>
+      <div class="page-info"><span class="tag">F2 · Service Pillar</span><h4>Tư vấn doanh nghiệp</h4><p>Vấn đề thường gặp, quy trình 6 bước, case studies, bảng phí, FAQ.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="attorney.html" class="page-card">
+      <div class="page-thumb dark"><span class="label">LS. Văn An</span></div>
+      <div class="page-info"><span class="tag">F3 · Attorney Profile</span><h4>Profile luật sư</h4><p>Hero ảnh chân dung, tabs (tiểu sử/học vấn/kinh nghiệm/case/bài viết).</p><span class="link">Mở</span></div>
+    </a>
+    <a href="case-study.html" class="page-card">
+      <div class="page-thumb dark"><div style="text-align:center;"><div style="font-family:var(--font-heading); font-size:var(--text-3xl); color:var(--color-accent); font-weight:600;">12 tỷ</div><div style="font-size:var(--text-xs); color:rgba(255,255,255,0.7); text-transform:uppercase; letter-spacing:0.16em; margin-top:8px;">Thu hồi 8 tháng</div></div></div>
+      <div class="page-info"><span class="tag">F4 · Case Study</span><h4>Vụ việc tiêu biểu</h4><p>Hero KPI banner + 5 phần body (bối cảnh → bài học) + sidebar.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="insight.html" class="page-card">
+      <div class="page-thumb cream"><div style="background:white; box-shadow:var(--shadow-lg); padding:var(--space-4); transform:rotate(-2deg); border-left:3px solid var(--color-accent); width:75%;"><div style="font-size:10px; color:var(--color-primary); text-transform:uppercase; letter-spacing:0.12em; font-weight:600;">M&A · 12 phút</div><div style="font-family:var(--font-heading); font-size:var(--text-base); margin-top:6px; line-height:1.3;">DD checklist M&A</div></div></div>
+      <div class="page-info"><span class="tag">F5 · Insight</span><h4>Bài chuyên sâu</h4><p>TL;DR + TOC sticky + reading progress + share + author bio.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="qa.html" class="page-card">
+      <div class="page-thumb gold"><div style="text-align:center; color:white;"><div style="font-family:var(--font-heading); font-style:italic; font-size:var(--text-3xl); font-weight:600;">Q&A</div><div style="font-size:var(--text-xs); text-transform:uppercase; letter-spacing:0.16em; opacity:0.85;">Hôn nhân</div></div></div>
+      <div class="page-info"><span class="tag">F6 · Q&A page</span><h4>Hỏi đáp pháp luật</h4><p>Câu hỏi H1 + TL;DR box + chi tiết + văn bản pháp luật + Q&A liên quan.</p><span class="link">Mở</span></div>
+    </a>
+  </div>
+
+  <!-- GROUP C: Resources -->
+  <h2 class="group-title">C · Tài nguyên & Lead capture</h2>
+  <p class="group-meta">F7 — Thư viện · F8 — Booking</p>
+  <div class="preview-grid">
+    <a href="library.html" class="page-card">
+      <div class="page-thumb cream"><div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:20px;"><div style="background:white; border:1px solid var(--color-border); aspect-ratio:3/4;"></div><div style="background:white; border:1px solid var(--color-border); aspect-ratio:3/4;"></div><div style="background:white; border:1px solid var(--color-border); aspect-ratio:3/4;"></div></div></div>
+      <div class="page-info"><span class="tag">F7a · Library Index</span><h4>Thư viện tài liệu</h4><p>120+ mẫu hợp đồng, đơn, checklist, ebook + filter.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="template-detail.html" class="page-card">
+      <div class="page-thumb dark"><div style="text-align:center;"><div style="font-family:var(--font-heading); font-size:var(--text-2xl); color:var(--color-accent); font-style:italic;">DOCX</div><div style="font-size:var(--text-xs); color:rgba(255,255,255,0.7); margin-top:8px;">2.4 MB</div></div></div>
+      <div class="page-info"><span class="tag">F7b · Template Detail</span><h4>Tải tài liệu (form gate)</h4><p>Mô tả + sample preview + form gate (8 fields).</p><span class="link">Mở</span></div>
+    </a>
+    <a href="booking.html" class="page-card">
+      <div class="page-thumb dark"><div style="background:white; padding:var(--space-3); width:70%; box-shadow:var(--shadow-lg);"><div style="height:8px; background:var(--color-border); margin-bottom:8px;"></div><div style="height:8px; background:var(--color-border); margin-bottom:8px; width:70%;"></div><div style="height:24px; background:var(--color-accent); margin-top:12px;"></div></div></div>
+      <div class="page-info"><span class="tag">F8 · Booking Form</span><h4>Đặt lịch tư vấn</h4><p>Lead form đầy đủ (lĩnh vực, luật sư, hình thức, thời gian, contact).</p><span class="link">Mở</span></div>
+    </a>
+  </div>
+
+  <!-- GROUP D: Tools -->
+  <h2 class="group-title">D · Công cụ tương tác</h2>
+  <p class="group-meta">F9.1 → F9.4 — Fee Estimator, Health Check, Calculators, AI Chatbot</p>
+  <div class="preview-grid">
+    <a href="tools.html" class="page-card">
+      <div class="page-thumb dark"><div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:20px;"><div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:8px;"><div style="color:rgba(255,255,255,0.5); font-family:var(--font-heading); font-size:var(--text-xl);">01</div></div><div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:8px;"><div style="color:rgba(255,255,255,0.5); font-family:var(--font-heading); font-size:var(--text-xl);">02</div></div><div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:8px;"><div style="color:rgba(255,255,255,0.5); font-family:var(--font-heading); font-size:var(--text-xl);">03</div></div><div style="background:var(--color-accent); padding:8px;"><div style="color:var(--color-primary-darker); font-family:var(--font-heading); font-size:var(--text-xl);">04</div></div></div></div>
+      <div class="page-info"><span class="tag">F9 · Tools Index</span><h4>Công cụ tương tác</h4><p>Showcase 4 tools + AI Chatbot widget overlay (click 💬 góc dưới).</p><span class="link">Mở</span></div>
+    </a>
+    <a href="fee-estimator.html" class="page-card">
+      <div class="page-thumb cream"><div style="background:white; padding:var(--space-3); border:1px solid var(--color-border); width:70%;"><div style="font-family:var(--font-heading); font-size:var(--text-base); color:var(--color-primary);">35–80 triệu</div><div style="height:4px; background:var(--color-border); margin-top:8px; position:relative;"><div style="position:absolute; left:0; width:33%; height:100%; background:var(--color-accent);"></div></div><div style="font-size:10px; color:var(--color-text-muted); margin-top:6px;">Câu 2 / 6</div></div></div>
+      <div class="page-info"><span class="tag">F9.1 · Fee Estimator</span><h4>Ước tính chi phí</h4><p>Multi-step 6 câu + step indicator + live estimation preview.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="health-check.html" class="page-card">
+      <div class="page-thumb cream"><div style="text-align:center;"><div style="font-size:48px;">🏥</div><div style="font-family:var(--font-heading); font-size:var(--text-base); color:var(--color-primary); margin-top:8px;">Q5/20 · Hợp đồng</div></div></div>
+      <div class="page-info"><span class="tag">F9.2 · Health Check</span><h4>Legal Health Check</h4><p>Quiz 20 câu chia 5 nhóm + scoring + báo cáo PDF qua email.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="calculators.html" class="page-card">
+      <div class="page-thumb dark"><div style="text-align:center;"><div style="font-family:var(--font-heading); font-size:var(--text-3xl); color:var(--color-accent); font-weight:600;">36.000.000đ</div><div style="font-size:var(--text-xs); color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.16em; margin-top:6px;">Án phí</div></div></div>
+      <div class="page-info"><span class="tag">F9.3 · Calculators</span><h4>3 Calculators</h4><p>Án phí Tòa, Thuế TNCN, Lãi chậm trả — client-side.</p><span class="link">Mở</span></div>
+    </a>
+  </div>
+
+  <!-- GROUP E: Search & Discovery -->
+  <h2 class="group-title">E · Search</h2>
+  <p class="group-meta">F10 — Tìm kiếm nội bộ</p>
+  <div class="preview-grid">
+    <a href="search.html" class="page-card">
+      <div class="page-thumb cream"><div style="background:white; padding:var(--space-3); width:80%; border:1px solid var(--color-border);"><div style="font-family:var(--font-mono); font-size:10px; color:var(--color-success); margin-bottom:6px;">vibalaw.vn/q&a/...</div><div style="font-family:var(--font-heading); font-size:var(--text-sm); color:var(--color-primary);">Thủ tục <mark style="background:var(--color-accent-light); padding:0 2px;">ly hôn</mark> đơn phương</div></div></div>
+      <div class="page-info"><span class="tag">F10 · Search Results</span><h4>Tìm kiếm nội bộ</h4><p>Live search + filters (loại + lĩnh vực) + highlight + pagination.</p><span class="link">Mở</span></div>
+    </a>
+  </div>
+
+  <!-- GROUP F: People & Events -->
+  <h2 class="group-title">F · Tuyển dụng & Sự kiện</h2>
+  <p class="group-meta">F12 — Careers · F13 — Events</p>
+  <div class="preview-grid">
+    <a href="careers.html" class="page-card">
+      <div class="page-thumb cream"><div style="text-align:center;"><div style="font-family:var(--font-heading); font-size:var(--text-3xl); color:var(--color-primary); font-weight:600;">8</div><div style="font-size:var(--text-xs); color:var(--color-text-muted); text-transform:uppercase; letter-spacing:0.16em;">Vị trí đang tuyển</div></div></div>
+      <div class="page-info"><span class="tag">F12a · Careers Index</span><h4>Tuyển dụng</h4><p>Văn hóa + 8 vị trí + benefits.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="job-detail.html" class="page-card">
+      <div class="page-thumb dark"><div style="text-align:center;"><div style="font-family:var(--font-heading); font-size:var(--text-xl); color:var(--color-accent); font-style:italic;">Senior</div><div style="font-size:var(--text-xs); color:rgba(255,255,255,0.7); text-transform:uppercase; letter-spacing:0.16em; margin-top:6px;">Luật sư M&A</div></div></div>
+      <div class="page-info"><span class="tag">F12b · Job Detail</span><h4>JD chi tiết</h4><p>Trách nhiệm, yêu cầu, quyền lợi, form ứng tuyển có upload CV.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="events.html" class="page-card">
+      <div class="page-thumb dark"><div style="display:flex; gap:var(--space-3); align-items:center;"><div style="background:var(--color-primary-darker); padding:var(--space-3); border:1px solid rgba(255,255,255,0.2); text-align:center;"><div style="font-family:var(--font-heading); font-size:var(--text-3xl); color:var(--color-accent); font-weight:600; line-height:1;">15</div><div style="font-size:9px; color:#fff; text-transform:uppercase; margin-top:2px;">Tháng 5</div></div></div></div>
+      <div class="page-info"><span class="tag">F13a · Events Index</span><h4>Sự kiện & Webinar</h4><p>Featured + sắp tới (5) + đã diễn ra.</p><span class="link">Mở</span></div>
+    </a>
+    <a href="event-detail.html" class="page-card">
+      <div class="page-thumb cream"><div style="text-align:center;"><div style="font-family:var(--font-heading); font-style:italic; font-size:var(--text-base); color:var(--color-primary);">M&A 2026</div><div style="font-family:var(--font-heading); font-size:var(--text-xs); color:var(--color-accent-dark); text-transform:uppercase; letter-spacing:0.12em; margin-top:6px;">15.05 · Webinar</div></div></div>
+      <div class="page-info"><span class="tag">F13b · Event Detail</span><h4>Webinar detail</h4><p>Agenda timeline, diễn giả, form đăng ký, quà tặng.</p><span class="link">Mở</span></div>
+    </a>
+  </div>
+
+  <!-- GROUP G: Contact & Newsletter -->
+  <h2 class="group-title">G · Liên hệ & Newsletter</h2>
+  <p class="group-meta">F14 + F15 — Combined</p>
+  <div class="preview-grid">
+    <a href="contact.html" class="page-card">
+      <div class="page-thumb cream"><div style="display:flex; gap:var(--space-3);"><div style="font-size:32px;">📞</div><div style="font-size:32px;">✉️</div><div style="font-size:32px;">📅</div></div></div>
+      <div class="page-info"><span class="tag">F14 + F15</span><h4>Liên hệ + Newsletter</h4><p>3 method tiles + form chính + map 2 văn phòng + newsletter signup.</p><span class="link">Mở</span></div>
+    </a>
+  </div>
+
+  <!-- GROUP H: News -->
+  <h2 class="group-title">H · Tin tức</h2>
+  <p class="group-meta">News — Tin công ty, Văn bản pháp luật, Báo chí, Hoạt động</p>
+  <div class="preview-grid">
+    <a href="news.html" class="page-card">
+      <div class="page-thumb dark"><div style="text-align:center;"><div style="font-family:var(--font-heading); font-size:var(--text-2xl); color:var(--color-accent); font-weight:600; font-style:italic;">Tin tức</div><div style="font-size:var(--text-xs); color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:0.16em; margin-top:6px;">78 bài đã đăng</div></div></div>
+      <div class="page-info"><span class="tag">News List</span><h4>Danh sách tin tức</h4><p>Featured news + 12 cards (4 categories) + sidebar (newsletter, popular, archives, tags).</p><span class="link">Mở</span></div>
+    </a>
+    <a href="news-detail.html" class="page-card">
+      <div class="page-thumb cream"><div style="background:white; box-shadow:var(--shadow-lg); padding:var(--space-4); transform:rotate(-2deg); border-left:3px solid var(--color-accent); width:75%;"><div style="font-size:10px; color:var(--color-accent-dark); text-transform:uppercase; letter-spacing:0.12em; font-weight:600;">VBPL · 28/04</div><div style="font-family:var(--font-heading); font-size:var(--text-base); margin-top:6px; line-height:1.3;">Luật Đất đai 2024<br>có hiệu lực</div></div></div>
+      <div class="page-info"><span class="tag">News Detail</span><h4>Chi tiết tin tức</h4><p>Hero + featured image + body 7 sections + share + tags + author + sidebar + related.</p><span class="link">Mở</span></div>
+    </a>
+  </div>
+
+  <!-- INFO -->
+  <section style="margin-top:var(--space-16); padding:var(--space-12); background:white; border:1px solid var(--color-border); border-top:3px solid var(--color-primary);">
+    <div class="grid grid-2">
+      <div>
+        <span class="eyebrow">Bảng tổng hợp</span>
+        <h3 style="margin-bottom:var(--space-4);">19 pages cho 15 features</h3>
+        <p>Đầy đủ tất cả features từ <code>spec.md</code> mục 6.16 (MoSCoW). Một số features được chia nhỏ thành nhiều page (Library = index + detail · Tools = index + 3 calculator pages · Careers = index + JD · Events = index + detail · Contact = combined với Newsletter).</p>
+      </div>
+      <div>
+        <span class="eyebrow">Bàn giao tiếp theo</span>
+        <h3 style="margin-bottom:var(--space-4);">Cho Design Lead + Tech Lead</h3>
+        <p>Mockup là <strong>tham chiếu visual + UX flow</strong>. Bước tiếp:</p>
+        <ul style="font-size:var(--text-sm); margin-top:var(--space-3);">
+          <li>Design Lead: chuyển sang Figma, refine spacing, tạo asset thật (ảnh studio luật sư)</li>
+          <li>Tech Lead: chọn stack (Next.js / Astro / WordPress), migrate <code>styles.css</code> tokens vào theme config</li>
+          <li>Backend: implement form submit + CRM webhook + OpenAI chatbot integration</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <p style="text-align:center; color:var(--color-text-muted); font-size:var(--text-sm); margin-top:var(--space-12);">19 pages · 1 stylesheet shared · Responsive · April 2026</p>
+
+</main>
+
+<footer style="background:var(--color-primary-darker); color:rgba(255,255,255,0.6); padding:var(--space-10) 0; text-align:center; font-size:var(--text-sm); margin-top:var(--space-16);">
+  <div class="container">
+    <img src="logo.png" alt="Vibalaw" style="height:32px; filter:brightness(0) invert(1); margin:0 auto var(--space-3); display:block; opacity:0.7;">
+    <p style="margin:0;">Vibalaw Website Mockup · Built theo spec.md · Brand color trích từ logo</p>
+  </div>
+</footer>
+
+</body>
+</html>
