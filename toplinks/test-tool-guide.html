@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hướng dẫn sử dụng Toplinks</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --teal:       #0e6770;
+      --teal-light: #e6f4f5;
+      --teal-mid:   #1a8c97;
+      --gold:       #c9a227;
+      --gold-light: #fdf6e3;
+      --gold-dark:  #a07c10;
+      --red:        #c0392b;
+      --red-light:  #fdf0ee;
+      --green:      #27ae60;
+      --green-light:#eafaf1;
+      --blue:       #2980b9;
+      --blue-light: #eaf4fb;
+      --bg:         #f8fafb;
+      --card:       #ffffff;
+      --line:       #e0e7ea;
+      --text:       #1a2e32;
+      --mid:        #5a7a80;
+      --soft:       #8ca4a8;
+      --r:          8px;
+      --r-lg:       12px;
+      --shadow:     0 2px 12px rgba(14,103,112,.08);
+      --shadow-md:  0 4px 24px rgba(14,103,112,.12);
+      --sidebar-w:  260px;
+      --header-h:   60px;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── Top Header ── */
+    .top-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      background: var(--teal);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 200;
+      gap: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    .top-header__logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.5px;
+      white-space: nowrap;
+    }
+    .top-header__logo span { color: var(--gold); }
+    .top-header__subtitle {
+      font-size: 13px;
+      color: rgba(255,255,255,.7);
+      border-left: 1px solid rgba(255,255,255,.3);
+      padding-left: 16px;
+      white-space: nowrap;
+    }
+    .top-header__meta {
+      margin-left: auto;
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+      white-space: nowrap;
+    }
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    .hamburger svg { display: block; }
+
+    /* ── Layout ── */
+    .layout {
+      display: flex;
+      margin-top: var(--header-h);
+      min-height: calc(100vh - var(--header-h));
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: var(--header-h);
+      height: calc(100vh - var(--header-h));
+      overflow-y: auto;
+      background: var(--card);
+      border-right: 1px solid var(--line);
+      padding: 24px 0 40px;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+
+    .sidebar__section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--soft);
+      padding: 16px 20px 6px;
+    }
+    .sidebar nav { list-style: none; }
+    .sidebar nav li a {
+      display: block;
+      padding: 7px 20px;
+      font-size: 13.5px;
+      color: var(--mid);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+      line-height: 1.4;
+    }
+    .sidebar nav li a:hover,
+    .sidebar nav li a.active {
+      color: var(--teal);
+      background: var(--teal-light);
+      border-left-color: var(--teal);
+    }
+    .sidebar nav li a .num {
+      display: inline-block;
+      width: 20px;
+      font-weight: 700;
+      color: var(--teal);
+      opacity: .7;
+    }
+    .sidebar__role-pills {
+      padding: 12px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .role-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: none;
+      transition: all .15s;
+    }
+    .role-pill--employee { background: var(--blue-light); color: var(--blue); }
+    .role-pill--manager  { background: var(--teal-light); color: var(--teal); }
+    .role-pill--hr       { background: var(--gold-light);  color: var(--gold-dark); }
+    .role-pill--admin    { background: var(--red-light);   color: var(--red); }
+    .role-pill:hover { filter: brightness(.92); }
+
+    /* ── Main Content ── */
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 40px 48px 80px;
+      max-width: 860px;
+    }
+
+    /* ── Section ── */
+    .doc-section {
+      margin-bottom: 64px;
+    }
+    .doc-section__header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--teal-light);
+    }
+    .section-icon {
+      width: 44px; height: 44px;
+      border-radius: var(--r-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .doc-section h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .doc-section h2 small {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mid);
+      margin-top: 2px;
+    }
+
+    .doc-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--teal);
+      margin: 28px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .doc-section h3::before {
+      content: '';
+      display: inline-block;
+      width: 4px; height: 16px;
+      background: var(--teal);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .doc-section h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 20px 0 8px;
+    }
+
+    p { margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Steps ── */
+    .steps { list-style: none; counter-reset: step; margin: 12px 0; }
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 14px;
+      margin-bottom: 10px;
+      line-height: 1.6;
+      font-size: 14.5px;
+    }
+    .steps li::before {
+      content: counter(step);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px; height: 26px;
+      min-width: 26px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    /* ── Bullet list ── */
+    .bullets { list-style: none; margin: 10px 0; }
+    .bullets li {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+    .bullets li::before {
+      content: '•';
+      color: var(--teal);
+      font-size: 18px;
+      line-height: 1.3;
+      flex-shrink: 0;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      border-radius: var(--r);
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      line-height: 1.6;
+      display: flex;
+      gap: 12px;
+    }
+    .callout__icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .callout--info    { background: var(--blue-light);  border-left: 4px solid var(--blue); }
+    .callout--warn    { background: var(--gold-light);  border-left: 4px solid var(--gold); }
+    .callout--danger  { background: var(--red-light);   border-left: 4px solid var(--red); }
+    .callout--success { background: var(--green-light); border-left: 4px solid var(--green); }
+    .callout--tip     { background: var(--teal-light);  border-left: 4px solid var(--teal-mid); }
+
+    /* ── Tables ── */
+    .table-wrap { overflow-x: auto; margin: 14px 0; border-radius: var(--r); box-shadow: var(--shadow); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead tr { background: var(--teal); color: #fff; }
+    thead th { padding: 11px 14px; text-align: left; font-weight: 600; font-size: 13px; }
+    tbody tr { border-bottom: 1px solid var(--line); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--teal-light); }
+    tbody td { padding: 10px 14px; vertical-align: top; line-height: 1.5; }
+    tbody td:first-child { font-weight: 600; }
+    .td-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ── Role badge ── */
+    .role-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      vertical-align: middle;
+      margin-bottom: 4px;
+    }
+    .role-tag--employee { background: var(--blue-light);  color: var(--blue); }
+    .role-tag--manager  { background: var(--teal-light);  color: var(--teal); }
+    .role-tag--hr       { background: var(--gold-light);  color: var(--gold-dark); }
+    .role-tag--admin    { background: var(--red-light);   color: var(--red); }
+
+    /* ── Code / inline code ── */
+    code {
+      font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+      font-size: 13px;
+      background: var(--teal-light);
+      color: var(--teal);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    pre {
+      background: #1a2e32;
+      color: #a8d5d9;
+      padding: 18px 20px;
+      border-radius: var(--r-lg);
+      font-size: 13px;
+      line-height: 1.8;
+      overflow-x: auto;
+      margin: 14px 0;
+      font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+    }
+    pre .arrow { color: var(--gold); font-weight: 700; }
+
+    /* ── 9-box grid ── */
+    .ninebox {
+      display: grid;
+      grid-template-columns: auto 1fr 1fr 1fr;
+      gap: 4px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    .ninebox .axis-label {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      text-align: center;
+      font-weight: 700;
+      color: var(--teal);
+      font-size: 12px;
+      padding: 4px;
+    }
+    .ninebox .col-header {
+      text-align: center;
+      font-weight: 700;
+      color: var(--mid);
+      padding: 6px 4px;
+      font-size: 11px;
+      line-height: 1.3;
+    }
+    .ninebox .cell {
+      padding: 10px 8px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .cell--green  { background: #d5f5e3; color: #1e8449; }
+    .cell--blue   { background: #d6eaf8; color: #1a5276; }
+    .cell--yellow { background: #fef9e7; color: #9a7d0a; }
+    .cell--orange { background: #fdebd0; color: #9c4a0f; }
+    .cell--red    { background: #fadbd8; color: #922b21; }
+
+    /* ── FAQ accordion ── */
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .faq-item summary {
+      padding: 14px 18px;
+      font-weight: 600;
+      font-size: 14.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      list-style: none;
+      gap: 12px;
+      color: var(--text);
+      transition: background .15s;
+    }
+    .faq-item summary:hover { background: var(--teal-light); }
+    .faq-item summary::after {
+      content: '＋';
+      font-size: 18px;
+      color: var(--teal);
+      flex-shrink: 0;
+      font-weight: 400;
+      transition: transform .2s;
+    }
+    .faq-item[open] summary { background: var(--teal-light); color: var(--teal); }
+    .faq-item[open] summary::after { content: '－'; }
+    .faq-item__body {
+      padding: 14px 18px 16px;
+      font-size: 14.5px;
+      border-top: 1px solid var(--line);
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .faq-group-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--mid);
+      margin: 24px 0 10px;
+    }
+
+    /* ── Glossary ── */
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      font-size: 14px;
+    }
+    .glossary-term { background: var(--card); padding: 10px 14px; font-weight: 700; color: var(--teal); }
+    .glossary-def  { background: var(--bg);   padding: 10px 14px; color: var(--text); line-height: 1.5; }
+
+    /* ── Flow diagram ── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      margin: 14px 0;
+    }
+    .flow__step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      width: 100%;
+    }
+    .flow__step .who {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .flow__arrow {
+      text-align: center;
+      color: var(--teal);
+      font-size: 18px;
+      padding: 2px 0;
+      width: 100%;
+      text-align: left;
+      padding-left: 28px;
+    }
+
+    /* ── Hero / intro card ── */
+    .intro-hero {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-mid) 100%);
+      border-radius: var(--r-lg);
+      padding: 32px 36px;
+      color: #fff;
+      margin-bottom: 40px;
+    }
+    .intro-hero h1 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .intro-hero p { opacity: .85; font-size: 15px; margin-bottom: 20px; }
+    .intro-hero__roles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .intro-hero__role {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+    .intro-hero__meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      opacity: .75;
+      margin-top: 16px;
+    }
+
+    /* ── kbd shortcut ── */
+    kbd {
+      display: inline-block;
+      padding: 2px 7px;
+      font-size: 12px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      font-family: inherit;
+      color: var(--text);
+    }
+
+    /* ── Divider ── */
+    hr { border: none; border-top: 1px solid var(--line); margin: 28px 0; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .main { padding: 28px 24px 60px; }
+    }
+    @media (max-width: 768px) {
+      :root { --sidebar-w: 280px; }
+      .top-header__subtitle { display: none; }
+      .hamburger { display: flex; }
+      .sidebar {
+        position: fixed;
+        top: var(--header-h);
+        left: 0;
+        height: calc(100vh - var(--header-h));
+        z-index: 150;
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        box-shadow: var(--shadow-md);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        top: var(--header-h);
+        background: rgba(0,0,0,.4);
+        z-index: 140;
+      }
+      .sidebar-backdrop.open { display: block; }
+      .main { padding: 24px 18px 80px; max-width: 100%; }
+      .intro-hero { padding: 24px 20px; }
+      .intro-hero h1 { font-size: 20px; }
+    }
+    @media print {
+      .top-header, .sidebar, .hamburger, .sidebar-backdrop { display: none !important; }
+      .layout { display: block; margin-top: 0; }
+      .main { max-width: 100%; padding: 20px; }
+      .doc-section { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top Header -->
+<header class="top-header">
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <div class="top-header__logo">Top<span>links</span></div>
+  <div class="top-header__subtitle">Hướng dẫn sử dụng</div>
+  <div class="top-header__meta">Phiên bản 1.0 &nbsp;·&nbsp; 2026-04-29</div>
+</header>
+
+<div class="sidebar-backdrop" id="backdrop"></div>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__section-title">Nội dung</div>
+    <nav>
+      <ul>
+        <li><a href="#overview"><span class="num">1</span> Tổng quan</a></li>
+        <li><a href="#login"><span class="num">2</span> Đăng nhập & Kích hoạt</a></li>
+        <li><a href="#employee"><span class="num">3</span> Nhân viên</a></li>
+        <li><a href="#manager"><span class="num">4</span> Quản lý</a></li>
+        <li><a href="#hr"><span class="num">5</span> HR / L&amp;D</a></li>
+        <li><a href="#superadmin"><span class="num">6</span> Super Admin</a></li>
+        <li><a href="#settings"><span class="num">7</span> Cài đặt cá nhân</a></li>
+        <li><a href="#faq"><span class="num">8</span> Câu hỏi thường gặp</a></li>
+        <li><a href="#glossary"><span class="num">9</span> Tra cứu thuật ngữ</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar__section-title" style="margin-top:16px">Theo vai trò</div>
+    <div class="sidebar__role-pills">
+      <button class="role-pill role-pill--employee" onclick="location.href='#employee'">Nhân viên</button>
+      <button class="role-pill role-pill--manager"  onclick="location.href='#manager'">Quản lý</button>
+      <button class="role-pill role-pill--hr"       onclick="location.href='#hr'">HR / L&amp;D</button>
+      <button class="role-pill role-pill--admin"    onclick="location.href='#superadmin'">Super Admin</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="intro-hero">
+      <h1>Hướng dẫn sử dụng Toplinks</h1>
+      <p>Nền tảng Đánh giá &amp; Phát triển Năng lực Lãnh đạo cho doanh nghiệp Việt Nam</p>
+      <div class="intro-hero__roles">
+        <span class="intro-hero__role">👤 Nhân viên</span>
+        <span class="intro-hero__role">👥 Quản lý</span>
+        <span class="intro-hero__role">📋 HR / L&amp;D</span>
+        <span class="intro-hero__role">🏢 BOD</span>
+        <span class="intro-hero__role">⚙️ Super Admin</span>
+      </div>
+      <div class="intro-hero__meta">
+        <span>📅 Phiên bản 1.0 — 2026-04-29</span>
+        <span>🌐 Tiếng Việt</span>
+        <span>💻 Web browser — máy tính, máy tính bảng, điện thoại</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- 1. TỔNG QUAN -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="doc-section" id="overview">
+      <div class="doc-section__header">
+        <div class="section-icon" style="background:var(--teal-light)">🗺️</div>
+        <h2>Tổng quan hệ thống<small>Toplinks làm gì? Ai dùng? Chuỗi giá trị là gì?</small></h2>
+      </div>
+
+      <h3>1.1. Toplinks làm gì?</h3>
+      <p>Toplinks là nền tảng đánh giá và phát triển năng lực lãnh đạo cho doanh nghiệp. Hệ thống cung cấp chuỗi giá trị khép kín:</p>
+      <ul class="bullets">
+        <li>Nhân viên <strong>tự đánh giá</strong> 50 câu hỏi năng lực lãnh đạo</li>
+        <li>Quản lý <strong>đánh giá độc lập</strong> từng thành viên trong nhóm</li>
+        <li>Hệ thống <strong>tính GAP</strong> (chênh lệch) giữa tự đánh giá và đánh giá từ quản lý</li>
+        <li>HR/BOD <strong>xem toàn bộ dashboard</strong>, xuất báo cáo, lên kế hoạch phát triển</li>
+        <li>Quản lý và nhân viên <strong>cùng xây IDP/PIP</strong> và theo dõi tiến độ</li>
+      </ul>
+
+      <h3>1.2. Các vai trò người dùng</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Vai trò</th><th>Mô tả ngắn</th></tr></thead>
+          <tbody>
+            <tr><td><span class="role-tag role-tag--employee">👤 Nhân viên</span></td><td>Làm Self Assessment, xem kết quả cá nhân, theo dõi IDP</td></tr>
+            <tr><td><span class="role-tag role-tag--manager">👥 Quản lý</span></td><td>Mọi quyền của Nhân viên + đánh giá team, ghi 1:1, duyệt IDP</td></tr>
+            <tr><td><span class="role-tag role-tag--hr">📋 HR / L&amp;D</span></td><td>Triển khai chu kỳ, quản lý user, xem toàn bộ dữ liệu, xuất báo cáo</td></tr>
+            <tr><td><span class="role-tag role-tag--hr">📊 BOD</span></td><td>Xem toàn bộ dashboard và xuất báo cáo (chỉ đọc, không sửa cấu hình)</td></tr>
+            <tr><td><span class="role-tag role-tag--hr">🔧 Org Admin</span></td><td>Cấu hình bộ câu hỏi, chu kỳ, quản lý role trong công ty</td></tr>
+            <tr><td><span class="role-tag role-tag--admin">⚙️ Super Admin</span></td><td>Quản trị nền tảng (nội bộ Toplinks)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>1.3. Chuỗi giá trị tổng quát</h3>
+      <div class="flow">
+        <div class="flow__step"><span class="who role-tag role-tag--hr">HR</span> Mở kỳ đánh giá, cấu hình bộ câu hỏi</div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step"><span class="who role-tag role-tag--employee">Nhân viên</span> Làm Self Assessment (50 câu)</div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step"><span class="who role-tag role-tag--manager">Quản lý</span> Làm Manager Assessment độc lập</div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step"><span class="who" style="background:var(--teal-light);color:var(--teal);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700">Hệ thống</span> Tính điểm + GAP + Level + 9-box</div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step"><span class="who role-tag role-tag--hr">HR</span> Import Performance → vẽ 9-box, xem Dashboard</div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step"><span class="who role-tag role-tag--manager">Quản lý</span> Họp 1:1 với nhân viên → ghi note</div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step"><span class="who role-tag role-tag--manager">Quản lý</span> Tạo IDP hoặc PIP → theo dõi checkpoint</div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step"><span class="who role-tag role-tag--hr">HR / BOD</span> Xem Dashboard tổ chức → Xuất báo cáo</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- 2. ĐĂNG NHẬP -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="doc-section" id="login">
+      <div class="doc-section__header">
+        <div class="section-icon" style="background:var(--blue-light)">🔐</div>
+        <h2>Đăng nhập &amp; Kích hoạt tài khoản<small>OTP email, mật khẩu mặc định, quên mật khẩu</small></h2>
+      </div>
+
+      <h3>2.1. Kích hoạt lần đầu — chế độ OTP email</h3>
+      <p>Khi HR import bạn vào hệ thống theo chế độ OTP, bạn sẽ nhận một email kích hoạt từ Toplinks.</p>
+      <ol class="steps">
+        <li>Kiểm tra hộp thư email (kể cả thư mục <strong>Spam/Junk</strong>).</li>
+        <li>Mở email có tiêu đề dạng <strong>"Kích hoạt tài khoản Toplinks — [Tên công ty]"</strong>.</li>
+        <li>Click vào <strong>nút hoặc link kích hoạt</strong> trong email.</li>
+        <li>Nhập <strong>mã OTP 6 chữ số</strong> từ email vào ô tương ứng.</li>
+        <li>Đặt <strong>mật khẩu mới</strong> (tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường và số).</li>
+        <li>Nhập lại mật khẩu để xác nhận.</li>
+        <li>Nhấn <strong>Kích hoạt</strong> — hệ thống sẽ tự đăng nhập và đưa bạn vào trang chính.</li>
+      </ol>
+      <div class="callout callout--warn">
+        <span class="callout__icon">⏱️</span>
+        <div>Mã OTP có hiệu lực trong <strong>72 giờ</strong> kể từ khi email được gửi. Nếu quá hạn, liên hệ HR để gửi lại email kích hoạt.</div>
+      </div>
+
+      <h3>2.2. Kích hoạt lần đầu — chế độ mật khẩu mặc định</h3>
+      <p>Khi HR cấp mật khẩu mặc định (thường thông báo qua Zalo/Teams nội bộ), bạn có thể đăng nhập ngay.</p>
+      <ol class="steps">
+        <li>Truy cập địa chỉ web Toplinks của công ty bạn (ví dụ: <code>tencode.toplinks.app</code>).</li>
+        <li>Nhập <strong>email công ty</strong> và <strong>mật khẩu mặc định</strong> do HR cung cấp.</li>
+        <li>Nhấn <strong>Đăng nhập</strong>.</li>
+        <li>Hệ thống yêu cầu bạn <strong>đổi mật khẩu ngay</strong> — đây là bước bắt buộc.</li>
+        <li>Nhập mật khẩu mặc định vào ô "Mật khẩu hiện tại", đặt mật khẩu mới theo quy tắc.</li>
+        <li>Nhấn <strong>Lưu</strong> — bạn được chuyển vào trang chính.</li>
+      </ol>
+
+      <h3>2.3. Đăng nhập thông thường</h3>
+      <ol class="steps">
+        <li>Truy cập địa chỉ web Toplinks của công ty.</li>
+        <li>Nhập <strong>email</strong> và <strong>mật khẩu</strong>.</li>
+        <li>Nhấn <strong>Đăng nhập</strong>.</li>
+      </ol>
+      <div class="callout callout--info">
+        <span class="callout__icon">🛡️</span>
+        <div><strong>Dành cho HR, L&amp;D, BOD, Org Admin, Super Admin:</strong> Sau khi nhập đúng email/mật khẩu, hệ thống gửi thêm <strong>mã OTP 6 chữ số</strong> qua email để xác thực 2 bước. Nhập mã này vào ô hiển thị rồi nhấn <strong>Xác nhận</strong>.</div>
+      </div>
+
+      <h3>2.4. Quên mật khẩu</h3>
+      <ol class="steps">
+        <li>Trên trang đăng nhập, nhấn <strong>"Quên mật khẩu?"</strong>.</li>
+        <li>Nhập <strong>địa chỉ email</strong> của bạn.</li>
+        <li>Nhấn <strong>Gửi link reset</strong>.</li>
+        <li>Kiểm tra email — nhận link đặt lại mật khẩu (hiệu lực 1 giờ).</li>
+        <li>Click link → đặt mật khẩu mới → đăng nhập bình thường.</li>
+      </ol>
+
+      <h3>2.5. Tài khoản bị khóa tạm thời</h3>
+      <div class="callout callout--danger">
+        <span class="callout__icon">🔒</span>
+        <div>Nếu nhập sai mật khẩu <strong>5 lần liên tiếp</strong> trong 15 phút, tài khoản sẽ bị khóa tạm <strong>30 phút</strong>. Sau 30 phút bạn có thể thử lại, hoặc dùng chức năng <strong>Quên mật khẩu</strong> để mở khóa ngay.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- 3. NHÂN VIÊN -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="doc-section" id="employee">
+      <div class="doc-section__header">
+        <div class="section-icon" style="background:var(--blue-light)">👤</div>
+        <h2>Nhân viên <small>(Employee)</small></h2>
+      </div>
+
+      <h3>3.1. Dashboard cá nhân</h3>
+      <p>Sau khi đăng nhập, bạn thấy <strong>Dashboard cá nhân</strong> — trang tổng quan bao gồm:</p>
+      <ul class="bullets">
+        <li><strong>Trạng thái kỳ đánh giá hiện tại:</strong> bạn đã nộp Self Assessment chưa, quản lý đã đánh giá chưa.</li>
+        <li><strong>Điểm gần nhất</strong> (nếu đã có kết quả từ kỳ trước).</li>
+        <li><strong>IDP đang active:</strong> tiến độ các mục tiêu phát triển.</li>
+        <li><strong>Việc cần làm:</strong> nhắc nhở deadline sắp đến.</li>
+      </ul>
+
+      <h3>3.2. Làm Self Assessment (Tự đánh giá)</h3>
+      <p>Self Assessment là bài đánh giá <strong>50 câu hỏi</strong> về năng lực lãnh đạo, chia thành <strong>5 trang × 10 câu</strong>.</p>
+
+      <h4>Bắt đầu bài đánh giá</h4>
+      <ol class="steps">
+        <li>Từ Dashboard, nhấn <strong>"Làm đánh giá"</strong> hoặc vào menu <strong>"Đánh giá"</strong>.</li>
+        <li><strong>Popup hướng dẫn</strong> hiện ra lần đầu tiên — đọc kỹ trước khi bắt đầu. <em>(Popup chỉ hiện khi bạn chưa có câu trả lời nào.)</em></li>
+        <li>Nhấn <strong>"Bắt đầu"</strong> để vào bài.</li>
+      </ol>
+
+      <h4>Thang điểm đánh giá</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mức</th><th>Ý nghĩa</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Rất yếu</td></tr>
+            <tr><td>2</td><td>Yếu</td></tr>
+            <tr><td>3</td><td>Trung bình</td></tr>
+            <tr><td>4</td><td>Khá</td></tr>
+            <tr><td>5</td><td>Xuất sắc</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--tip">
+        <span class="callout__icon">💡</span>
+        <div>Chọn mức điểm phản ánh <strong>hành vi thực tế</strong> của bạn trong công việc, không phải mức bạn mong muốn đạt được.</div>
+      </div>
+
+      <h4>Điền bài và chuyển trang</h4>
+      <ul class="bullets">
+        <li><strong>Thanh tiến độ tổng</strong> (sticky ở đầu trang) hiển thị số câu đã trả lời / 50 câu.</li>
+        <li>Trả lời <strong>đủ 10 câu</strong> trên trang hiện tại trước khi nhấn <strong>"Tiếp tục"</strong>. Nếu còn câu chưa trả lời, nút sẽ bị mờ và không thể nhấn.</li>
+        <li><strong>Bài tự động lưu</strong> sau mỗi lần bạn chọn mức điểm — không cần nhấn Lưu thủ công.</li>
+        <li>Bạn có thể <strong>quay lại trang trước</strong> bằng nút <strong>"Quay lại"</strong>.</li>
+      </ul>
+
+      <h4>Nộp bài</h4>
+      <ol class="steps">
+        <li>Hoàn thành cả 5 trang (50 câu).</li>
+        <li>Nhấn <strong>"Nộp bài"</strong> ở trang cuối.</li>
+        <li>Hệ thống hiển thị màn xác nhận thành công.</li>
+      </ol>
+      <div class="callout callout--warn">
+        <span class="callout__icon">⚠️</span>
+        <div>Sau khi nộp, bạn <strong>không thể chỉnh sửa</strong> câu trả lời nữa. Nếu thực sự cần, liên hệ HR.</div>
+      </div>
+
+      <h4>Làm lại từ đầu (trước khi nộp)</h4>
+      <ol class="steps">
+        <li>Nhấn nút <strong>"↺ Làm lại"</strong> (góc trên bài đánh giá).</li>
+        <li>Xác nhận trong popup cảnh báo.</li>
+        <li>Hệ thống xóa draft, reset về trang 1 và hiển thị lại popup hướng dẫn.</li>
+      </ol>
+
+      <h3>3.3. Xem kết quả cá nhân</h3>
+      <p>Sau khi cả bạn và quản lý đã nộp bài, bạn nhận email thông báo. Vào menu <strong>"Kết quả"</strong> để xem chi tiết.</p>
+
+      <h4>Màn kết quả gồm</h4>
+      <ul class="bullets">
+        <li><strong>Điểm tổng (Avg Score):</strong> thang 1.0 – 5.0, điểm trung bình 50 câu.</li>
+        <li><strong>Level phân loại:</strong> từ Level 1 (Rất yếu) đến Level 5 (Mạnh).</li>
+        <li><strong>Biểu đồ Radar:</strong> so sánh điểm Self vs. Manager theo 6 nhóm năng lực.</li>
+        <li><strong>GAP:</strong> chênh lệch giữa đánh giá của quản lý và tự đánh giá (Manager − Self).</li>
+        <li><strong>Nhận xét và khuyến nghị</strong> theo cấp độ của bạn.</li>
+      </ul>
+
+      <h4>Bảng phân loại cấp độ</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Level</th><th>Avg Score</th><th>Phân loại</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>&lt; 2.0</td><td>Rất yếu</td></tr>
+            <tr><td>2</td><td>2.0 – &lt; 2.8</td><td>Yếu</td></tr>
+            <tr><td>3</td><td>2.8 – &lt; 3.6</td><td>Trung bình</td></tr>
+            <tr><td>4</td><td>3.6 – &lt; 4.3</td><td>Khá</td></tr>
+            <tr><td>5</td><td>≥ 4.3</td><td>Mạnh</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Hiểu chỉ số GAP</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>GAP</th><th>Ý nghĩa</th></tr></thead>
+          <tbody>
+            <tr><td>GAP = 0</td><td>Đồng nhất — bạn và quản lý đánh giá giống nhau</td></tr>
+            <tr><td>|GAP| ≤ 0.5</td><td>Đồng thuận — lệch không đáng kể</td></tr>
+            <tr><td>GAP &gt; 0.5</td><td>Quản lý đánh giá cao hơn — nên khám phá điểm mạnh chưa nhận ra</td></tr>
+            <tr><td>GAP &lt; -0.5</td><td>Bạn tự đánh giá cao hơn quản lý — nên thảo luận kỳ vọng trong 1:1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>3.4. Xem 1:1 Note</h3>
+      <p>Sau khi quản lý ghi note 1:1 vào hệ thống, vào menu <strong>"1:1"</strong> để xem lại và thêm comment của bạn.</p>
+
+      <h3>3.5. Theo dõi IDP</h3>
+      <p>IDP (Individual Development Plan) là kế hoạch phát triển năng lực được bạn và quản lý cùng xây dựng.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Trạng thái</th><th>Ý nghĩa</th></tr></thead>
+          <tbody>
+            <tr><td><span class="td-badge" style="background:#eaf4fb;color:#1a5276">Draft</span></td><td>Đang soạn thảo, chưa gửi duyệt</td></tr>
+            <tr><td><span class="td-badge" style="background:#d5f5e3;color:#1e8449">Active</span></td><td>Quản lý đã duyệt, đang thực hiện</td></tr>
+            <tr><td><span class="td-badge" style="background:#fdebd0;color:#9c4a0f">In Progress</span></td><td>Đang triển khai các hành động</td></tr>
+            <tr><td><span class="td-badge" style="background:#e6f4f5;color:#0e6770">Completed</span></td><td>Đã hoàn thành</td></tr>
+            <tr><td><span class="td-badge" style="background:#f0f0f0;color:#666">Cancelled</span></td><td>Đã hủy</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--tip">
+        <span class="callout__icon">📅</span>
+        <div>Mỗi IDP có các <strong>checkpoint</strong> (mốc kiểm tra) theo khoảng 30/60/90 ngày. Bạn sẽ nhận email nhắc khi đến hạn — cập nhật tiến độ bằng cách đánh dấu hoàn thành từng <strong>action item</strong>.</div>
+      </div>
+
+      <h3>3.6. Xuất báo cáo cá nhân (PDF)</h3>
+      <ol class="steps">
+        <li>Vào menu <strong>"Xuất báo cáo"</strong> hoặc từ màn kết quả nhấn <strong>"Xuất PDF"</strong>.</li>
+        <li>Chọn kỳ đánh giá muốn xuất.</li>
+        <li>Nhấn <strong>"Xuất PDF"</strong>.</li>
+        <li>File tải xuống — bao gồm: điểm tổng, biểu đồ 6 nhóm, 25 năng lực, phân loại level, khuyến nghị phát triển.</li>
+      </ol>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- 4. QUẢN LÝ -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="doc-section" id="manager">
+      <div class="doc-section__header">
+        <div class="section-icon" style="background:var(--teal-light)">👥</div>
+        <h2>Quản lý <small>(Manager)</small></h2>
+      </div>
+      <div class="callout callout--info">
+        <span class="callout__icon">ℹ️</span>
+        <div>Quản lý có tất cả các chức năng của Nhân viên (Self Assessment, xem kết quả, IDP cá nhân) <strong>cộng thêm</strong> các chức năng dưới đây.</div>
+      </div>
+
+      <h3>4.1. Dashboard team</h3>
+      <p>Vào menu <strong>"Dashboard Team"</strong> để xem tổng quan nhóm:</p>
+      <ul class="bullets">
+        <li><strong>KPI Card:</strong> Avg Score của cả team, tỷ lệ hoàn thành đánh giá, số IDP active.</li>
+        <li><strong>Biểu đồ Radar:</strong> điểm trung bình 6 nhóm năng lực của cả team.</li>
+        <li><strong>9-box team:</strong> phân loại nhân sự theo Potential × Performance.</li>
+      </ul>
+
+      <h3>4.2. Đánh giá nhân viên (Manager Assessment)</h3>
+      <div class="callout callout--success">
+        <span class="callout__icon">✅</span>
+        <div><strong>Nguyên tắc quan trọng:</strong> Bạn sẽ <strong>không thấy</strong> điểm Self Assessment của nhân viên trong lúc làm bài — đảm bảo tính khách quan.</div>
+      </div>
+
+      <h4>Xem danh sách nhân viên cần đánh giá</h4>
+      <ol class="steps">
+        <li>Vào menu <strong>"Đánh giá Team"</strong>.</li>
+        <li>Danh sách hiển thị các nhân viên đã <strong>nộp Self Assessment</strong>.</li>
+        <li>Lọc: <strong>Đã đánh giá</strong> / <strong>Chưa đánh giá</strong>.</li>
+      </ol>
+
+      <h4>Thực hiện đánh giá</h4>
+      <ol class="steps">
+        <li>Nhấn vào tên nhân viên cần đánh giá.</li>
+        <li>Form đánh giá 50 câu mở ra — giống bài Self Assessment về nội dung.</li>
+        <li>Điền điểm theo thang 1–5, chuyển trang, hoàn thành 50 câu.</li>
+        <li>Nhấn <strong>"Nộp đánh giá"</strong>.</li>
+      </ol>
+
+      <h3>4.3. Ghi note 1:1</h3>
+      <p>Sau buổi họp 1:1 (tổ chức ngoài hệ thống), bạn ghi lại kết quả theo form 4 bước.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bước</th><th>Nội dung</th></tr></thead>
+          <tbody>
+            <tr><td>1 — Align kết quả</td><td>Tóm tắt về quá trình thảo luận kết quả (điểm Self, Manager, GAP)</td></tr>
+            <tr><td>2 — Thảo luận GAP</td><td>Chọn 2–3 năng lực có GAP lớn nhất để thảo luận trọng tâm</td></tr>
+            <tr><td>3 — Hướng phát triển</td><td>Chọn IDP (phát triển năng lực) hoặc PIP (cải thiện hiệu suất)</td></tr>
+            <tr><td>4 — Kế hoạch cụ thể</td><td>Hành động cụ thể, người hỗ trợ, timeline</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--tip">
+        <span class="callout__icon">💡</span>
+        <div>Cột bên phải form có <strong>hướng dẫn + checklist</strong> gợi ý cho từng bước — tham khảo để dẫn dắt buổi 1:1 hiệu quả hơn.</div>
+      </div>
+
+      <h3>4.4. Tạo và duyệt IDP</h3>
+      <ol class="steps">
+        <li>Vào menu <strong>"IDP"</strong> → nhấn <strong>"Tạo IDP mới"</strong>.</li>
+        <li>Chọn nhân viên, điền các trường: Năng lực cần phát triển, Mục tiêu (SMART), Hành động, Thời gian, Người hỗ trợ.</li>
+        <li>Nhấn <strong>"Lưu"</strong> (trạng thái Draft) → nhấn <strong>"Duyệt"</strong> để chuyển sang Active.</li>
+      </ol>
+      <p>Để duyệt IDP do nhân viên tự đề xuất: vào <strong>"IDP" → tab "Cần duyệt"</strong> → Duyệt hoặc Từ chối (kèm lý do).</p>
+
+      <h3>4.5. Tạo PIP</h3>
+      <p>PIP dành cho nhân viên có năng lực/hiệu suất thấp cần cải thiện trong thời gian ngắn (30–90 ngày).</p>
+      <ol class="steps">
+        <li>Vào menu <strong>"PIP"</strong> → nhấn <strong>"Tạo PIP mới"</strong>.</li>
+        <li>Chọn nhân viên, điền: Vấn đề chính, Kỳ vọng cải thiện, Hành động cụ thể, Timeline, Checkpoint.</li>
+        <li>Lưu draft → gửi HR xem xét → <strong>nhân viên xác nhận</strong> (bắt buộc 3 chữ ký).</li>
+        <li>Sau đủ chữ ký, PIP chuyển sang <strong>Active</strong>.</li>
+      </ol>
+      <div class="callout callout--info">
+        <span class="callout__icon">📊</span>
+        <div>Mỗi 30 ngày có <strong>form đánh giá lại</strong> tiến độ. Kết quả cuối: <strong>Pass</strong> (vượt qua) hoặc <strong>Fail</strong> — hệ thống hỗ trợ xuất báo cáo gửi HR.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- 5. HR / L&D -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="doc-section" id="hr">
+      <div class="doc-section__header">
+        <div class="section-icon" style="background:var(--gold-light)">📋</div>
+        <h2>HR / L&amp;D<small>Triển khai, quản lý user, dashboard tổ chức, xuất báo cáo</small></h2>
+      </div>
+      <div class="callout callout--info">
+        <span class="callout__icon">🛡️</span>
+        <div>HR và L&amp;D khi đăng nhập sẽ bắt buộc xác thực <strong>2 bước qua OTP email</strong>.</div>
+      </div>
+
+      <h3>5.1. Import danh sách nhân viên</h3>
+      <ol class="steps">
+        <li>Vào menu <strong>"Quản lý User"</strong> → nhấn <strong>"Import User"</strong>.</li>
+        <li>Nhấn <strong>"Tải template Excel"</strong> để lấy file mẫu.</li>
+        <li>Điền file theo các cột bắt buộc (xem bảng bên dưới).</li>
+        <li>Chọn <strong>chế độ kích hoạt</strong> phù hợp.</li>
+        <li>Upload file → xem báo cáo lỗi → nhấn <strong>"Xác nhận Import"</strong>.</li>
+      </ol>
+
+      <h4>Các cột trong template</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cột</th><th>Bắt buộc</th><th>Mô tả</th></tr></thead>
+          <tbody>
+            <tr><td><code>email</code></td><td>✅</td><td>Email công ty, duy nhất trong tenant</td></tr>
+            <tr><td><code>full_name</code></td><td>✅</td><td>Họ và tên đầy đủ</td></tr>
+            <tr><td><code>job_title</code></td><td>✅</td><td>Chức danh/vị trí</td></tr>
+            <tr><td><code>department</code></td><td>Khuyến nghị</td><td>Tên phòng ban</td></tr>
+            <tr><td><code>manager_email</code></td><td>Khuyến nghị</td><td>Email của quản lý trực tiếp</td></tr>
+            <tr><td><code>role</code></td><td>Không</td><td>Employee / Manager / HR / L&amp;D / BOD / Org Admin (mặc định: Employee)</td></tr>
+            <tr><td><code>password</code></td><td>Không</td><td>Chỉ dùng cho chế độ B — mật khẩu mặc định theo từng dòng</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Chế độ kích hoạt tài khoản</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chế độ</th><th>Mô tả</th><th>Khi nào dùng</th></tr></thead>
+          <tbody>
+            <tr><td><strong>(A) OTP email</strong> <em>(mặc định)</em></td><td>Hệ thống gửi email + OTP 6 số. User click link → nhập OTP → tạo mật khẩu.</td><td>Email deliverability tốt, cần bảo mật cao</td></tr>
+            <tr><td><strong>(B) Mật khẩu theo file</strong></td><td>Đọc cột <code>password</code> từng dòng. Dòng có password → active ngay; không có → fallback OTP.</td><td>Linh hoạt từng người</td></tr>
+            <tr><td><strong>(C) Mật khẩu đồng loạt</strong></td><td>HR nhập 1 mật khẩu chung áp cho tất cả.</td><td>Onboard nhanh, email kém đáng tin</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout--warn">
+        <span class="callout__icon">⚠️</span>
+        <div><strong>Chế độ B/C:</strong> Người dùng <strong>bắt buộc đổi mật khẩu ngay lần đầu đăng nhập</strong>. Không gửi mật khẩu qua email — thông báo qua Zalo/Teams/phát tay.</div>
+      </div>
+
+      <h3>5.2. Quản lý user sau import</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Thao tác</th><th>Mô tả</th></tr></thead>
+          <tbody>
+            <tr><td>Resend kích hoạt</td><td>Gửi lại email OTP cho user đang Pending activation</td></tr>
+            <tr><td>Reset mật khẩu</td><td>Đặt mật khẩu mới, user bắt buộc đổi ở lần đăng nhập tiếp</td></tr>
+            <tr><td>Deactivate</td><td>Khóa tài khoản (dữ liệu vẫn giữ lại)</td></tr>
+            <tr><td>Đổi role</td><td>Thay đổi vai trò của user</td></tr>
+            <tr><td>Bulk action</td><td>Chọn nhiều user → thực hiện hàng loạt</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>5.3. Cấu hình bộ câu hỏi/năng lực</h3>
+      <p>Bộ mặc định: <strong>6 nhóm – 25 năng lực – 50 câu</strong> theo chuẩn Toplinks.</p>
+      <div class="callout callout--danger">
+        <span class="callout__icon">🔒</span>
+        <div>Bộ câu hỏi đang được dùng cho kỳ đánh giá đang chạy là <strong>read-only</strong>. Muốn thay đổi, phải tạo version mới cho kỳ tiếp theo.</div>
+      </div>
+      <ol class="steps">
+        <li>Vào menu <strong>"Bộ câu hỏi"</strong> → xem cây: Nhóm → Năng lực → Câu hỏi.</li>
+        <li>Thêm/sửa/xóa nhóm, năng lực, câu hỏi theo đặc thù doanh nghiệp.</li>
+        <li>Nhấn <strong>"Preview"</strong> để xem toàn bộ trước khi publish.</li>
+        <li>Nhấn <strong>"Publish"</strong> — tạo version mới, sẵn sàng gán cho chu kỳ tiếp theo.</li>
+      </ol>
+      <p>Cũng có thể <strong>Import từ file Excel</strong>: tải template → điền → chọn chế độ Replace/Merge/New version → xác nhận.</p>
+
+      <h3>5.4. Cấu hình chu kỳ đánh giá</h3>
+      <ol class="steps">
+        <li>Vào <strong>"Chu kỳ đánh giá"</strong> → nhấn <strong>"Tạo chu kỳ mới"</strong>.</li>
+        <li>Điền: Tên kỳ, Loại (Bán niên / Hàng năm), Ngày mở/deadline Self, Ngày mở/deadline Manager, Bộ câu hỏi.</li>
+        <li>Cấu hình <strong>auto-reminder</strong> (mặc định: nhắc nhở trước 7, 3 và 1 ngày).</li>
+        <li>Nhấn <strong>"Lưu"</strong> → xem lại → nhấn <strong>"Mở kỳ"</strong> để bắt đầu.</li>
+      </ol>
+      <p>Để đóng kỳ: vào chu kỳ → nhấn <strong>"Đóng kỳ"</strong> → hệ thống tính điểm toàn bộ (chạy nền) → Dashboard được bật.</p>
+
+      <h3>5.5. Import dữ liệu Performance</h3>
+      <p>Performance (cấp độ hiệu suất 1–5) dùng để vẽ trục ngang trong 9-box.</p>
+      <ol class="steps">
+        <li>Vào <strong>"Import Performance"</strong> → tải template Excel.</li>
+        <li>Điền cột: <code>email</code>, <code>kỳ đánh giá</code>, <code>performance_level</code> (1–5).</li>
+        <li>Upload → validate → xác nhận. Có thể re-import cùng kỳ để <strong>ghi đè</strong>.</li>
+      </ol>
+
+      <h3>5.6. Xem 9-box</h3>
+      <div class="ninebox">
+        <div style="grid-row: 2/5;" class="axis-label">Potential (Điểm năng lực) ↑</div>
+        <div class="col-header"></div>
+        <div class="col-header">Performance thấp<br/>(1–2)</div>
+        <div class="col-header">Performance TB<br/>(3)</div>
+        <div class="col-header">Performance cao<br/>(4–5)</div>
+        <div style="font-size:11px;padding:6px 4px;font-weight:700;color:var(--mid);text-align:right">Potential cao<br/>(≥ 3.6)</div>
+        <div class="cell cell--yellow">High Potential</div>
+        <div class="cell cell--blue">Core Player</div>
+        <div class="cell cell--green">⭐ Star</div>
+        <div style="font-size:11px;padding:6px 4px;font-weight:700;color:var(--mid);text-align:right">Potential TB<br/>(2.8–3.6)</div>
+        <div class="cell cell--orange">Inconsistent Player</div>
+        <div class="cell cell--blue">Key Player</div>
+        <div class="cell cell--blue">High Performer</div>
+        <div style="font-size:11px;padding:6px 4px;font-weight:700;color:var(--mid);text-align:right">Potential thấp<br/>(&lt; 2.8)</div>
+        <div class="cell cell--red">Underperformer</div>
+        <div class="cell cell--orange">Solid Contributor</div>
+        <div class="cell cell--yellow">Strong Performer</div>
+      </div>
+      <p style="font-size:13px;color:var(--mid);margin-top:8px">Click vào từng ô để drill-down xem danh sách nhân viên trong ô đó.</p>
+
+      <h3>5.7. Dashboard tổ chức</h3>
+      <ul class="bullets">
+        <li><strong>KPI cards:</strong> tỷ lệ hoàn thành Self/Manager, IDP active, IDP completed.</li>
+        <li><strong>Biểu đồ Radar:</strong> điểm trung bình 6 nhóm toàn công ty.</li>
+        <li><strong>Heatmap 25 năng lực:</strong> màu sắc từ đỏ (Level 1) đến xanh (Level 5).</li>
+        <li><strong>Auto-insight:</strong> hệ thống tự diễn giải và cảnh báo (ví dụ: "40% nhân sự ở Level 2 — rủi ro năng lực").</li>
+        <li><strong>Top 3 Strength / Top 3 Gap</strong> của toàn công ty.</li>
+        <li><strong>Drill-down:</strong> click chart → từ tổng → phòng ban → nhóm → cá nhân.</li>
+      </ul>
+
+      <h3>5.8. Xuất báo cáo (Export)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Loại báo cáo</th><th>Format</th><th>Nội dung chính</th></tr></thead>
+          <tbody>
+            <tr><td>PDF cá nhân</td><td>PDF</td><td>Điểm overall, 6 nhóm, 25 năng lực, level, nhận xét, khuyến nghị</td></tr>
+            <tr><td>PDF Report HR</td><td>PDF</td><td>Summary toàn tenant/phòng ban, 9-box, top strength/gap, completion rate</td></tr>
+            <tr><td>Excel Report HR</td><td>XLSX</td><td>Raw data theo cycle: điểm chi tiết + GAP + level từng nhân viên</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ol class="steps">
+        <li>Chọn <strong>loại báo cáo</strong> và <strong>kỳ đánh giá</strong>.</li>
+        <li>Chọn <strong>phạm vi</strong> (toàn công ty / phòng ban cụ thể).</li>
+        <li>Nhấn <strong>"Xuất"</strong> — file tải xuống trực tiếp (có watermark tên tenant + ngày xuất).</li>
+      </ol>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- 6. SUPER ADMIN -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="doc-section" id="superadmin">
+      <div class="doc-section__header">
+        <div class="section-icon" style="background:var(--red-light)">⚙️</div>
+        <h2>Super Admin<small>Nội bộ Toplinks — quản trị nền tảng</small></h2>
+      </div>
+      <div class="callout callout--danger">
+        <span class="callout__icon">🔴</span>
+        <div>Super Admin là vai trò nội bộ của Toplinks. Đây <strong>không phải</strong> là vai trò dành cho người dùng doanh nghiệp thông thường.</div>
+      </div>
+
+      <h3>6.1. Quản lý Tenant</h3>
+      <ol class="steps">
+        <li>Vào <strong>"Quản lý Tenant"</strong> → xem danh sách tất cả công ty khách hàng.</li>
+        <li>Nhấn <strong>"Tạo tenant mới"</strong> → điền: Tên công ty, Subdomain, Số license, Ngày hết hạn.</li>
+        <li>Nhấn <strong>"Tạo"</strong> — tenant ở trạng thái <strong>"Chờ thanh toán"</strong>.</li>
+      </ol>
+
+      <h4>Vòng đời trạng thái tenant</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Trạng thái</th><th>Ý nghĩa</th></tr></thead>
+          <tbody>
+            <tr><td><span class="td-badge" style="background:#fef9e7;color:#9a7d0a">Chờ thanh toán</span></td><td>Mới tạo, chưa xác nhận payment</td></tr>
+            <tr><td><span class="td-badge" style="background:#d5f5e3;color:#1e8449">Active</span></td><td>Đang hoạt động bình thường</td></tr>
+            <tr><td><span class="td-badge" style="background:#fdebd0;color:#9c4a0f">Grace period</span></td><td>Hết hạn license — read-only, còn 7 ngày</td></tr>
+            <tr><td><span class="td-badge" style="background:#fadbd8;color:#922b21">Suspended</span></td><td>Đã khóa (dữ liệu giữ lại, chờ gia hạn)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>6.2. Quản lý thanh toán B2B</h3>
+      <ol class="steps">
+        <li>Vào <strong>"Quản lý Thanh toán"</strong> → chọn tenant → nhấn <strong>"Tạo hóa đơn"</strong>.</li>
+        <li>Gửi file PDF hóa đơn cho khách hàng.</li>
+        <li>Sau khi khách chuyển khoản: vào danh sách hóa đơn → nhấn <strong>"Xác nhận đã nhận tiền"</strong>.</li>
+        <li>Tenant chuyển sang trạng thái <strong>Active</strong>.</li>
+      </ol>
+      <div class="callout callout--info">
+        <span class="callout__icon">🔔</span>
+        <div>Hệ thống tự gửi email nhắc gia hạn trước <strong>30, 15 và 7 ngày</strong>. Sau hết hạn: read-only 7 ngày (grace period) → suspended nếu không gia hạn.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- 7. CÀI ĐẶT CÁ NHÂN -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="doc-section" id="settings">
+      <div class="doc-section__header">
+        <div class="section-icon" style="background:var(--bg)">🔧</div>
+        <h2>Cài đặt cá nhân<small>Đổi mật khẩu, thông báo, dữ liệu của tôi</small></h2>
+      </div>
+
+      <h3>7.1. Đổi mật khẩu</h3>
+      <ol class="steps">
+        <li>Vào <strong>"Cài đặt"</strong> (góc trên bên phải) → <strong>"Bảo mật"</strong>.</li>
+        <li>Nhập mật khẩu hiện tại.</li>
+        <li>Nhập mật khẩu mới (≥ 8 ký tự, có chữ hoa + chữ thường + số).</li>
+        <li>Nhập lại để xác nhận → nhấn <strong>"Lưu"</strong>.</li>
+      </ol>
+
+      <h3>7.2. Tùy chọn nhận email</h3>
+      <p>Vào <strong>"Cài đặt" → "Thông báo"</strong> để chọn mức nhận email:</p>
+      <ul class="bullets">
+        <li><strong>Nhận tất cả:</strong> reminder deadline, IDP checkpoint, 1:1 summary…</li>
+        <li><strong>Chỉ thông báo quan trọng:</strong> kích hoạt tài khoản, reset mật khẩu, 2FA, deadline chính.</li>
+      </ul>
+      <div class="callout callout--warn">
+        <span class="callout__icon">⚠️</span>
+        <div><strong>Không thể tắt</strong> các email thuộc nhóm bảo mật: OTP kích hoạt, reset mật khẩu, 2FA.</div>
+      </div>
+
+      <h3>7.3. Xuất dữ liệu cá nhân</h3>
+      <p>Theo Nghị định 13/2023, bạn có quyền yêu cầu xuất toàn bộ dữ liệu của mình.</p>
+      <ol class="steps">
+        <li>Vào <strong>"Cài đặt" → "Dữ liệu của tôi"</strong>.</li>
+        <li>Nhấn <strong>"Xuất dữ liệu cá nhân"</strong>.</li>
+        <li>File tải xuống bao gồm toàn bộ assessment, score, IDP, PIP của bạn.</li>
+      </ol>
+
+      <h3>7.4. Yêu cầu ẩn danh hóa dữ liệu</h3>
+      <ol class="steps">
+        <li>Vào <strong>"Cài đặt" → "Dữ liệu của tôi"</strong> → nhấn <strong>"Yêu cầu ẩn danh hóa"</strong>.</li>
+        <li>Xác nhận yêu cầu — HR sẽ xử lý theo quy trình dữ liệu của công ty.</li>
+      </ol>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- 8. FAQ -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="doc-section" id="faq">
+      <div class="doc-section__header">
+        <div class="section-icon" style="background:var(--teal-light)">❓</div>
+        <h2>Câu hỏi thường gặp<small>FAQ</small></h2>
+      </div>
+
+      <div class="faq-group-title">Về đăng nhập &amp; tài khoản</div>
+      <details class="faq-item">
+        <summary>Tôi không nhận được email kích hoạt?</summary>
+        <div class="faq-item__body">Kiểm tra thư mục <strong>Spam/Junk</strong>. Nếu không có, liên hệ HR để dùng chức năng "Resend kích hoạt" hoặc chuyển sang chế độ mật khẩu mặc định.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Mã OTP của tôi đã hết hạn?</summary>
+        <div class="faq-item__body">OTP có hiệu lực <strong>72 giờ</strong>. Liên hệ HR để gửi lại mã mới. Mã cũ sẽ tự động vô hiệu.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Tôi bị khóa tài khoản tạm thời?</summary>
+        <div class="faq-item__body">Đợi <strong>30 phút</strong> rồi thử lại, hoặc dùng chức năng <strong>"Quên mật khẩu"</strong> để reset ngay.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Tôi phải đổi mật khẩu mỗi lần đăng nhập?</summary>
+        <div class="faq-item__body">Điều này xảy ra nếu HR vừa reset mật khẩu của bạn. Bạn chỉ cần đổi <strong>1 lần</strong> — sau đó đăng nhập bình thường.</div>
+      </details>
+
+      <div class="faq-group-title">Về Self Assessment</div>
+      <details class="faq-item">
+        <summary>Tôi có thể lưu dở và làm tiếp sau không?</summary>
+        <div class="faq-item__body">Có. Bài <strong>tự động lưu draft</strong> sau mỗi câu trả lời. Bạn có thể đăng xuất và tiếp tục sau — draft sẽ được giữ lại.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Tôi đã nộp rồi, có thể sửa lại không?</summary>
+        <div class="faq-item__body">Không. Sau khi nộp, bài không thể chỉnh sửa. Nếu thực sự cần, liên hệ HR.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Tại sao nút "Tiếp tục" bị mờ?</summary>
+        <div class="faq-item__body">Bạn chưa trả lời đủ <strong>10 câu</strong> trên trang hiện tại. Cuộn lại và kiểm tra — câu nào chưa chọn sẽ hiển thị rõ hơn.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Popup hướng dẫn đã đóng, tôi có thể xem lại không?</summary>
+        <div class="faq-item__body">Popup chỉ hiện tự động lần đầu (khi chưa có câu trả lời nào). Nếu muốn xem lại, nhấn <strong>"↺ Làm lại"</strong> — popup sẽ hiện trở lại (kèm xóa toàn bộ draft hiện tại).</div>
+      </details>
+
+      <div class="faq-group-title">Về kết quả &amp; đánh giá</div>
+      <details class="faq-item">
+        <summary>Khi nào tôi mới thấy kết quả?</summary>
+        <div class="faq-item__body">Bạn thấy kết quả sau khi <strong>cả bạn và quản lý đều đã nộp bài</strong>. Bạn sẽ nhận email thông báo khi quản lý hoàn thành.</div>
+      </details>
+      <details class="faq-item">
+        <summary>GAP âm có nghĩa là tôi bị đánh giá thấp hơn?</summary>
+        <div class="faq-item__body">GAP = Manager Avg − Self Avg. GAP âm có nghĩa quản lý cho điểm thấp hơn bạn tự đánh giá. Đây là tín hiệu quan trọng để thảo luận trong 1:1 — không hẳn là "xấu", có thể do thiếu cơ hội thể hiện hoặc chưa có chung kỳ vọng.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Quản lý có thấy điểm Self của tôi khi đánh giá không?</summary>
+        <div class="faq-item__body">Không. Quản lý đánh giá <strong>độc lập</strong> và không thấy điểm Self của bạn trong lúc làm bài — đảm bảo tính khách quan.</div>
+      </details>
+
+      <div class="faq-group-title">Về IDP &amp; PIP</div>
+      <details class="faq-item">
+        <summary>Ai tạo IDP cho tôi?</summary>
+        <div class="faq-item__body">IDP có thể được tạo bởi bạn (tự đề xuất) hoặc quản lý (sau buổi 1:1). Quản lý phải duyệt trước khi IDP chuyển sang Active.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Tôi nhận được email nhắc IDP checkpoint nhưng chưa làm kịp?</summary>
+        <div class="faq-item__body">Cập nhật tiến độ trong hệ thống và thông báo cho quản lý. Nếu cần gia hạn, thảo luận với quản lý để điều chỉnh timeline trong form IDP.</div>
+      </details>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- 9. GLOSSARY -->
+    <!-- ═══════════════════════════════════════════ -->
+    <section class="doc-section" id="glossary">
+      <div class="doc-section__header">
+        <div class="section-icon" style="background:var(--teal-light)">📖</div>
+        <h2>Bảng tra cứu thuật ngữ</h2>
+      </div>
+      <div class="glossary-grid">
+        <div class="glossary-term">Self Assessment</div>
+        <div class="glossary-def">Bài tự đánh giá 50 câu năng lực lãnh đạo do nhân viên tự làm</div>
+        <div class="glossary-term">Manager Assessment</div>
+        <div class="glossary-def">Bài đánh giá 50 câu do quản lý trực tiếp làm về nhân viên</div>
+        <div class="glossary-term">Avg Score</div>
+        <div class="glossary-def">Điểm trung bình 50 câu, thang 1.0–5.0</div>
+        <div class="glossary-term">GAP</div>
+        <div class="glossary-def">Chênh lệch điểm: Manager Avg − Self Avg</div>
+        <div class="glossary-term">Level</div>
+        <div class="glossary-def">Cấp độ phân loại từ 1 (Rất yếu) đến 5 (Mạnh) dựa trên Avg Score</div>
+        <div class="glossary-term">IDP</div>
+        <div class="glossary-def">Individual Development Plan — kế hoạch phát triển năng lực cá nhân (dài hạn)</div>
+        <div class="glossary-term">PIP</div>
+        <div class="glossary-def">Performance Improvement Plan — kế hoạch cải thiện hiệu suất (30–90 ngày)</div>
+        <div class="glossary-term">9-box</div>
+        <div class="glossary-def">Ma trận 3×3 phân loại nhân tài theo Tiềm năng (Potential) × Hiệu suất (Performance)</div>
+        <div class="glossary-term">Potential</div>
+        <div class="glossary-def">Điểm năng lực lãnh đạo (Avg Score) — trục dọc trong 9-box</div>
+        <div class="glossary-term">Performance</div>
+        <div class="glossary-def">Cấp độ hiệu suất công việc (1–5) do HR import từ Excel — trục ngang trong 9-box</div>
+        <div class="glossary-term">HiPo</div>
+        <div class="glossary-def">High Potential — nhân sự tiềm năng cao (góc trên bên phải trong 9-box)</div>
+        <div class="glossary-term">Chu kỳ (Cycle)</div>
+        <div class="glossary-def">Một đợt đánh giá (bán niên hoặc hàng năm) với ngày mở và deadline xác định</div>
+        <div class="glossary-term">OTP</div>
+        <div class="glossary-def">Mã 6 chữ số gửi qua email, dùng 1 lần để kích hoạt tài khoản hoặc xác thực 2 bước</div>
+        <div class="glossary-term">Tenant</div>
+        <div class="glossary-def">Một công ty khách hàng trên nền tảng Toplinks — dữ liệu hoàn toàn tách biệt</div>
+        <div class="glossary-term">2FA</div>
+        <div class="glossary-def">Xác thực 2 bước — bắt buộc với HR, L&D, BOD, Org Admin, Super Admin</div>
+        <div class="glossary-term">1:1 Discussion</div>
+        <div class="glossary-def">Buổi họp 1 đối 1 giữa quản lý và nhân viên để thảo luận kết quả đánh giá</div>
+        <div class="glossary-term">Competency Framework</div>
+        <div class="glossary-def">Bộ khung 25 năng lực / 6 nhóm / 50 câu — chuẩn đánh giá năng lực lãnh đạo</div>
+        <div class="glossary-term">Org Admin</div>
+        <div class="glossary-def">Người quản trị cấu hình của công ty (bộ câu hỏi, chu kỳ, role)</div>
+        <div class="glossary-term">Super Admin</div>
+        <div class="glossary-def">Nhân viên Toplinks — quản trị nền tảng, tạo tenant</div>
+        <div class="glossary-term">Checkpoint</div>
+        <div class="glossary-def">Mốc kiểm tra tiến độ IDP/PIP theo định kỳ (30/60/90 ngày)</div>
+        <div class="glossary-term">Draft</div>
+        <div class="glossary-def">Trạng thái nháp — chưa nộp / chưa duyệt</div>
+      </div>
+
+      <hr style="margin-top:48px" />
+      <p style="font-size:13px;color:var(--soft);text-align:center;margin-top:24px">
+        Tài liệu này được cập nhật theo phiên bản Phase 1 MVP của Toplinks.<br>
+        Mọi thắc mắc, liên hệ HR của công ty hoặc hỗ trợ kỹ thuật Toplinks.
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger')
+  const sidebar   = document.getElementById('sidebar')
+  const backdrop  = document.getElementById('backdrop')
+
+  function openMenu()  { sidebar.classList.add('open'); backdrop.classList.add('open'); document.body.style.overflow = 'hidden' }
+  function closeMenu() { sidebar.classList.remove('open'); backdrop.classList.remove('open'); document.body.style.overflow = '' }
+
+  hamburger.addEventListener('click', () => sidebar.classList.contains('open') ? closeMenu() : openMenu())
+  backdrop.addEventListener('click', closeMenu)
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu() })
+
+  // Active nav on scroll
+  const sections = document.querySelectorAll('.doc-section[id]')
+  const navLinks = document.querySelectorAll('.sidebar nav a')
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'))
+        const active = document.querySelector(`.sidebar nav a[href="#${entry.target.id}"]`)
+        if (active) active.classList.add('active')
+      }
+    })
+  }, { rootMargin: '-20% 0px -70% 0px' })
+
+  sections.forEach(s => observer.observe(s))
+
+  // Close sidebar on nav click (mobile)
+  navLinks.forEach(a => a.addEventListener('click', () => { if (window.innerWidth <= 768) closeMenu() }))
+</script>
+</body>
+</html>
