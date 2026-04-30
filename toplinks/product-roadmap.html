@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toplinks — Product Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: #1a2b2d; line-height: 1.6; background: #f6f8fa; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; }
+    .no-print { display: none !important; }
+    section { break-inside: avoid; page-break-inside: avoid; }
+    .cover { min-height: auto !important; padding: 60px 40px !important; }
+  }
+
+  /* Cover */
+  .cover {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    background: linear-gradient(135deg, #0e5a62 0%, #137B86 40%, #1a9ca8 100%);
+    color: #fff; text-align: center; padding: 80px 40px; position: relative; overflow: hidden;
+  }
+  .cover::before {
+    content: ''; position: absolute; top: -50%; right: -30%; width: 600px; height: 600px;
+    border-radius: 50%; background: rgba(254,202,9,.08);
+  }
+  .cover::after {
+    content: ''; position: absolute; bottom: -40%; left: -20%; width: 500px; height: 500px;
+    border-radius: 50%; background: rgba(255,255,255,.04);
+  }
+  .cover-logo { font-size: 14px; font-weight: 700; letter-spacing: 4px; color: #FECA09; margin-bottom: 24px; position: relative; z-index: 1; }
+  .cover h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.15; margin-bottom: 16px; position: relative; z-index: 1; }
+  .cover h1 span { color: #FECA09; }
+  .cover p { font-size: 18px; opacity: .9; max-width: 600px; margin-bottom: 40px; position: relative; z-index: 1; }
+  .cover-meta { font-size: 13px; opacity: .6; position: relative; z-index: 1; }
+  .cover-partners { display: flex; gap: 32px; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; z-index: 1; }
+  .cover-partners .partner { padding: 12px 24px; border: 1px solid rgba(255,255,255,.25); border-radius: 10px; font-weight: 600; font-size: 15px; }
+
+  /* Container */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* Section */
+  section { padding: 64px 0; }
+  section:nth-child(even) { background: #fff; }
+  .section-num { font-size: 12px; font-weight: 700; color: #137B86; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+  .section-title { font-size: 28px; font-weight: 800; color: #1a2b2d; margin-bottom: 8px; }
+  .section-sub { font-size: 15px; color: #666; margin-bottom: 32px; max-width: 700px; }
+
+  /* Cards */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .card { background: #fff; border-radius: 12px; padding: 24px; border: 1px solid #e8ecef; transition: box-shadow .2s; }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+  .card-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 14px; }
+  .card-icon.teal { background: #e6f4f5; color: #137B86; }
+  .card-icon.gold { background: #fef8e1; color: #b8860b; }
+  .card-icon.green { background: #e8f5e9; color: #2e7d32; }
+  .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .card p { font-size: 13px; color: #666; line-height: 1.5; }
+
+  /* Status badge */
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .badge-green { background: #e8f5e9; color: #2e7d32; }
+  .badge-teal { background: #e6f4f5; color: #137B86; }
+  .badge-gold { background: #fef8e1; color: #b8860b; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  thead { background: #137B86; color: #fff; }
+  th { padding: 10px 14px; text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+  td { padding: 10px 14px; border-bottom: 1px solid #eef0f2; }
+  tr:hover td { background: #f8fafb; }
+  .highlight-row td { background: #e6f4f5; font-weight: 600; }
+
+  /* Pricing */
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .pricing-card { background: #fff; border-radius: 12px; padding: 28px 20px; border: 1px solid #e8ecef; text-align: center; position: relative; }
+  .pricing-card.featured { border: 2px solid #137B86; }
+  .pricing-card.featured::before { content: 'PHỔ BIẾN'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #137B86; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 12px; border-radius: 8px; }
+  .pricing-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .pricing-price { font-size: 28px; font-weight: 800; color: #137B86; }
+  .pricing-period { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .pricing-list { list-style: none; text-align: left; }
+  .pricing-list li { padding: 5px 0; font-size: 13px; }
+  .pricing-list li::before { content: '✓'; color: #137B86; font-weight: 700; margin-right: 8px; }
+
+  /* Timeline */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before { content: ''; position: absolute; left: 11px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #137B86, #FECA09); }
+  .timeline-item { position: relative; margin-bottom: 28px; }
+  .timeline-item::before { content: ''; position: absolute; left: -27px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #137B86; border: 3px solid #e6f4f5; }
+  .timeline-date { font-size: 12px; font-weight: 700; color: #137B86; letter-spacing: 1px; }
+  .timeline-content { font-size: 14px; color: #444; margin-top: 2px; }
+  .timeline-content strong { color: #1a2b2d; }
+
+  /* KPI */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+  .kpi-card { background: #fff; border-radius: 10px; padding: 20px; text-align: center; border: 1px solid #e8ecef; }
+  .kpi-value { font-size: 32px; font-weight: 800; color: #137B86; }
+  .kpi-label { font-size: 12px; color: #888; margin-top: 4px; }
+
+  /* Comparison */
+  .compare-yes { color: #2e7d32; font-weight: 700; }
+  .compare-no { color: #c62828; }
+  .compare-warn { color: #e65100; }
+
+  /* CTA */
+  .cta-section { background: linear-gradient(135deg, #0e5a62, #137B86); color: #fff; text-align: center; padding: 64px 24px; }
+  .cta-section h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+  .cta-section p { font-size: 16px; opacity: .9; max-width: 500px; margin: 0 auto 32px; }
+
+  /* Footer */
+  footer { background: #1a2b2d; color: rgba(255,255,255,.5); padding: 32px 24px; text-align: center; font-size: 12px; }
+  footer strong { color: rgba(255,255,255,.8); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .cover h1 { font-size: 32px; }
+    .pricing-grid { grid-template-columns: 1fr 1fr; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .cover-partners { flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ COVER ═══════════════════ -->
+<div class="cover">
+  <div class="cover-logo">PRODUCT ROADMAP</div>
+  <h1>Toplinks — <span>Nền tảng Quản trị<br>& Phát triển Nhân tài</span></h1>
+  <p>Chuỗi giá trị khép kín: Đánh giá năng lực → GAP Analysis → IDP/PIP → 9-Box Talent Matrix</p>
+  <div class="cover-partners">
+    <div class="partner">Toplinks Academy</div>
+    <div style="font-size:20px;opacity:.4">×</div>
+    <div class="partner">Vibalink Technology</div>
+  </div>
+  <div class="cover-meta">Version 1.0 — 30/04/2026 — Confidential</div>
+</div>
+
+<!-- ═══════════════════ 1. VISION ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-num">01 — Tầm nhìn</div>
+    <div class="section-title">Giải pháp toàn diện cho doanh nghiệp Việt Nam</div>
+    <div class="section-sub">Toplinks giải quyết 3 vấn đề: thiếu công cụ đánh giá năng lực hệ thống, đánh giá cảm tính không liên kết phát triển, cá nhân thiếu công cụ tự phát triển.</div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon teal">📊</div>
+        <h3>Đánh giá 360°</h3>
+        <p>Self + Manager Assessment, scoring GAP tự động, phân loại 5 level, radar năng lực theo nhóm.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon gold">🎯</div>
+        <h3>IDP & PIP</h3>
+        <p>Kế hoạch phát triển cá nhân (checkpoint 30/60/90 ngày) và cải thiện hiệu suất (ký 3 bên, review định kỳ).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon green">📈</div>
+        <h3>9-Box Talent Matrix</h3>
+        <p>Ma trận nhân tài kết hợp năng lực × hiệu suất. Drill-down, succession planning, talent review.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;padding:20px 24px;background:#f0fafb;border-radius:10px;border-left:4px solid #137B86">
+      <strong style="color:#137B86">Phương pháp luận:</strong> ADDIE (thiết kế đào tạo) + Lominger/Korn Ferry (khung năng lực lãnh đạo) — chuẩn quốc tế, bản địa hóa cho thị trường Việt Nam.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 2. PHASE 1 STATUS ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-num">02 — Tình trạng hiện tại</div>
+    <div class="section-title">Phase 1 — B2B MVP <span class="badge badge-green">HOÀN THÀNH</span></div>
+    <div class="section-sub">31 features, 19 milestones. Nền tảng sẵn sàng cho khách hàng đầu tiên.</div>
+
+    <table>
+      <thead><tr><th>Nhóm</th><th>Chức năng</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Nền tảng</strong></td><td>Multi-tenant, Auth (email/OTP), Import Excel, 8 roles, Tenant switcher</td><td><span class="badge badge-green">✅</span></td></tr>
+        <tr><td><strong>Đánh giá</strong></td><td>Multi-framework, scope phòng ban/chức vụ, Self + Manager Assessment, GAP + Level 5</td><td><span class="badge badge-green">✅</span></td></tr>
+        <tr><td><strong>Phát triển</strong></td><td>IDP (checkpoint 30/60/90), PIP (ký 3 bên), 1:1 Discussion</td><td><span class="badge badge-green">✅</span></td></tr>
+        <tr><td><strong>Hiệu suất</strong></td><td>Import Performance, 9-Box Grid, KPI Target config</td><td><span class="badge badge-green">✅</span></td></tr>
+        <tr><td><strong>Báo cáo</strong></td><td>Dashboard insight, Export PDF (radar + GAP), Excel, PPTX</td><td><span class="badge badge-green">✅</span></td></tr>
+        <tr><td><strong>Quản trị</strong></td><td>Phòng ban & Chức vụ, Gói dịch vụ 4 tầng, Module lock</td><td><span class="badge badge-green">✅</span></td></tr>
+        <tr><td><strong>Tăng trưởng</strong></td><td>Landing page, Form đăng ký Trial, Lead management</td><td><span class="badge badge-green">✅</span></td></tr>
+        <tr><td><strong>Tuân thủ</strong></td><td>Email notifications, Nghị định 13 (export + anonymize)</td><td><span class="badge badge-green">✅</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ 3. PRICING ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-num">03 — Gói dịch vụ</div>
+    <div class="section-title">Kiến trúc 4 tầng + Module add-on</div>
+    <div class="section-sub">Thanh toán theo năm giảm 20%. Module add-on: IDP +80k, PIP +50k.</div>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-name">Trial</div>
+        <div class="pricing-price">Miễn phí</div>
+        <div class="pricing-period">30 ngày</div>
+        <ul class="pricing-list">
+          <li>1 kỳ đánh giá</li>
+          <li>1 khung năng lực</li>
+          <li>Tối đa 50 user</li>
+          <li>Dashboard cơ bản</li>
+        </ul>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-price">99.000đ</div>
+        <div class="pricing-period">/user/tháng · SME 10–50</div>
+        <ul class="pricing-list">
+          <li>4 kỳ/năm</li>
+          <li>3 khung năng lực</li>
+          <li>Export PDF/Excel</li>
+          <li>9-Box Grid</li>
+        </ul>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-name">Professional</div>
+        <div class="pricing-price">199.000đ</div>
+        <div class="pricing-period">/user/tháng · Mid-market 50–500</div>
+        <ul class="pricing-list">
+          <li>Unlimited kỳ</li>
+          <li>10 khung năng lực</li>
+          <li>Tất cả Starter</li>
+          <li>+ IDP module</li>
+        </ul>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-price">299.000đ</div>
+        <div class="pricing-period">/user/tháng · 500+</div>
+        <ul class="pricing-list">
+          <li>Unlimited tất cả</li>
+          <li>+ PIP module</li>
+          <li>Support ưu tiên</li>
+          <li>Account Manager</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 4. ROADMAP ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-num">04 — Roadmap phát triển</div>
+    <div class="section-title">Phase 2 — HR Tech chiều sâu</div>
+    <div class="section-sub">Mỗi feature là module add-on độc lập, build khi có demand từ khách hàng.</div>
+
+    <table>
+      <thead><tr><th>#</th><th>Module</th><th>Mô tả</th><th>Revenue</th></tr></thead>
+      <tbody>
+        <tr class="highlight-row"><td>1</td><td><strong>LMS — Đào tạo</strong></td><td>Khóa học video + quiz + certificate. Library Toplinks + Tenant tự tạo.</td><td>Mua lẻ/khóa</td></tr>
+        <tr><td>2</td><td><strong>360° Feedback</strong></td><td>Peer + Subordinate assessment. Radar multi-source.</td><td>+50k/user</td></tr>
+        <tr><td>3</td><td><strong>Engagement Survey</strong></td><td>Pulse survey, eNPS, heatmap phòng ban.</td><td>+30k/user</td></tr>
+        <tr><td>4</td><td><strong>OKR/KPI</strong></td><td>Quản lý OKR trực tiếp, cascade company → team → individual.</td><td>+80k/user</td></tr>
+        <tr><td>5</td><td><strong>Succession Planning</strong></td><td>Talent pool, succession chart, readiness level.</td><td>Enterprise</td></tr>
+        <tr><td>6</td><td><strong>AI Recommendation</strong></td><td>LLM đề xuất IDP/PIP, trend analysis, insight tự động.</td><td>Enterprise</td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:40px">
+      <div class="section-title" style="font-size:22px">Phase 3 — Consulting + Coaching Platform</div>
+      <div class="section-sub">Chuyển từ tool → platform dịch vụ. Tạo revenue stream mới.</div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon gold">🧑‍🏫</div>
+        <h3>Coaching Marketplace</h3>
+        <p>Thư viện coach/mentor, booking session, feedback, gắn IDP. Commission 20%/session.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon teal">🎬</div>
+        <h3>Video Library DRM</h3>
+        <p>Nội dung phát triển năng lực, DRM chống tải. +100k/user/năm.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon green">📋</div>
+        <h3>Consulting CRM</h3>
+        <p>Quản lý dự án tư vấn triển khai, template deliverables, milestone tracking.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:40px">
+      <div class="section-title" style="font-size:22px">Phase 4 — Platform mở rộng</div>
+      <div class="section-sub">Scale quốc tế & tạo ecosystem.</div>
+    </div>
+
+    <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+      <div class="card" style="text-align:center;padding:20px"><div style="font-size:24px;margin-bottom:6px">🔌</div><h3 style="font-size:14px">Public API</h3><p style="font-size:12px">HRIS sync</p></div>
+      <div class="card" style="text-align:center;padding:20px"><div style="font-size:24px;margin-bottom:6px">🏷️</div><h3 style="font-size:14px">White-label</h3><p style="font-size:12px">Partner brand</p></div>
+      <div class="card" style="text-align:center;padding:20px"><div style="font-size:24px;margin-bottom:6px">🌏</div><h3 style="font-size:14px">Multi-lang</h3><p style="font-size:12px">EN, JP, KR</p></div>
+      <div class="card" style="text-align:center;padding:20px"><div style="font-size:24px;margin-bottom:6px">🛡️</div><h3 style="font-size:14px">Compliance</h3><p style="font-size:12px">GDPR, PDPA</p></div>
+      <div class="card" style="text-align:center;padding:20px"><div style="font-size:24px;margin-bottom:6px">🧩</div><h3 style="font-size:14px">Marketplace</h3><p style="font-size:12px">Plugin ecosystem</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 5. COMPETITIVE ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-num">05 — Lợi thế cạnh tranh</div>
+    <div class="section-title">So sánh với thị trường</div>
+
+    <table>
+      <thead><tr><th>Yếu tố</th><th>Toplinks</th><th>Đối thủ VN</th><th>Đối thủ quốc tế</th></tr></thead>
+      <tbody>
+        <tr><td>Khung năng lực chuẩn</td><td class="compare-yes">✅ Lominger bản địa</td><td class="compare-no">❌ Tự xây</td><td class="compare-warn">⚠️ Không bản địa</td></tr>
+        <tr><td>Chuỗi giá trị khép kín</td><td class="compare-yes">✅ Assessment → IDP → 9-Box</td><td class="compare-warn">⚠️ Rời rạc</td><td class="compare-yes">✅ Giá cao</td></tr>
+        <tr><td>Multi-tenant SaaS</td><td class="compare-yes">✅ Từ đầu</td><td class="compare-warn">⚠️ On-prem</td><td class="compare-yes">✅</td></tr>
+        <tr><td>Giá cạnh tranh</td><td class="compare-yes">✅ 99k–299k</td><td class="compare-warn">⚠️ Không rõ</td><td class="compare-no">❌ $5–15/user</td></tr>
+        <tr><td>LMS tích hợp</td><td class="compare-yes">✅ Cùng hệ sinh thái</td><td class="compare-no">❌ Tách biệt</td><td class="compare-warn">⚠️ Không gắn HR</td></tr>
+        <tr><td>Tuân thủ NĐ13</td><td class="compare-yes">✅ Built-in</td><td class="compare-no">❌ Thiếu</td><td class="compare-no">❌ Không focus VN</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ 6. PARTNERSHIP ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-num">06 — Mô hình hợp tác</div>
+    <div class="section-title">Toplinks Academy × Vibalink Technology</div>
+
+    <div class="card-grid" style="grid-template-columns:1fr 1fr;margin-bottom:32px">
+      <div class="card" style="border-left:4px solid #FECA09">
+        <h3>Toplinks Academy</h3>
+        <p><strong>Chuyên môn:</strong> Phương pháp luận, nội dung khung năng lực, tư vấn triển khai</p>
+        <p style="margin-top:8px"><strong>Đóng góp:</strong> Bộ câu hỏi chuẩn, video chuyên gia, mạng lưới coach</p>
+      </div>
+      <div class="card" style="border-left:4px solid #137B86">
+        <h3>Vibalink Technology</h3>
+        <p><strong>Chuyên môn:</strong> Phát triển công nghệ, vận hành hệ thống, hạ tầng</p>
+        <p style="margin-top:8px"><strong>Đóng góp:</strong> Kiến trúc, code, DevOps, bảo mật, support kỹ thuật</p>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Nguồn thu</th><th>Toplinks</th><th>Vibalink</th></tr></thead>
+      <tbody>
+        <tr><td>Phí SaaS (Starter–Enterprise)</td><td>40%</td><td><strong>60%</strong></td></tr>
+        <tr><td>Module add-on (360°, OKR, Survey)</td><td>40%</td><td><strong>60%</strong></td></tr>
+        <tr><td>Coaching marketplace</td><td><strong>70%</strong></td><td>30%</td></tr>
+        <tr><td>Tư vấn triển khai</td><td><strong>80%</strong></td><td>20%</td></tr>
+        <tr><td>Video/content B2C</td><td><strong>70%</strong></td><td>30%</td></tr>
+        <tr><td>White-label licensing</td><td>30%</td><td><strong>70%</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ 7. KPI ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-num">07 — Chỉ số mục tiêu</div>
+    <div class="section-title">KPI — Năm 1</div>
+    <div class="section-sub">Phase 1 + Early Phase 2</div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-value">20</div><div class="kpi-label">Tenant active</div></div>
+      <div class="kpi-card"><div class="kpi-value">1.000</div><div class="kpi-label">User trả phí</div></div>
+      <div class="kpi-card"><div class="kpi-value">100M</div><div class="kpi-label">MRR (VNĐ)</div></div>
+      <div class="kpi-card"><div class="kpi-value">≥15%</div><div class="kpi-label">Trial → Paid</div></div>
+      <div class="kpi-card"><div class="kpi-value">&lt;5%</div><div class="kpi-label">Churn rate</div></div>
+      <div class="kpi-card"><div class="kpi-value">≥40</div><div class="kpi-label">NPS</div></div>
+    </div>
+
+    <div style="margin-top:32px">
+      <div class="section-title" style="font-size:20px">KPI — Năm 2</div>
+    </div>
+
+    <div class="kpi-grid" style="margin-top:16px">
+      <div class="kpi-card"><div class="kpi-value">100</div><div class="kpi-label">Tenant active</div></div>
+      <div class="kpi-card"><div class="kpi-value">5.000</div><div class="kpi-label">User trả phí</div></div>
+      <div class="kpi-card"><div class="kpi-value">500M</div><div class="kpi-label">MRR (VNĐ)</div></div>
+      <div class="kpi-card"><div class="kpi-value">≥2.5</div><div class="kpi-label">Modules/tenant</div></div>
+      <div class="kpi-card"><div class="kpi-value">50</div><div class="kpi-label">Coaching/tháng</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ 8. TIMELINE ═══════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-num">08 — Timeline</div>
+    <div class="section-title">Lộ trình triển khai</div>
+    <div class="section-sub">Linh hoạt, điều chỉnh theo demand thực tế từ khách hàng.</div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">Q2/2026</div>
+        <div class="timeline-content"><strong>Phase 1 MVP launch</strong> — Bán cho 5 khách hàng đầu tiên. Thu thập feedback.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Q3/2026</div>
+        <div class="timeline-content"><strong>LMS Module</strong> — Hệ thống đào tạo gắn assessment. Toplinks Library.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Q4/2026</div>
+        <div class="timeline-content"><strong>360° Feedback + Engagement Survey</strong> — Mở rộng đánh giá & đo gắn kết.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Q1/2027</div>
+        <div class="timeline-content"><strong>OKR/KPI + B2C launch</strong> — Quản lý mục tiêu + mở kênh cá nhân.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">Q2/2027</div>
+        <div class="timeline-content"><strong>Coaching Marketplace + AI</strong> — Platform dịch vụ + AI recommendation.</div>
+      </div>
+      <div class="timeline-item" style="margin-bottom:0">
+        <div class="timeline-date">H2/2027</div>
+        <div class="timeline-content"><strong>White-label + Multi-language + API</strong> — Scale quốc tế & ecosystem.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CTA ═══════════════════ -->
+<div class="cta-section">
+  <h2>Bước tiếp theo</h2>
+  <p>Cùng nhau xây dựng nền tảng HR Tech hàng đầu cho doanh nghiệp Việt Nam.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;font-size:14px;max-width:600px;margin:0 auto">
+    <div style="flex:1;min-width:240px;background:rgba(255,255,255,.12);border-radius:10px;padding:16px;text-align:left">
+      <div style="font-weight:700;margin-bottom:4px">1. Review & Feedback</div>
+      <div style="opacity:.8;font-size:13px">Toplinks review roadmap, điều chỉnh ưu tiên</div>
+    </div>
+    <div style="flex:1;min-width:240px;background:rgba(255,255,255,.12);border-radius:10px;padding:16px;text-align:left">
+      <div style="font-weight:700;margin-bottom:4px">2. Pilot 3–5 khách</div>
+      <div style="opacity:.8;font-size:13px">Thu thập feedback, iterate sản phẩm</div>
+    </div>
+    <div style="flex:1;min-width:240px;background:rgba(255,255,255,.12);border-radius:10px;padding:16px;text-align:left">
+      <div style="font-weight:700;margin-bottom:4px">3. Ký thỏa thuận</div>
+      <div style="opacity:.8;font-size:13px">Revenue share, IP, SLA</div>
+    </div>
+    <div style="flex:1;min-width:240px;background:rgba(255,255,255,.12);border-radius:10px;padding:16px;text-align:left">
+      <div style="font-weight:700;margin-bottom:4px">4. Kick-off Phase 2</div>
+      <div style="opacity:.8;font-size:13px">Chọn 2–3 modules ưu tiên theo demand</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <strong>Vibalink Technology JSC</strong> — Technology Partner<br>
+  Confidential — For internal discussion between Toplinks Academy and Vibalink Technology only.<br>
+  © 2026 Vibalink Technology. All rights reserved.
+</footer>
+
+</body>
+</html>
