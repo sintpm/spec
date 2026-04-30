@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toplinks — Product Features & Roadmap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: #1a2b2d; line-height: 1.6; background: #f6f8fa; }
+
+  @media print {
+    body { background: #fff; font-size: 11px; }
+    .no-print { display: none !important; }
+    section { break-inside: avoid; padding: 32px 0; }
+    .cover { min-height: auto !important; padding: 48px 32px !important; }
+    .container { max-width: 100%; }
+  }
+
+  .cover {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    background: linear-gradient(135deg, #0e5a62 0%, #137B86 40%, #1a9ca8 100%);
+    color: #fff; text-align: center; padding: 80px 40px; position: relative; overflow: hidden;
+  }
+  .cover::before { content: ''; position: absolute; top: -40%; right: -25%; width: 500px; height: 500px; border-radius: 50%; background: rgba(254,202,9,.06); }
+  .cover-tag { font-size: 12px; font-weight: 700; letter-spacing: 4px; color: #FECA09; margin-bottom: 20px; }
+  .cover h1 { font-size: clamp(28px, 5vw, 50px); font-weight: 800; line-height: 1.15; margin-bottom: 16px; }
+  .cover h1 span { color: #FECA09; }
+  .cover p { font-size: 17px; opacity: .9; max-width: 620px; margin-bottom: 40px; }
+  .cover-meta { font-size: 13px; opacity: .5; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 60px 0; }
+  section:nth-child(even) { background: #fff; }
+
+  .section-tag { font-size: 11px; font-weight: 700; color: #137B86; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+  .section-title { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .section-sub { font-size: 14px; color: #666; margin-bottom: 28px; max-width: 700px; }
+
+  .phase-label { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-bottom: 16px; }
+  .phase-done { background: #e8f5e9; color: #2e7d32; }
+  .phase-next { background: #e6f4f5; color: #137B86; }
+  .phase-future { background: #fef8e1; color: #b8860b; }
+
+  /* Module block */
+  .module { background: #fff; border-radius: 12px; border: 1px solid #e8ecef; margin-bottom: 20px; overflow: hidden; }
+  .module-header { padding: 18px 22px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #f0f2f4; }
+  .module-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .module-icon.teal { background: #e6f4f5; }
+  .module-icon.gold { background: #fef8e1; }
+  .module-icon.green { background: #e8f5e9; }
+  .module-icon.blue { background: #e3f2fd; }
+  .module-icon.purple { background: #f3e5f5; }
+  .module-icon.red { background: #fce4ec; }
+  .module-name { font-size: 16px; font-weight: 700; }
+  .module-desc { font-size: 12px; color: #888; margin-top: 2px; }
+  .module-body { padding: 16px 22px; }
+
+  /* Feature list */
+  .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; }
+  @media (max-width: 600px) { .feat-grid { grid-template-columns: 1fr; } }
+  .feat-item { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; font-size: 13px; }
+  .feat-check { color: #137B86; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .feat-text { color: #444; }
+  .feat-text strong { color: #1a2b2d; }
+
+  /* Summary stats */
+  .stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+  .stat { background: #fff; border-radius: 10px; padding: 16px 20px; border: 1px solid #e8ecef; text-align: center; flex: 1; min-width: 120px; }
+  .stat-value { font-size: 28px; font-weight: 800; color: #137B86; }
+  .stat-label { font-size: 11px; color: #888; margin-top: 2px; }
+
+  /* Divider */
+  .divider { height: 1px; background: #e8ecef; margin: 32px 0; }
+
+  /* Timeline */
+  .tl { position: relative; padding-left: 28px; }
+  .tl::before { content: ''; position: absolute; left: 9px; top: 4px; bottom: 4px; width: 2px; background: linear-gradient(180deg, #137B86, #FECA09); }
+  .tl-item { position: relative; margin-bottom: 24px; }
+  .tl-item::before { content: ''; position: absolute; left: -23px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: #137B86; border: 2px solid #e6f4f5; }
+  .tl-date { font-size: 11px; font-weight: 700; color: #137B86; letter-spacing: .5px; }
+  .tl-text { font-size: 13px; color: #444; }
+  .tl-text strong { color: #1a2b2d; }
+
+  footer { background: #1a2b2d; color: rgba(255,255,255,.5); padding: 28px 24px; text-align: center; font-size: 11px; }
+  footer strong { color: rgba(255,255,255,.8); }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">PRODUCT FEATURES & ROADMAP</div>
+  <h1>Toplinks — <span>Nền tảng Quản trị<br>& Phát triển Nhân tài</span></h1>
+  <p>Đánh giá năng lực → GAP Analysis → IDP/PIP → Coaching & Đào tạo → 9-Box Talent Matrix</p>
+  <div class="cover-meta">Toplinks Academy × Vibalink Technology — Version 1.0 — 04/2026</div>
+</div>
+
+<!-- ══════════ PHASE 1 ══════════ -->
+<section>
+  <div class="container">
+    <div class="section-tag">Phase 1</div>
+    <div class="section-title">B2B MVP — Nền tảng cốt lõi <span class="phase-label phase-done">HOÀN THÀNH</span></div>
+    <div class="section-sub">31 chức năng, 19 milestones. Sẵn sàng cho khách hàng đầu tiên.</div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-value">31</div><div class="stat-label">Features</div></div>
+      <div class="stat"><div class="stat-value">19</div><div class="stat-label">Milestones</div></div>
+      <div class="stat"><div class="stat-value">8</div><div class="stat-label">User Roles</div></div>
+      <div class="stat"><div class="stat-value">51</div><div class="stat-label">E2E Tests</div></div>
+    </div>
+
+    <!-- Module: Auth & Users -->
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon teal">🔐</div>
+        <div><div class="module-name">Authentication & Quản lý người dùng</div><div class="module-desc">Đăng nhập, phân quyền, import nhân viên</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Đăng nhập</strong> email/password + 2FA OTP email</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>8 roles:</strong> Employee, Manager, HR, L&D, BOD, Org Admin, Admin, Super Admin</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Import nhân viên</strong> từ Excel/CSV (email, tên, phòng ban, chức vụ, manager)</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Kích hoạt tài khoản</strong> qua OTP email hoặc default password</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Mã nhân viên</strong> unique theo tenant, search/filter</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Phòng ban & Chức vụ</strong> khai báo trước, CRUD, liên kết user</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Tenant Switcher</strong> cho Admin — thao tác trên tenant được chọn</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Lead management</strong> — quản lý đăng ký Trial, filter status, notes</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module: Assessment -->
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon gold">📊</div>
+        <div><div class="module-name">Đánh giá năng lực</div><div class="module-desc">Self + Manager Assessment, scoring, GAP analysis</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Multi-framework</strong> — tạo nhiều khung năng lực, mỗi khung có bộ câu hỏi riêng</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Framework scoping</strong> — áp dụng theo phòng ban / chức vụ cụ thể</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Self Assessment</strong> — 50 câu, thang 1–5, phân trang 10 câu/trang</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Manager Assessment</strong> — chấm điểm nhân viên, check self-submitted trước</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Auto-save draft</strong> — debounce 1.2s, không mất câu trả lời</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Scoring engine</strong> — Avg, GAP (Self vs Manager), phân loại 5 level</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Chu kỳ đánh giá</strong> — Quý / 6 tháng / Năm, auto-open/close, chọn framework</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Lịch sử đánh giá</strong> — xem tất cả kỳ của 1 nhân viên, click vào chi tiết</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Kết quả kỳ</strong> — HR xem tổng hợp + chi tiết từng nhân viên</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Import framework</strong> — upload Excel, preview, merge/replace mode</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module: Development -->
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon green">🎯</div>
+        <div><div class="module-name">Phát triển nhân tài</div><div class="module-desc">IDP, PIP, 1:1 Discussion</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>IDP</strong> — kế hoạch phát triển cá nhân, action items, checkpoint 30/60/90 ngày</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>IDP approval</strong> — Manager duyệt, tracking progress</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>PIP</strong> — kế hoạch cải thiện, ký 3 bên (NV + Manager + HR)</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>PIP reviews</strong> — review định kỳ, kết quả on_track/at_risk/off_track</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>1:1 Discussion</strong> — form ghi chú, action items, timeline</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Recommendation engine</strong> — đề xuất IDP/PIP theo range năng lực (6 rules)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module: Performance -->
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon blue">📈</div>
+        <div><div class="module-name">Hiệu suất & 9-Box</div><div class="module-desc">Import KPI, ma trận nhân tài</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Import Performance</strong> — upload Excel KPI score 1–5, preview + commit</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>9-Box Grid</strong> — Potential × Performance, drill-down, filter phòng ban/chức vụ</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>9-Box detail</strong> — click ô → danh sách NV, link tới báo cáo cá nhân</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>KPI Target</strong> — HR set target completion rate + org avg, dashboard cảnh báo</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module: Reports -->
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon purple">📑</div>
+        <div><div class="module-name">Dashboard & Báo cáo</div><div class="module-desc">Insight tự động, export đa định dạng</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Dashboard cá nhân</strong> — KPI cards, cycle status, pending actions</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Dashboard HR</strong> — org KPIs, 9-box summary, insight list</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Auto-insight</strong> — 6 rule types, template-based, auto-generate</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Export PDF</strong> — báo cáo cá nhân: score cards + radar chart + GAP table (1 trang A4)</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Export Excel</strong> — raw data + filters (phòng ban, level, score range)</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Export PPTX</strong> — 5 slides: KPIs, level chart, departments, top employees</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Top-bottom analysis</strong> — 3 strengths + 3 gaps theo competency</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Department breakdown</strong> — avg score + count theo phòng ban</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module: Platform -->
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon red">⚙️</div>
+        <div><div class="module-name">Nền tảng & Tuân thủ</div><div class="module-desc">Multi-tenant, billing, compliance</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Multi-tenant</strong> — tách biệt dữ liệu hoàn toàn, tenant_id trên mọi query</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Gói dịch vụ 4 tầng</strong> — Trial / Starter / Professional / Enterprise</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Module lock</strong> — chức năng chưa mua hiện khóa + upsell modal</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Landing page</strong> — Hero, Features, Pricing, FAQ, Form đăng ký Trial</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Email notifications</strong> — cycle open, T-3/T-1 reminder, submit confirm, activation</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Nghị định 13</strong> — export dữ liệu cá nhân (JSON) + anonymize account</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Invoice management</strong> — tạo hóa đơn, xác nhận thanh toán, grace period 7 ngày</span></div>
+          <div class="feat-item"><span class="feat-check">✓</span><span class="feat-text"><strong>Responsive</strong> — desktop + tablet + mobile (480/768/1024px breakpoints)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PHASE 2 ══════════ -->
+<section>
+  <div class="container">
+    <div class="section-tag">Phase 2</div>
+    <div class="section-title">HR Tech chiều sâu <span class="phase-label phase-next">SẮP TỚI</span></div>
+    <div class="section-sub">Mở rộng hệ sinh thái đánh giá & phát triển nhân tài. Mỗi module build khi có demand.</div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon teal">📚</div>
+        <div><div class="module-name">LMS — Hệ thống đào tạo</div><div class="module-desc">Khóa học, video, quiz, certificate — gắn liền assessment</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Course management</strong> — tạo khóa học: modules → lessons (video/PDF/quiz)</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Toplinks Library</strong> — thư viện khóa học Toplinks sản xuất (marketplace)</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Tenant content</strong> — HR/L&D tự tạo khóa riêng cho công ty</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Enrollment + Progress</strong> — đăng ký, tracking tiến độ, auto-complete</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Quiz engine</strong> — câu hỏi trắc nghiệm, chấm điểm, passing score</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Certificate</strong> — tự động cấp chứng chỉ khi hoàn thành, download PDF</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>HR recommend</strong> — đề xuất khóa cho nhân viên/phòng ban</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Learning report</strong> — completion rate, popular courses, top learners</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon gold">🔄</div>
+        <div><div class="module-name">360° Feedback mở rộng</div><div class="module-desc">Đánh giá đa chiều: Peer, Subordinate, Skip-level</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Multi-source assessment</strong> — Peer + Subordinate + Skip-level (ngoài Self + Manager)</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Relationship matrix</strong> — HR cấu hình ai đánh giá ai</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Radar multi-source</strong> — so sánh self vs manager vs peer vs subordinate</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Anonymity config</strong> — ẩn danh peer/subordinate feedback</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon green">💚</div>
+        <div><div class="module-name">Employee Engagement Survey</div><div class="module-desc">Đo mức độ gắn kết, pulse survey, eNPS</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Survey builder</strong> — template hoặc custom, phân phối theo phòng ban</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Pulse survey</strong> — 5–10 câu hàng tháng, nhanh gọn</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>eNPS score</strong> — Employee Net Promoter Score</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Heatmap engagement</strong> — theo phòng ban, trend qua thời gian</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon blue">🎯</div>
+        <div><div class="module-name">OKR/KPI Module</div><div class="module-desc">Quản lý mục tiêu trực tiếp, thay import Excel</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>OKR CRUD</strong> — Objective → Key Results → Progress tracking</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Cascade</strong> — Company OKR → Team → Individual, alignment view</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>KPI dashboard</strong> — real-time progress, liên kết Performance score</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Check-in</strong> — weekly/monthly update progress, manager comments</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon purple">👥</div>
+        <div><div class="module-name">Succession Planning & Talent Review</div><div class="module-desc">Quản trị nhân tài cấp chiến lược</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Talent pool</strong> — high-potential list, readiness level (Now / 1-2y / 3+y)</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Succession chart</strong> — vị trí quan trọng → ứng viên kế thừa</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Talent Review meeting</strong> — calibration, drag-drop 9-Box live</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Risk analysis</strong> — vị trí chưa có successor, flight risk</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon red">🤖</div>
+        <div><div class="module-name">AI Recommendation</div><div class="module-desc">LLM phân tích & đề xuất thông minh</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>AI IDP/PIP</strong> — LLM đề xuất kế hoạch phát triển chi tiết theo GAP</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Trend analysis</strong> — phân tích xu hướng năng lực qua nhiều kỳ</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Auto-insight</strong> — "Phòng X có 3 NV cần cải thiện Tư duy chiến lược"</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>BOD summary</strong> — tóm tắt báo cáo bằng ngôn ngữ tự nhiên</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;padding:16px 20px;background:#f0fafb;border-radius:10px;font-size:13px;color:#444">
+      <strong style="color:#137B86">Cũng trong Phase 2:</strong> B2C flow (cá nhân tự đánh giá + video DRM), thanh toán VNPay/Momo, Google SSO + SAML.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PHASE 3 ══════════ -->
+<section>
+  <div class="container">
+    <div class="section-tag">Phase 3</div>
+    <div class="section-title">Consulting & Coaching Platform <span class="phase-label phase-future">TƯƠNG LAI</span></div>
+    <div class="section-sub">Chuyển Toplinks từ tool → platform dịch vụ. Tạo revenue stream mới.</div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon gold">🧑‍🏫</div>
+        <div><div class="module-name">Coaching Marketplace</div><div class="module-desc">Kết nối nhân viên với coach/mentor chuyên nghiệp</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Coach directory</strong> — profile, chuyên môn, rating, availability</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Booking</strong> — calendar, video call link (Zoom/Meet), reminders</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Session feedback</strong> — employee + coach đánh giá lẫn nhau</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>IDP integration</strong> — gắn coaching session với action items</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon teal">🎬</div>
+        <div><div class="module-name">Video Library DRM</div><div class="module-desc">Nội dung phát triển năng lực, bảo vệ bản quyền</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>HLS encryption</strong> — video streaming bảo mật, không cho tải</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Competency mapping</strong> — gắn video với năng lực cụ thể</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>B2C access</strong> — cá nhân mua lẻ video/khóa học</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Auto-suggest</strong> — đề xuất video trong IDP theo GAP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon green">📋</div>
+        <div><div class="module-name">Consulting CRM + Learning Path</div><div class="module-desc">Quản lý dự án tư vấn & lộ trình học tập</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Project management</strong> — dự án tư vấn triển khai, milestones, deliverables</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Learning path</strong> — lộ trình học tập gắn năng lực yếu, auto-suggest content</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>LMS Edtexco integration</strong> — SSO + launch khi nền tảng sẵn sàng</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Ngôn ngữ tiếng Anh</strong> — i18n toàn bộ UI + email + PDF</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PHASE 4 ══════════ -->
+<section>
+  <div class="container">
+    <div class="section-tag">Phase 4</div>
+    <div class="section-title">Platform mở rộng <span class="phase-label phase-future">TƯƠNG LAI</span></div>
+    <div class="section-sub">Scale quốc tế & tạo ecosystem cho đối tác.</div>
+
+    <div class="module">
+      <div class="module-header">
+        <div class="module-icon blue">🌐</div>
+        <div><div class="module-name">API, White-label & Ecosystem</div><div class="module-desc">Mở nền tảng cho tích hợp & đối tác</div></div>
+      </div>
+      <div class="module-body">
+        <div class="feat-grid">
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Public REST API</strong> — documented (OpenAPI/Swagger), API keys</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Webhook events</strong> — assessment.completed, cycle.closed, idp.created</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>HRIS integration</strong> — sync SAP SuccessFactors, Workday, Base.vn</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>White-label</strong> — đối tác consulting bán dưới brand riêng</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Multi-language</strong> — EN, JP, KR cho thị trường ASEAN, Nhật, Hàn</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Compliance</strong> — GDPR (EU), PDPA (Singapore), PIPA (Korea)</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Plugin marketplace</strong> — developer portal, community plugins</span></div>
+          <div class="feat-item"><span class="feat-check">○</span><span class="feat-text"><strong>Slack/Teams bot</strong> — notifications, quick actions từ chat</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TIMELINE ══════════ -->
+<section>
+  <div class="container">
+    <div class="section-tag">Timeline</div>
+    <div class="section-title">Lộ trình triển khai</div>
+    <div class="section-sub">Linh hoạt, điều chỉnh theo demand thực tế từ khách hàng.</div>
+
+    <div class="tl">
+      <div class="tl-item"><div class="tl-date">Q2/2026</div><div class="tl-text"><strong>Phase 1 MVP launch</strong> — 31 features, bán cho 5 khách hàng đầu tiên</div></div>
+      <div class="tl-item"><div class="tl-date">Q3/2026</div><div class="tl-text"><strong>LMS Module</strong> — khóa học, quiz, certificate. Toplinks Library ra mắt</div></div>
+      <div class="tl-item"><div class="tl-date">Q4/2026</div><div class="tl-text"><strong>360° Feedback + Engagement Survey</strong> — đánh giá đa chiều + đo gắn kết</div></div>
+      <div class="tl-item"><div class="tl-date">Q1/2027</div><div class="tl-text"><strong>OKR/KPI + B2C launch</strong> — quản lý mục tiêu + mở kênh cá nhân</div></div>
+      <div class="tl-item"><div class="tl-date">Q2/2027</div><div class="tl-text"><strong>Coaching Marketplace + AI</strong> — platform dịch vụ + AI recommendation</div></div>
+      <div class="tl-item" style="margin-bottom:0"><div class="tl-date">H2/2027</div><div class="tl-text"><strong>White-label + Multi-language + API</strong> — scale quốc tế & ecosystem</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Toplinks Academy × Vibalink Technology</strong><br>
+  Product Features & Roadmap — Version 1.0 — 04/2026<br>
+  © 2026 All rights reserved.
+</footer>
+
+</body>
+</html>
