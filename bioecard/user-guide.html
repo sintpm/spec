@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioECard — Hướng dẫn sử dụng</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --blue: #2563eb;
+    --blue-dark: #1e40af;
+    --blue-light: #dbeafe;
+    --blue-50: #eff6ff;
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-400: #94a3b8;
+    --slate-500: #64748b;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+    --slate-900: #0f172a;
+    --emerald: #059669;
+    --emerald-light: #d1fae5;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --rose: #e11d48;
+    --rose-light: #ffe4e6;
+    --sidebar-w: 280px;
+    --header-h: 64px;
+    --font-display: 'Source Serif 4', Georgia, serif;
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 24px); }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--slate-700);
+    background: var(--slate-50);
+    line-height: 1.7;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Header ── */
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--slate-200);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+  .header-logo {
+    width: 32px; height: 32px;
+    background: var(--blue);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-logo svg { width: 16px; height: 16px; fill: white; }
+  .header-brand {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--slate-900);
+    letter-spacing: -0.02em;
+  }
+  .header-sep {
+    width: 1px;
+    height: 24px;
+    background: var(--slate-200);
+    margin: 0 4px;
+  }
+  .header-title {
+    font-size: 14px;
+    color: var(--slate-500);
+    font-weight: 500;
+  }
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--slate-200);
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: var(--slate-600);
+    margin-left: auto;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
+    background: white;
+    border-right: 1px solid var(--slate-200);
+    overflow-y: auto;
+    padding: 24px 0;
+    z-index: 90;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--slate-200); border-radius: 4px; }
+
+  .nav-group { margin-bottom: 24px; }
+  .nav-group-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--slate-400);
+    padding: 0 24px;
+    margin-bottom: 6px;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 24px;
+    font-size: 13.5px;
+    color: var(--slate-600);
+    text-decoration: none;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    font-weight: 500;
+  }
+  .nav-link:hover {
+    color: var(--blue);
+    background: var(--blue-50);
+    border-left-color: var(--blue);
+  }
+  .nav-link .nav-icon {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+    opacity: 0.55;
+  }
+
+  /* ── Main content ── */
+  .main {
+    margin-left: var(--sidebar-w);
+    margin-top: var(--header-h);
+    min-height: calc(100vh - var(--header-h));
+  }
+  .content {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 40px 120px;
+  }
+
+  /* ── Typography ── */
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--slate-900);
+    line-height: 1.2;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .page-subtitle {
+    font-size: 17px;
+    color: var(--slate-500);
+    margin-bottom: 48px;
+    line-height: 1.6;
+  }
+
+  .section {
+    margin-bottom: 56px;
+    scroll-margin-top: calc(var(--header-h) + 24px);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--slate-100);
+  }
+  .section-desc {
+    color: var(--slate-500);
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  h3 {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--slate-800);
+    margin: 28px 0 10px;
+  }
+
+  p { margin-bottom: 14px; }
+
+  /* ── Role badge ── */
+  .role-divider {
+    margin: 64px 0 48px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, var(--slate-800), var(--slate-900));
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .role-divider.admin {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  }
+  .role-divider-icon {
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .role-divider-icon svg { width: 22px; height: 22px; stroke: white; fill: none; stroke-width: 1.8; }
+  .role-divider h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .role-divider p {
+    font-size: 13px;
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  /* ── Feature list ── */
+  .feature-list {
+    list-style: none;
+    margin: 16px 0;
+  }
+  .feature-list li {
+    position: relative;
+    padding: 10px 0 10px 28px;
+    border-bottom: 1px solid var(--slate-100);
+    font-size: 14.5px;
+  }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 16px;
+    width: 8px; height: 8px;
+    background: var(--blue);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  /* ── Steps ── */
+  .steps { margin: 20px 0; counter-reset: step; }
+  .step {
+    position: relative;
+    padding: 16px 0 16px 56px;
+    counter-increment: step;
+    min-height: 48px;
+  }
+  .step::before {
+    content: counter(step);
+    position: absolute;
+    left: 0; top: 16px;
+    width: 36px; height: 36px;
+    background: var(--blue-light);
+    color: var(--blue);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .step::after {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 56px;
+    bottom: -4px;
+    width: 2px;
+    background: var(--slate-100);
+  }
+  .step:last-child::after { display: none; }
+  .step-title {
+    font-weight: 700;
+    color: var(--slate-800);
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .step-desc { font-size: 14px; color: var(--slate-500); }
+
+  /* ── Callout ── */
+  .callout {
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-size: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout-icon {
+    width: 20px; height: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .callout.info { background: var(--blue-50); color: var(--blue-dark); border: 1px solid #bfdbfe; }
+  .callout.warning { background: var(--amber-light); color: #92400e; border: 1px solid #fde68a; }
+  .callout.success { background: var(--emerald-light); color: #065f46; border: 1px solid #a7f3d0; }
+
+  /* ── Table ── */
+  .doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .doc-table th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--slate-100);
+    font-weight: 600;
+    color: var(--slate-700);
+    border-bottom: 2px solid var(--slate-200);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .doc-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--slate-100);
+    color: var(--slate-600);
+  }
+
+  /* ── Kbd ── */
+  kbd {
+    display: inline-block;
+    padding: 2px 7px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--slate-100);
+    border: 1px solid var(--slate-200);
+    border-radius: 5px;
+    color: var(--slate-700);
+  }
+
+  /* ── Code ── */
+  code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--slate-100);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--rose);
+  }
+
+  /* ── Tag ── */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .tag.blue { background: var(--blue-light); color: var(--blue); }
+  .tag.green { background: var(--emerald-light); color: var(--emerald); }
+  .tag.amber { background: var(--amber-light); color: var(--amber); }
+  .tag.rose { background: var(--rose-light); color: var(--rose); }
+
+  /* ── Footer ── */
+  .doc-footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--slate-200);
+    font-size: 13px;
+    color: var(--slate-400);
+    text-align: center;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    :root { --sidebar-w: 0px; }
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      width: 280px;
+      z-index: 200;
+      box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .menu-toggle { display: block; }
+    .content { padding: 32px 20px 80px; }
+    .page-title { font-size: 28px; }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 150;
+      display: none;
+    }
+    .overlay.show { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-logo">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="11" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="13" y="14" width="8" height="7" rx="2"/></svg>
+    </div>
+    <span class="header-brand">BioECard</span>
+    <div class="header-sep"></div>
+    <span class="header-title">Hướng dẫn sử dụng</span>
+    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- Overlay for mobile -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+
+  <div class="nav-group">
+    <div class="nav-group-title">Bắt đầu</div>
+    <a href="#gioi-thieu" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      Giới thiệu
+    </a>
+    <a href="#dang-ky" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+      Đăng ký & Đăng nhập
+    </a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">Quản lý danh thiếp</div>
+    <a href="#quan-ly-ecard" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Quản lý E-Card
+    </a>
+    <a href="#template" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      Chọn & Đổi template
+    </a>
+    <a href="#upload" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Upload ảnh
+    </a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">NFC & Thống kê</div>
+    <a href="#nfc" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8.32a7.43 7.43 0 010 7.36"/><path d="M9.46 6.21a11.76 11.76 0 010 11.58"/><path d="M12.91 4.1a15.91 15.91 0 01.01 15.8"/><path d="M16.37 2a20.16 20.16 0 010 20"/></svg>
+      Thẻ NFC
+    </a>
+    <a href="#thong-ke" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Thống kê lượt xem
+    </a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">Template Store</div>
+    <a href="#store" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1-5h16l1 5"/><path d="M3 9a2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2"/><path d="M5 20h14a1 1 0 001-1v-7H4v7a1 1 0 001 1z"/></svg>
+      Kho template
+    </a>
+    <a href="#my-templates" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Template của tôi
+    </a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">Tài khoản</div>
+    <a href="#team" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      Quản lý team
+    </a>
+    <a href="#cai-dat" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Cài đặt
+    </a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">Quản trị viên</div>
+    <a href="#admin-tenant" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Quản lý tenant
+    </a>
+    <a href="#admin-template" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Template hệ thống
+    </a>
+    <a href="#admin-duyet" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Duyệt template
+    </a>
+    <a href="#admin-nfc" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      Quản lý NFC
+    </a>
+    <a href="#admin-thanh-toan" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Thanh toán
+    </a>
+    <a href="#admin-analytics" class="nav-link" onclick="closeSidebar()">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>
+      Analytics & Collections
+    </a>
+  </div>
+
+</aside>
+
+<!-- Main -->
+<div class="main">
+  <div class="content">
+
+    <!-- Intro -->
+    <h1 class="page-title">Hướng dẫn sử dụng BioECard</h1>
+    <p class="page-subtitle">
+      Tài liệu hướng dẫn chi tiết các chức năng của nền tảng danh thiếp điện tử BioECard dành cho người dùng doanh nghiệp (tenant) và quản trị viên (admin).
+    </p>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- GIỚI THIỆU -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="gioi-thieu">
+      <h2 class="section-title">Giới thiệu</h2>
+      <p>
+        BioECard là nền tảng SaaS cho phép doanh nghiệp tạo và quản lý <strong>danh thiếp điện tử</strong>. Mỗi danh thiếp có thể chia sẻ qua <strong>thẻ NFC</strong> hoặc <strong>QR code</strong>, và theo dõi lượt xem theo thời gian thực.
+      </p>
+
+      <h3>Các khái niệm cơ bản</h3>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Thuật ngữ</th><th>Mô tả</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Tenant</strong></td><td>Tài khoản doanh nghiệp. Mỗi tenant có slug riêng, ví dụ <code>techvn</code></td></tr>
+          <tr><td><strong>E-Card</strong></td><td>Danh thiếp điện tử. Truy cập tại <code>bioecard.com/{tenant}/{card}</code></td></tr>
+          <tr><td><strong>Template</strong></td><td>Mẫu thiết kế cho danh thiếp. Có mẫu hệ thống và mẫu do tenant tạo</td></tr>
+          <tr><td><strong>NFC Card</strong></td><td>Thẻ cứng NFC vật lý, chạm vào điện thoại sẽ mở danh thiếp</td></tr>
+          <tr><td><strong>Plan</strong></td><td>Gói dịch vụ quy định số lượng danh thiếp và người dùng tối đa</td></tr>
+        </tbody>
+      </table>
+
+      <h3>URL hệ thống</h3>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Đường dẫn</th><th>Mô tả</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>/{tenant}/{card}</code></td><td>Xem danh thiếp công khai</td></tr>
+          <tr><td><code>/c/{nfc_uid}</code></td><td>Link NFC — tự chuyển hướng tới danh thiếp được gán</td></tr>
+          <tr><td><code>/app</code></td><td>Dashboard quản lý cho tenant</td></tr>
+          <tr><td><code>/admin</code></td><td>Dashboard quản trị viên</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- TENANT ROLE DIVIDER -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="role-divider">
+      <div class="role-divider-icon">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4-4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div>
+        <h2>Dành cho Tenant</h2>
+        <p>Hướng dẫn sử dụng cho tài khoản doanh nghiệp</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ĐĂNG KÝ & ĐĂNG NHẬP -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="dang-ky">
+      <h2 class="section-title">Đăng ký & Đăng nhập</h2>
+
+      <h3>Đăng ký tài khoản</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Truy cập trang đăng ký</div>
+          <div class="step-desc">Vào <code>/app/register</code> hoặc nhấn nút "Bắt đầu miễn phí" trên trang chủ.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Điền thông tin</div>
+          <div class="step-desc">Nhập tên doanh nghiệp, email và mật khẩu (tối thiểu 8 ký tự). Hệ thống sẽ tự tạo slug từ tên doanh nghiệp.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Xác thực email</div>
+          <div class="step-desc">Kiểm tra hộp thư và nhấn vào link xác thực. Link có hiệu lực trong vòng 24 giờ.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Đăng nhập</div>
+          <div class="step-desc">Sau khi xác thực, bạn sẽ được chuyển tới trang đăng nhập. Nhập email và mật khẩu để vào dashboard.</div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div>Nếu không nhận được email xác thực, kiểm tra thư mục Spam hoặc nhấn <strong>Gửi lại email xác thực</strong> trên trang đăng nhập.</div>
+      </div>
+
+      <h3>Đăng nhập</h3>
+      <p>Truy cập <code>/app/login</code>, nhập email và mật khẩu. Hệ thống sử dụng JWT với refresh token — phiên đăng nhập tự động gia hạn khi bạn đang hoạt động.</p>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- QUẢN LÝ E-CARD -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="quan-ly-ecard">
+      <h2 class="section-title">Quản lý E-Card</h2>
+      <p class="section-desc">Tạo, chỉnh sửa và xuất bản danh thiếp điện tử cho nhân viên trong tổ chức.</p>
+
+      <h3>Tạo danh thiếp mới</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Nhấn "Tạo danh thiếp"</div>
+          <div class="step-desc">Từ trang danh sách E-Card, nhấn nút tạo mới ở góc trên bên phải.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Chọn template</div>
+          <div class="step-desc">Cửa sổ chọn template hiện ra — bao gồm template hệ thống và template bạn đã mua/tạo. Nhấn để chọn.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Điền thông tin danh thiếp</div>
+          <div class="step-desc">Nhập tên, chức danh, số điện thoại, email, mạng xã hội... Các trường hiển thị tùy thuộc vào template đã chọn.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Xem trước & Lưu</div>
+          <div class="step-desc">Khung preview bên phải hiển thị danh thiếp trực tiếp. Nhấn <strong>Lưu</strong> khi hoàn tất.</div>
+        </div>
+      </div>
+
+      <h3>Trạng thái danh thiếp</h3>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Trạng thái</th><th>Biểu tượng</th><th>Mô tả</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="tag green">Published</span></td><td>Dấu check xanh</td><td>Danh thiếp công khai, ai cũng có thể xem</td></tr>
+          <tr><td><span class="tag amber">Draft</span></td><td>Biểu tượng bút chì</td><td>Bản nháp, chỉ bạn thấy trong dashboard</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Xuất bản / Gỡ xuất bản</h3>
+      <p>Nhấn nút <strong>Publish</strong> để công khai danh thiếp. Khi đã publish, danh thiếp có thể truy cập tại <code>bioecard.com/{tenant}/{card}</code>. Nhấn <strong>Unpublish</strong> để ẩn.</p>
+
+      <h3>QR Code</h3>
+      <p>Mỗi danh thiếp được tự động tạo mã QR. Bạn có thể tải về hoặc chia sẻ trực tiếp. QR code trỏ tới đường dẫn công khai của danh thiếp.</p>
+
+      <h3>Thao tác hàng loạt</h3>
+      <ul class="feature-list">
+        <li>Chọn nhiều danh thiếp bằng checkbox</li>
+        <li><strong>Publish hàng loạt</strong> — xuất bản nhiều danh thiếp cùng lúc</li>
+        <li><strong>Unpublish hàng loạt</strong> — gỡ xuất bản nhiều danh thiếp</li>
+        <li><strong>Xóa hàng loạt</strong> — xóa các danh thiếp đã chọn</li>
+        <li><strong>Export CSV</strong> — xuất toàn bộ danh sách ra file CSV</li>
+      </ul>
+
+      <h3>Tìm kiếm & Phân trang</h3>
+      <p>Thanh tìm kiếm hỗ trợ tìm theo <strong>tên</strong>, <strong>email</strong> và <strong>số điện thoại</strong>. Có thể chọn hiển thị 10, 20, 50 hoặc tất cả danh thiếp trên mỗi trang.</p>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- TEMPLATE -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="template">
+      <h2 class="section-title">Chọn & Đổi template</h2>
+      <p class="section-desc">Mỗi danh thiếp sử dụng một mẫu thiết kế (template). Bạn có thể đổi template bất cứ lúc nào.</p>
+
+      <h3>Cách đổi template</h3>
+      <p>Trong trang chỉnh sửa danh thiếp, nhấn nút <strong>Đổi template</strong>. Cửa sổ picker hiện ra hiển thị tất cả template có sẵn — bao gồm template hệ thống và template bạn đã mua hoặc tạo. Nhấn chọn template mới, dữ liệu danh thiếp sẽ tự ánh xạ sang.</p>
+
+      <h3>Xem trước trực tiếp</h3>
+      <p>Khung preview dạng iframe hiển thị danh thiếp theo template đã chọn. Mọi thay đổi về dữ liệu sẽ cập nhật ngay lập tức trong preview.</p>
+
+      <div class="callout warning">
+        <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>Khi template có phiên bản mới, hệ thống sẽ hiện <strong>banner thông báo</strong>. Bạn có thể xem so sánh trước/sau (side-by-side) và chọn nâng cấp hoặc giữ nguyên.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- UPLOAD -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="upload">
+      <h2 class="section-title">Upload ảnh</h2>
+      <p>Bạn có thể upload ảnh đại diện (avatar) trực tiếp trong trang chỉnh sửa danh thiếp.</p>
+      <ul class="feature-list">
+        <li>Định dạng hỗ trợ: <strong>JPG, PNG, GIF, WebP</strong></li>
+        <li>Dung lượng tối đa: <strong>5 MB</strong> mỗi file</li>
+        <li>Ảnh được lưu với tên file UUID để tránh trùng lặp</li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- NFC -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="nfc">
+      <h2 class="section-title">Thẻ NFC</h2>
+      <p class="section-desc">Thẻ NFC vật lý được quản trị viên gán cho tenant. Sau khi nhận thẻ, bạn có thể liên kết với danh thiếp điện tử.</p>
+
+      <h3>Xem danh sách thẻ NFC</h3>
+      <p>Vào mục <strong>Thẻ NFC</strong> trong sidebar để xem tất cả thẻ đã được gán cho tài khoản. Hỗ trợ tìm kiếm theo UID hoặc tên danh thiếp, lọc theo trạng thái và phân trang.</p>
+
+      <h3>Liên kết thẻ NFC với danh thiếp</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Chọn thẻ NFC</div>
+          <div class="step-desc">Tìm thẻ cần liên kết trong danh sách.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Chọn danh thiếp</div>
+          <div class="step-desc">Nhấn nút <strong>Link</strong>, chọn danh thiếp từ dropdown. Chỉ hiển thị danh thiếp đã publish.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Hoàn tất</div>
+          <div class="step-desc">Thẻ NFC giờ sẽ mở danh thiếp đã chọn khi chạm vào điện thoại. Đường dẫn: <code>bioecard.com/c/{uid}</code></div>
+        </div>
+      </div>
+
+      <p>Nhấn <strong>Unlink</strong> để hủy liên kết. Bạn có thể liên kết lại với danh thiếp khác bất cứ lúc nào.</p>
+
+      <h3>Thông tin hiển thị</h3>
+      <ul class="feature-list">
+        <li>UID thẻ NFC</li>
+        <li>Tên danh thiếp đang liên kết (nếu có)</li>
+        <li>QR code của danh thiếp được gán</li>
+        <li>Link mở danh thiếp công khai (mở tab mới)</li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- THỐNG KÊ -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="thong-ke">
+      <h2 class="section-title">Thống kê lượt xem</h2>
+      <p class="section-desc">Theo dõi hiệu quả networking qua dữ liệu lượt xem chi tiết theo thời gian thực.</p>
+
+      <h3>Dữ liệu hiển thị</h3>
+      <ul class="feature-list">
+        <li><strong>Tổng lượt xem</strong> — tất cả danh thiếp cộng lại</li>
+        <li><strong>Lượt xem theo từng danh thiếp</strong> — so sánh hiệu quả giữa các thẻ</li>
+        <li><strong>Biểu đồ theo thời gian</strong> — chuyển đổi giữa 7 ngày và 30 ngày gần nhất</li>
+      </ul>
+
+      <h3>Cách đếm lượt xem</h3>
+      <p>Hệ thống ghi nhận mỗi lần ai đó mở link danh thiếp. Để tránh đếm trùng, các lượt xem từ cùng một địa chỉ IP trong vòng <strong>30 giây</strong> được tính là 1 lượt duy nhất.</p>
+
+      <div class="callout success">
+        <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div><strong>Bảo mật:</strong> Địa chỉ IP của người xem được mã hóa (hash) trước khi lưu. BioECard không lưu trữ IP gốc.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- TEMPLATE STORE -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="store">
+      <h2 class="section-title">Kho template (Store)</h2>
+      <p class="section-desc">Duyệt và sử dụng các mẫu thiết kế danh thiếp từ cộng đồng và hệ thống.</p>
+
+      <h3>Duyệt template</h3>
+      <p>Vào mục <strong>Store</strong> trong sidebar. Trang store hiển thị tất cả template công khai với các tính năng:</p>
+      <ul class="feature-list">
+        <li><strong>Tìm kiếm</strong> theo tên template</li>
+        <li><strong>Lọc</strong> theo danh mục, giá (miễn phí/trả phí), sắp xếp (mới nhất, phổ biến nhất)</li>
+        <li><strong>Phân trang</strong> cho danh sách dài</li>
+        <li><strong>Bộ sưu tập</strong> (collections) do admin tuyển chọn</li>
+      </ul>
+
+      <h3>Xem chi tiết template</h3>
+      <p>Nhấn vào template để xem trang chi tiết, bao gồm:</p>
+      <ul class="feature-list">
+        <li>Preview trực tiếp trong iframe</li>
+        <li>Số lượt xem, lượt clone, lượt mua</li>
+        <li>Lịch sử phiên bản</li>
+        <li>Đánh giá và nhận xét từ người dùng khác</li>
+      </ul>
+
+      <h3>Sử dụng template</h3>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Loại</th><th>Cách sử dụng</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tag green">Miễn phí</span></td>
+            <td>Nhấn <strong>Clone</strong> — template được sao chép vào danh sách template của bạn ngay lập tức</td>
+          </tr>
+          <tr>
+            <td><span class="tag blue">Trả phí</span></td>
+            <td>Nhấn <strong>Mua</strong> — chuyển khoản theo thông tin ngân hàng hiển thị, đợi admin xác nhận thanh toán</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Đánh giá & Nhận xét</h3>
+      <p>Sau khi sử dụng template, bạn có thể đánh giá sao (1-5) và viết nhận xét. Đánh giá giúp cộng đồng chọn template phù hợp.</p>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- MY TEMPLATES -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="my-templates">
+      <h2 class="section-title">Template của tôi</h2>
+      <p class="section-desc">Tự tạo mẫu thiết kế riêng, đăng bán trên Store và theo dõi doanh thu.</p>
+
+      <h3>Các tab</h3>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Tab</th><th>Nội dung</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Đã tạo</strong></td><td>Template do bạn thiết kế</td></tr>
+          <tr><td><strong>Đã mua</strong></td><td>Template bạn đã mua từ Store</td></tr>
+          <tr><td><strong>Doanh thu</strong></td><td>Thống kê thu nhập từ template đã bán</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Tạo template mới</h3>
+      <p>Sử dụng <strong>Template Builder</strong> với các công cụ:</p>
+      <ul class="feature-list">
+        <li><strong>HTML/CSS Editor</strong> — viết mã HTML và CSS cho template, hỗ trợ Handlebars syntax</li>
+        <li><strong>Live Preview</strong> — xem kết quả ngay trong khung preview</li>
+        <li><strong>Image Gallery</strong> — upload nhiều ảnh, copy URL dạng IMG hoặc CSS background</li>
+        <li><strong>Config Schema Editor</strong> — định nghĩa các trường dữ liệu mà người dùng template sẽ nhập (visual, không cần code)</li>
+        <li><strong>Clone template</strong> — sao chép template hiện có để chỉnh sửa</li>
+      </ul>
+
+      <h3>Đăng bán trên Store</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Nhấn "Publish"</div>
+          <div class="step-desc">Gửi template lên hàng đợi để admin duyệt.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Chờ duyệt</div>
+          <div class="step-desc">Admin sẽ xem xét và phê duyệt hoặc từ chối (kèm lý do).</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Hiện trên Store</div>
+          <div class="step-desc">Sau khi duyệt, template xuất hiện trong Store cho mọi người dùng.</div>
+        </div>
+      </div>
+      <p>Bạn có thể <strong>Unpublish</strong> bất cứ lúc nào để rút template về trạng thái riêng tư.</p>
+
+      <h3>Phiên bản (Versioning)</h3>
+      <p>Mỗi lần cập nhật template, hệ thống tự tạo phiên bản mới. Nếu phát hiện thay đổi có thể ảnh hưởng tới danh thiếp đang dùng (breaking change), hệ thống sẽ cảnh báo.</p>
+
+      <h3>Doanh thu</h3>
+      <p>Khi template trả phí được mua, doanh thu chia theo tỷ lệ <strong>70% cho người tạo / 30% cho nền tảng</strong>. Tab <strong>Doanh thu</strong> hiển thị chi tiết thu nhập theo từng template.</p>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- TEAM -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="team">
+      <h2 class="section-title">Quản lý team</h2>
+      <p class="section-desc">Mời thành viên vào tài khoản doanh nghiệp để cùng quản lý danh thiếp.</p>
+
+      <h3>Mời thành viên</h3>
+      <p>Nhấn <strong>Mời người dùng</strong>, nhập email của thành viên. Họ sẽ nhận email mời với link đăng ký/đăng nhập và tự động được thêm vào tenant của bạn.</p>
+
+      <h3>Vai trò (Roles)</h3>
+      <p>Mỗi thành viên có vai trò quy định quyền hạn trong hệ thống. Số lượng thành viên tối đa phụ thuộc vào gói dịch vụ (plan) đang sử dụng.</p>
+
+      <div class="callout info">
+        <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div>Gói <strong>Basic</strong> hỗ trợ 1 người dùng. Nâng cấp lên <strong>Pro</strong> để mời thêm thành viên.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- CÀI ĐẶT -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="cai-dat">
+      <h2 class="section-title">Cài đặt</h2>
+
+      <h3>Chế độ tối (Dark Mode)</h3>
+      <p>Nhấn biểu tượng mặt trăng/mặt trời trong sidebar để chuyển đổi giữa giao diện sáng và tối. Tùy chọn được lưu trên trình duyệt.</p>
+
+      <h3>Ngôn ngữ</h3>
+      <p>BioECard hỗ trợ 2 ngôn ngữ:</p>
+      <ul class="feature-list">
+        <li><strong>Tiếng Việt</strong> (mặc định)</li>
+        <li><strong>English</strong></li>
+      </ul>
+      <p>Nhấn nút chuyển ngôn ngữ trong sidebar. Toàn bộ giao diện dashboard sẽ chuyển đổi ngay lập tức. Tùy chọn được lưu trên trình duyệt.</p>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN ROLE DIVIDER -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="role-divider admin">
+      <div class="role-divider-icon">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <h2>Dành cho Quản trị viên</h2>
+        <p>Hướng dẫn sử dụng cho tài khoản Admin</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN - QUẢN LÝ TENANT -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="admin-tenant">
+      <h2 class="section-title">Quản lý Tenant</h2>
+      <p class="section-desc">Xem, quản lý và hỗ trợ tất cả tài khoản doanh nghiệp trên hệ thống.</p>
+
+      <h3>Danh sách tenant</h3>
+      <p>Trang <strong>Tenants</strong> hiển thị tất cả tài khoản doanh nghiệp với thông tin: tên, slug, gói dịch vụ, trạng thái, số danh thiếp, ngày tạo.</p>
+
+      <h3>Chi tiết tenant</h3>
+      <p>Nhấn vào tenant để xem trang chi tiết, bao gồm:</p>
+      <ul class="feature-list">
+        <li>Danh sách <strong>người dùng</strong> trong tenant</li>
+        <li>Danh sách <strong>danh thiếp</strong> của tenant</li>
+        <li>Danh sách <strong>template</strong> đã được gán</li>
+        <li>Thông tin <strong>gói dịch vụ</strong> hiện tại</li>
+        <li>Cài đặt <strong>custom domain</strong> (nếu có)</li>
+      </ul>
+
+      <h3>Các thao tác</h3>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Thao tác</th><th>Mô tả</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Chuyển trạng thái</strong></td><td>Active / Suspended — tạm ngưng tài khoản vi phạm</td></tr>
+          <tr><td><strong>Đổi gói</strong></td><td>Nâng cấp hoặc hạ cấp gói dịch vụ cho tenant</td></tr>
+          <tr><td><strong>Custom domain</strong></td><td>Cấu hình tên miền riêng cho tenant</td></tr>
+          <tr><td><strong>Gán template</strong></td><td>Gán thêm template cho tenant sử dụng</td></tr>
+          <tr><td><strong>View as Tenant</strong></td><td>Đăng nhập vào dashboard của tenant để hỗ trợ (xem bên dưới)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>View as Tenant (Impersonation)</h3>
+      <p>Tính năng cho phép admin xem dashboard dưới góc nhìn của tenant để hỗ trợ hoặc kiểm tra. Khi kích hoạt:</p>
+      <ul class="feature-list">
+        <li>Sidebar chuyển sang menu tenant</li>
+        <li>Banner cảnh báo hiển thị ở đầu trang</li>
+        <li>Nhấn <strong>Thoát</strong> để quay lại giao diện admin</li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN - TEMPLATE HỆ THỐNG -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="admin-template">
+      <h2 class="section-title">Template hệ thống</h2>
+      <p class="section-desc">Quản lý các mẫu thiết kế do hệ thống cung cấp.</p>
+
+      <h3>Các thao tác</h3>
+      <ul class="feature-list">
+        <li><strong>Tạo mới</strong> — sử dụng Template Builder (HTML/CSS editor + preview)</li>
+        <li><strong>Chỉnh sửa</strong> — cập nhật code, config schema, ảnh</li>
+        <li><strong>Clone</strong> — sao chép template hiện có để tạo biến thể</li>
+        <li><strong>Xóa</strong> — chỉ xóa được template chưa có danh thiếp nào sử dụng</li>
+        <li><strong>Featured</strong> — đánh dấu template nổi bật, hiển thị ưu tiên trên Store</li>
+      </ul>
+
+      <div class="callout warning">
+        <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>Không thể xóa template đang được danh thiếp sử dụng. Hãy đảm bảo tất cả danh thiếp đã chuyển sang template khác trước khi xóa.</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN - DUYỆT TEMPLATE -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="admin-duyet">
+      <h2 class="section-title">Duyệt template</h2>
+      <p class="section-desc">Xem xét và phê duyệt template từ tenant trước khi hiển thị trên Store.</p>
+
+      <h3>Quy trình duyệt</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-title">Tenant gửi yêu cầu publish</div>
+          <div class="step-desc">Template chuyển sang trạng thái <span class="tag amber">Pending Review</span> và xuất hiện trong hàng đợi.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Admin xem xét</div>
+          <div class="step-desc">Xem preview, kiểm tra code HTML/CSS, đánh giá chất lượng.</div>
+        </div>
+        <div class="step">
+          <div class="step-title">Phê duyệt hoặc Từ chối</div>
+          <div class="step-desc"><strong>Approve</strong> — template hiện trên Store. <strong>Reject</strong> — template về lại Private, tenant nhận lý do từ chối.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN - NFC -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="admin-nfc">
+      <h2 class="section-title">Quản lý NFC</h2>
+      <p class="section-desc">Tạo, phân phối và quản lý thẻ NFC vật lý trên toàn hệ thống.</p>
+
+      <h3>Vòng đời thẻ NFC</h3>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Trạng thái</th><th>Mô tả</th><th>Hành động tiếp theo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="tag blue">Unassigned</span></td><td>Vừa tạo, chưa gán cho tenant nào</td><td>Admin gán cho tenant</td></tr>
+          <tr><td><span class="tag amber">Assigned</span></td><td>Đã gán cho tenant, chưa liên kết danh thiếp</td><td>Tenant liên kết với e-card</td></tr>
+          <tr><td><span class="tag green">Linked</span></td><td>Đã liên kết với danh thiếp, hoạt động bình thường</td><td>Tenant có thể đổi target</td></tr>
+          <tr><td><span class="tag rose">Disabled</span></td><td>Đã vô hiệu hóa</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Các thao tác</h3>
+      <ul class="feature-list">
+        <li><strong>Tạo lô (Batch)</strong> — nhập danh sách UID để tạo nhiều thẻ cùng lúc</li>
+        <li><strong>Gán cho tenant</strong> — chọn tenant để giao thẻ, hỗ trợ gán hàng loạt (bulk assign)</li>
+        <li><strong>Vô hiệu hóa</strong> — tắt thẻ bị mất hoặc hỏng</li>
+        <li><strong>Tìm kiếm & Lọc</strong> — theo UID, tenant, trạng thái</li>
+        <li><strong>Xem liên kết</strong> — thẻ đang gắn với danh thiếp nào</li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN - THANH TOÁN -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="admin-thanh-toan">
+      <h2 class="section-title">Quản lý thanh toán</h2>
+      <p class="section-desc">Xác nhận thanh toán mua template và cấu hình thông tin ngân hàng.</p>
+
+      <h3>Danh sách giao dịch</h3>
+      <p>Trang <strong>Purchases</strong> hiển thị tất cả đơn mua template trả phí với thông tin: người mua, template, số tiền, trạng thái thanh toán, ngày tạo.</p>
+
+      <h3>Xác nhận thanh toán</h3>
+      <p>Khi tenant chuyển khoản mua template:</p>
+      <ul class="feature-list">
+        <li>Nhấn <strong>Confirm</strong> — xác nhận đã nhận tiền, tenant được cấp quyền sử dụng template</li>
+        <li>Nhấn <strong>Reject</strong> — từ chối giao dịch (ví dụ: sai số tiền, không tìm thấy giao dịch)</li>
+      </ul>
+
+      <h3>Cấu hình thanh toán</h3>
+      <p>Mục <strong>Payment Config</strong> cho phép cập nhật:</p>
+      <ul class="feature-list">
+        <li>Thông tin ngân hàng (tên ngân hàng, số tài khoản, tên chủ tài khoản)</li>
+        <li>Mã QR thanh toán (upload ảnh QR)</li>
+      </ul>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN - ANALYTICS -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="admin-analytics">
+      <h2 class="section-title">Analytics & Collections</h2>
+
+      <h3>Template Analytics</h3>
+      <p>Dashboard tổng quan hiển thị:</p>
+      <ul class="feature-list">
+        <li>Tổng số template trên hệ thống</li>
+        <li>Số lượt xem, clone, mua</li>
+        <li>Top template phổ biến nhất (biểu đồ)</li>
+        <li>Doanh thu tổng và theo thời gian</li>
+      </ul>
+
+      <h3>Collections (Bộ sưu tập)</h3>
+      <p>Nhóm các template theo chủ đề để hiển thị nổi bật trên Store. Ví dụ: "Template cho ngành F&B", "Template tối giản".</p>
+      <ul class="feature-list">
+        <li><strong>Tạo collection</strong> — đặt tên, mô tả</li>
+        <li><strong>Gán template</strong> — thêm/xóa template trong collection</li>
+        <li><strong>Sắp xếp</strong> — thay đổi thứ tự hiển thị</li>
+      </ul>
+    </section>
+
+    <!-- Footer -->
+    <div class="doc-footer">
+      <p>&copy; 2026 BioECard. Tài liệu hướng dẫn sử dụng v1.0</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+</script>
+</body>
+</html>
