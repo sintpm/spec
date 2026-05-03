@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeMatey — Business Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #27338C;
+    --navy-deep: #1A2266;
+    --navy-soft: #4A56A8;
+    --cream: #F5F1EA;
+    --cream-warm: #EDE6D8;
+    --paper: #FAF7F1;
+    --terracotta: #C2502B;
+    --terracotta-soft: #E8A687;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A47;
+    --ink-light: #8B8980;
+    --line: rgba(26, 26, 26, 0.12);
+    --line-strong: rgba(26, 26, 26, 0.4);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Inter Tight', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Layout */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+  }
+
+  /* Top Bar */
+  .topbar {
+    border-bottom: 1px solid var(--line);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(250, 247, 241, 0.92);
+  }
+
+  .topbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .topbar-logo {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--navy);
+  }
+
+  .topbar-logo em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--terracotta);
+  }
+
+  .topbar-meta { display: flex; gap: 32px; }
+  .topbar-meta span { font-family: var(--mono); font-size: 11px; }
+
+  /* Hero */
+  .hero {
+    padding: 120px 0 80px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, rgba(39, 51, 140, 0.03) 100%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    position: relative;
+  }
+
+  @media (max-width: 900px) {
+    .hero { padding: 60px 0 50px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--terracotta);
+  }
+
+  h1.hero-title {
+    font-family: var(--serif);
+    font-size: clamp(56px, 9vw, 128px);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin-bottom: 32px;
+  }
+
+  h1.hero-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--terracotta);
+  }
+
+  .hero-tagline {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    margin-bottom: 24px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  .hero-meta {
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .hero-meta-item label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+  }
+
+  .hero-meta-item span {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--navy);
+  }
+
+  /* Section base */
+  section {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (max-width: 768px) {
+    section { padding: 60px 0; }
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::before {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    color: var(--ink-light);
+    content: attr(data-num);
+    border: 1px solid var(--line);
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+
+  h2 em { font-style: italic; color: var(--terracotta); font-weight: 300; }
+
+  .section-lead {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    max-width: 700px;
+    margin-bottom: 60px;
+  }
+
+  /* Big Numbers */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 48px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 60px 0;
+  }
+
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  }
+
+  .stat-item {
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+
+  .stat-item:first-child { border-left: none; padding-left: 0; }
+
+  @media (max-width: 900px) {
+    .stat-item:nth-child(3) { border-left: none; padding-left: 0; }
+  }
+
+  .stat-value {
+    font-family: var(--serif);
+    font-size: 64px;
+    line-height: 1;
+    font-weight: 400;
+    color: var(--navy);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-value sup {
+    font-size: 24px;
+    color: var(--terracotta);
+    vertical-align: super;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* Quote / pull-quote */
+  .pullquote {
+    background: var(--cream);
+    padding: 80px 60px;
+    margin: 60px 0;
+    position: relative;
+    border-left: 3px solid var(--terracotta);
+  }
+
+  @media (max-width: 768px) {
+    .pullquote { padding: 40px 28px; }
+  }
+
+  .pullquote-text {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 36px);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--navy);
+    max-width: 900px;
+  }
+
+  .pullquote-attribution {
+    margin-top: 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+
+  /* Two-column content */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .prose p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+
+  .prose strong { color: var(--ink); font-weight: 600; }
+
+  /* Comparison table */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 40px 0;
+  }
+
+  .compare-table th, .compare-table td {
+    text-align: left;
+    padding: 20px 16px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+    vertical-align: top;
+  }
+
+  .compare-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    font-weight: 500;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 12px;
+  }
+
+  .compare-table th.us {
+    color: var(--terracotta);
+  }
+
+  .compare-table tbody tr:hover {
+    background: rgba(39, 51, 140, 0.02);
+  }
+
+  .compare-table .label-col {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--navy);
+    font-weight: 500;
+    width: 30%;
+  }
+
+  .compare-table .us-col {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Cards / grids */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .card-grid { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--paper);
+    padding: 40px 32px;
+    transition: background 0.3s ease;
+  }
+
+  .card:hover {
+    background: var(--cream);
+  }
+
+  .card-num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .card h3 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .card p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* Pricing */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
+
+  .price-card {
+    border: 1px solid var(--line);
+    padding: 40px 32px;
+    background: var(--paper);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .price-card.featured {
+    background: var(--navy);
+    color: var(--cream);
+    border-color: var(--navy);
+  }
+
+  .price-card.featured h3,
+  .price-card.featured .price-amount {
+    color: var(--cream);
+  }
+
+  .price-card.featured .price-tier-label {
+    color: var(--terracotta-soft);
+  }
+
+  .price-card.featured ul li {
+    color: rgba(245, 241, 234, 0.9);
+    border-color: rgba(245, 241, 234, 0.15);
+  }
+
+  .price-card.featured ul li::before {
+    color: var(--terracotta-soft);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: -12px;
+    right: 24px;
+    background: var(--terracotta);
+    color: var(--cream);
+    padding: 4px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .price-tier-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+  }
+
+  .price-card h3 {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+
+  .price-amount {
+    font-family: var(--serif);
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .price-period {
+    font-size: 13px;
+    color: var(--ink-light);
+    margin-bottom: 24px;
+  }
+
+  .price-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .price-card ul li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .price-card ul li:last-child { border-bottom: none; }
+
+  .price-card ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--terracotta);
+    font-weight: 500;
+  }
+
+  /* Flow diagram */
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    margin: 50px 0;
+    border: 1px solid var(--line);
+  }
+
+  @media (max-width: 900px) {
+    .flow { grid-template-columns: 1fr; }
+  }
+
+  .flow-step {
+    padding: 24px 16px;
+    border-right: 1px solid var(--line);
+    background: var(--paper);
+    text-align: center;
+    position: relative;
+  }
+
+  .flow-step:last-child { border-right: none; }
+
+  @media (max-width: 900px) {
+    .flow-step {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+    }
+    .flow-step:last-child { border-bottom: none; }
+  }
+
+  .flow-num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+  }
+
+  .flow-title {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .flow-desc {
+    font-size: 11px;
+    color: var(--ink-light);
+    line-height: 1.4;
+  }
+
+  /* Module list */
+  .module {
+    border-top: 1px solid var(--line);
+    padding: 32px 0;
+    display: grid;
+    grid-template-columns: 100px 1fr 2fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .module { grid-template-columns: 1fr; gap: 8px; }
+  }
+
+  .module-letter {
+    font-family: var(--serif);
+    font-size: 56px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--terracotta);
+    line-height: 1;
+  }
+
+  .module-title h3 {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .module-title p {
+    font-size: 13px;
+    color: var(--ink-light);
+    font-style: italic;
+  }
+
+  .module-features {
+    columns: 2;
+    column-gap: 32px;
+  }
+
+  @media (max-width: 768px) {
+    .module-features { columns: 1; }
+  }
+
+  .module-features li {
+    list-style: none;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    break-inside: avoid;
+    line-height: 1.5;
+  }
+
+  .module-features li::before {
+    content: '·';
+    color: var(--terracotta);
+    margin-right: 8px;
+    font-weight: 700;
+  }
+
+  /* Roadmap */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 40px;
+    border: 1px solid var(--line);
+    background: var(--line);
+    gap: 1px;
+  }
+
+  @media (max-width: 900px) {
+    .roadmap { grid-template-columns: 1fr; }
+  }
+
+  .phase {
+    padding: 40px 32px;
+    background: var(--paper);
+  }
+
+  .phase-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .phase-num {
+    font-family: var(--serif);
+    font-size: 56px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .phase-time {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    text-align: right;
+  }
+
+  .phase h3 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .phase-goals {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .phase-kpi {
+    background: var(--cream);
+    padding: 20px;
+    border-left: 2px solid var(--terracotta);
+  }
+
+  .phase-kpi-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+  }
+
+  .phase-kpi ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .phase-kpi li {
+    font-size: 13px;
+    color: var(--ink);
+    padding: 4px 0;
+    line-height: 1.5;
+  }
+
+  .phase-kpi li strong {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  /* Risk matrix */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .risk-grid { grid-template-columns: 1fr; }
+  }
+
+  .risk-item {
+    background: var(--paper);
+    padding: 32px;
+    transition: background 0.3s ease;
+  }
+
+  .risk-item:hover { background: var(--cream); }
+
+  .risk-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+  }
+
+  .risk-item h4 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .risk-mitigation {
+    border-top: 1px solid var(--line);
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+
+  .risk-mitigation-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+  }
+
+  .risk-mitigation p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* Footer / closing */
+  .closing {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 120px 0;
+    border-bottom: none;
+  }
+
+  .closing h2 {
+    color: var(--cream);
+    font-size: clamp(40px, 6vw, 80px);
+    margin-bottom: 32px;
+  }
+
+  .closing h2 em { color: var(--terracotta-soft); }
+
+  .closing p {
+    color: rgba(245, 241, 234, 0.8);
+    font-size: 18px;
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+
+  .closing-meta {
+    border-top: 1px solid rgba(245, 241, 234, 0.2);
+    padding-top: 32px;
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  @media (max-width: 768px) {
+    .closing-meta { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  .closing-meta-item label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracotta-soft);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .closing-meta-item span {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--cream);
+  }
+
+  /* Subtle animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    animation: fadeUp 0.8s ease-out;
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--cream);
+    padding: 60px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  @media (max-width: 900px) {
+    .toc-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .toc-grid { grid-template-columns: 1fr; }
+  }
+
+  .toc-item {
+    padding: 16px 24px 16px 0;
+    border-right: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease;
+    display: block;
+  }
+
+  .toc-item:hover { color: var(--terracotta); }
+  .toc-item:hover .toc-num { color: var(--navy); }
+
+  @media (max-width: 600px) {
+    .toc-item { border-right: none; border-bottom: 1px solid var(--line); }
+  }
+
+  .toc-num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--terracotta);
+    margin-bottom: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .toc-title {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  /* Highlight box */
+  .highlight {
+    background: var(--cream);
+    border-left: 3px solid var(--terracotta);
+    padding: 32px 40px;
+    margin: 40px 0;
+  }
+
+  .highlight-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+  }
+
+  .highlight p {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--navy);
+  }
+
+  /* LTV/CAC visual */
+  .economics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 40px 0;
+  }
+
+  @media (max-width: 768px) {
+    .economics { grid-template-columns: 1fr; }
+  }
+
+  .econ-card {
+    background: var(--paper);
+    padding: 40px;
+  }
+
+  .econ-card.featured {
+    background: var(--cream);
+  }
+
+  .econ-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+  }
+
+  .econ-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+
+  .econ-row:last-of-type { border-bottom: none; }
+
+  .econ-row.total {
+    border-top: 2px solid var(--navy);
+    border-bottom: none;
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+
+  .econ-row.total .econ-name,
+  .econ-row.total .econ-value {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  .econ-name { color: var(--ink-soft); }
+
+  .econ-value {
+    font-family: var(--mono);
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .econ-value.highlight-val {
+    color: var(--terracotta);
+    font-family: var(--serif);
+    font-size: 18px;
+  }
+
+  /* Lock-in feature box */
+  .lockin-box {
+    border: 1px solid var(--navy);
+    padding: 48px;
+    margin: 40px 0;
+    background: linear-gradient(135deg, var(--paper) 0%, var(--cream) 100%);
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    .lockin-box { padding: 32px 24px; }
+  }
+
+  .lockin-box::before {
+    content: '◆';
+    position: absolute;
+    top: -12px;
+    left: 40px;
+    background: var(--paper);
+    color: var(--terracotta);
+    padding: 0 8px;
+    font-size: 14px;
+  }
+
+  .lockin-box h3 {
+    font-family: var(--serif);
+    font-size: 32px;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+
+  .lockin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .lockin-grid { grid-template-columns: 1fr; }
+  }
+
+  .lockin-item {
+    padding: 16px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .lockin-item strong {
+    display: block;
+    font-family: var(--serif);
+    color: var(--navy);
+    font-size: 16px;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="topbar-logo">Home<em>Matey</em></div>
+    <div class="topbar-meta">
+      <span>Confidential</span>
+      <span>v1.0 · 2026</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" style="border-bottom: 1px solid var(--line);">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-tag">Investor Memorandum</div>
+        <h1 class="hero-title">Người bạn <em>đồng hành</em><br>của ngôi nhà.</h1>
+      </div>
+      <div>
+        <p class="hero-tagline">Nền tảng bảo trì, sửa chữa và chăm sóc nhà ở chuyên sâu, được thiết kế cho thị trường chung cư và nhà phố tại Việt Nam.</p>
+        <p class="hero-description">HomeMatey kết hợp đội thợ in-house có pháp nhân với marketplace công nghệ, mang đến mô hình recurring subscription thay cho on-demand truyền thống.</p>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <label>Thị trường</label>
+            <span>1,6 triệu hộ</span>
+          </div>
+          <div class="hero-meta-item">
+            <label>Mô hình</label>
+            <span>Hybrid B2B2C</span>
+          </div>
+          <div class="hero-meta-item">
+            <label>Doanh thu Y3</label>
+            <span>60–100 tỷ VNĐ</span>
+          </div>
+          <div class="hero-meta-item">
+            <label>LTV / CAC</label>
+            <span>~40×</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOC -->
+<section class="toc" style="padding: 40px 0; border-bottom: 1px solid var(--line);">
+  <div class="container">
+    <div class="toc-grid">
+      <a href="#opportunity" class="toc-item">
+        <div class="toc-num">i.</div>
+        <div class="toc-title">Cơ hội thị trường</div>
+      </a>
+      <a href="#competition" class="toc-item">
+        <div class="toc-num">ii.</div>
+        <div class="toc-title">Phân tích bTaskee</div>
+      </a>
+      <a href="#positioning" class="toc-item">
+        <div class="toc-num">iii.</div>
+        <div class="toc-title">Định vị HomeMatey</div>
+      </a>
+      <a href="#model" class="toc-item">
+        <div class="toc-num">iv.</div>
+        <div class="toc-title">Mô hình kinh doanh</div>
+      </a>
+      <a href="#flow" class="toc-item">
+        <div class="toc-num">v.</div>
+        <div class="toc-title">Sơ đồ nghiệp vụ</div>
+      </a>
+      <a href="#features" class="toc-item">
+        <div class="toc-num">vi.</div>
+        <div class="toc-title">Tính năng nền tảng</div>
+      </a>
+      <a href="#economics" class="toc-item">
+        <div class="toc-num">vii.</div>
+        <div class="toc-title">Pricing & Economics</div>
+      </a>
+      <a href="#roadmap" class="toc-item">
+        <div class="toc-num">viii.</div>
+        <div class="toc-title">Lộ trình & Rủi ro</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- OPPORTUNITY -->
+<section id="opportunity">
+  <div class="container">
+    <div class="section-label" data-num="i">Cơ hội thị trường</div>
+    <h2>Một thị trường <em>tỉ đô</em> chưa có người dẫn đầu.</h2>
+    <p class="section-lead">Hơn 20 ứng dụng đã ra đời cho mảng sửa chữa - bảo trì tại Việt Nam, kể cả những app được hậu thuẫn bởi FPT, Thế Giới Di Động, Viettel. Tất cả hoặc thất bại, hoặc hoạt động cầm chừng.</p>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value">1,6<sup>m</sup></div>
+        <div class="stat-label">Hộ gia đình<br>có nhu cầu dịch vụ nhà</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">5<sup>m</sup></div>
+        <div class="stat-label">Căn nhà tại HCM<br>chưa tính chung cư</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">20+</div>
+        <div class="stat-label">App đối thủ<br>đa số đã thất bại</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Người dẫn đầu<br>mảng kỹ thuật</div>
+      </div>
+    </div>
+
+    <div class="pullquote">
+      <p class="pullquote-text">"Khác với gọi xe hay giao đồ ăn chỉ thuần giao nhận, các app sửa chữa liên quan nhiều đến yếu tố con người — đạo đức của thợ và sự an toàn của gia chủ khi cho người lạ vào nhà."</p>
+      <div class="pullquote-attribution">— Chuyên gia Marketing, trong bài "App sửa điện nước: Thị trường tỉ USD" của Nhịp Cầu Đầu Tư</div>
+    </div>
+
+    <h3 style="font-family: var(--serif); font-size: 28px; color: var(--navy); margin-bottom: 24px; font-weight: 500;">Tại sao 20+ app trước đã thất bại?</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-num">01</span>
+        <h3>An ninh gia chủ</h3>
+        <p>Cho người lạ vào nhà rủi ro cao gấp nhiều lần so với gọi xe hay giao đồ ăn. Không có cơ chế bảo vệ pháp nhân.</p>
+      </div>
+      <div class="card">
+        <span class="card-num">02</span>
+        <h3>Đạo đức người thợ</h3>
+        <p>Chặt chém, báo giá phát sinh, "ăn" linh kiện — pain point cố hữu của ngành kỹ thuật tại Việt Nam.</p>
+      </div>
+      <div class="card">
+        <span class="card-num">03</span>
+        <h3>Khó chuẩn hóa giá</h3>
+        <p>Mỗi job kỹ thuật khác nhau, không thể tính theo m² như dịch vụ vệ sinh đơn thuần.</p>
+      </div>
+      <div class="card">
+        <span class="card-num">04</span>
+        <h3>Tần suất thấp</h3>
+        <p>Sửa chữa chỉ khi hỏng — khó build retention so với mô hình giúp việc nhà recurring weekly.</p>
+      </div>
+      <div class="card">
+        <span class="card-num">05</span>
+        <h3>Leak rate cao</h3>
+        <p>Sau lần đầu, khách và thợ trao đổi số trực tiếp → bypass nền tảng cho mọi lần sau.</p>
+      </div>
+      <div class="card">
+        <span class="card-num">06</span>
+        <h3>Tech-first, ops-light</h3>
+        <p>Đa số app build công nghệ trước, không có asset thật về vận hành đội thợ — model dễ vỡ khi scale.</p>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <div class="highlight-label">Insight cốt lõi</div>
+      <p>Cả 5 vấn đề đều có giải pháp khi tiếp cận đúng: pháp nhân thật + recurring model + lock-in qua hồ sơ căn nhà.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITION -->
+<section id="competition">
+  <div class="container">
+    <div class="section-label" data-num="ii">Phân tích bTaskee</div>
+    <h2>Người khổng lồ ở mảng <em>kế bên</em>.</h2>
+    <p class="section-lead">bTaskee dẫn đầu mảng giúp việc nhà với hơn 1 triệu khách hàng và 4 quốc gia. Nhưng họ không có dịch vụ kỹ thuật — đây chính là khoảng trống của HomeMatey.</p>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value">1<sup>m+</sup></div>
+        <div class="stat-label">Khách hàng<br>tích lũy 9 năm</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">5<sup>m+</sup></div>
+        <div class="stat-label">Công việc<br>đã hoàn thành</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">14</div>
+        <div class="stat-label">Dịch vụ<br>đều phi kỹ thuật</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">$10<sup>m</sup></div>
+        <div class="stat-label">Doanh thu<br>mục tiêu 2022</div>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top: 60px;">
+      <div class="prose">
+        <h3 style="font-family: var(--serif); font-size: 28px; color: var(--navy); margin-bottom: 20px; font-weight: 500;">Điểm mạnh của bTaskee</h3>
+        <p><strong>First-mover advantage</strong> tại VN từ 2016, brand mạnh trong mảng giúp việc nhà phổ thông. Marketplace effect tốt với 10K+ tasker × 1M+ khách → liquidity cao.</p>
+        <p>Vertical depth tập trung "việc nhà" thay vì dàn trải. Trung bình 3 dịch vụ mới/năm theo nhu cầu thực tế. Career path cho CTV qua đào tạo + chứng chỉ — đây là phương pháp HomeMatey nên học hỏi.</p>
+        <p>Đã validate model qua 4 nước Đông Nam Á (Việt Nam, Thái Lan, Indonesia, Malaysia) — chứng minh model có thể replicate.</p>
+      </div>
+      <div class="prose">
+        <h3 style="font-family: var(--serif); font-size: 28px; color: var(--navy); margin-bottom: 20px; font-weight: 500;">Điểm yếu — và là cơ hội cho ta</h3>
+        <p><strong>Take rate thấp ~20%</strong> → biên lợi nhuận mỏng, phụ thuộc volume. Tỷ lệ leak (khách + thợ thoả thuận riêng) là pain point cố hữu của marketplace thuần.</p>
+        <p>CAC cao do cạnh tranh với 20+ app khác. Chất lượng phụ thuộc cá nhân CTV — khó chuẩn hóa 100%.</p>
+        <p><strong>Không có mảng kỹ thuật</strong> (sửa chữa điện nước, bảo trì) — đây chính là khoảng trống mà HomeMatey khai thác. Mảng kỹ thuật cần asset thật (đội thợ + pháp nhân) mà bTaskee không có cấu trúc để xây.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section id="positioning" style="background: var(--cream-warm);">
+  <div class="container">
+    <div class="section-label" data-num="iii">Định vị HomeMatey</div>
+    <h2>Khác biệt <em>rõ ràng</em> trong từng yếu tố.</h2>
+    <p class="section-lead">HomeMatey không cạnh tranh trực tiếp với bTaskee. Chúng tôi chọn một sân chơi khác — sửa chữa kỹ thuật, recurring, B2B2C — nơi pháp nhân thật là vũ khí.</p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Yếu tố</th>
+          <th>bTaskee & app sửa chữa hiện tại</th>
+          <th class="us">HomeMatey</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-col">Mô hình</td>
+          <td>Pure marketplace (CTV freelance)</td>
+          <td class="us-col">Hybrid: in-house lõi 60–70% + CTV mở rộng 30–40%</td>
+        </tr>
+        <tr>
+          <td class="label-col">Doanh thu</td>
+          <td>Pay-per-use (on-demand)</td>
+          <td class="us-col">Recurring subscription (gói 6/12 tháng)</td>
+        </tr>
+        <tr>
+          <td class="label-col">Lock-in</td>
+          <td>Thói quen + rating</td>
+          <td class="us-col">Hồ sơ căn nhà + cam kết hợp đồng</td>
+        </tr>
+        <tr>
+          <td class="label-col">Kênh phân phối</td>
+          <td>App download + ads</td>
+          <td class="us-col">B2B2C qua BQL chung cư + cá nhân</td>
+        </tr>
+        <tr>
+          <td class="label-col">Bảo hành</td>
+          <td>Cá nhân thợ</td>
+          <td class="us-col">Pháp nhân công ty đứng ra</td>
+        </tr>
+        <tr>
+          <td class="label-col">Công nghệ</td>
+          <td>Booking app cơ bản</td>
+          <td class="us-col">AI gợi ý hạng mục từ ảnh, predictive maintenance</td>
+        </tr>
+        <tr>
+          <td class="label-col">Take rate</td>
+          <td>~20%</td>
+          <td class="us-col">40–60% (in-house) / 20–30% (CTV)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="lockin-box">
+      <h3>Hồ sơ căn nhà — moat lớn nhất</h3>
+      <p style="color: var(--ink-soft); margin-bottom: 8px;">Mọi job, mọi gói, mọi tương tác đều cập nhật vào Home Profile. Khách rời nền tảng = mất tất cả dữ liệu này. Switching cost mạnh hơn cả chương trình loyalty.</p>
+      <div class="lockin-grid">
+        <div class="lockin-item">
+          <strong>Sơ đồ kỹ thuật</strong>
+          Sơ đồ điện - nước - máy lạnh chi tiết cho căn hộ.
+        </div>
+        <div class="lockin-item">
+          <strong>Lịch sử sửa chữa</strong>
+          Mọi lần can thiệp với ảnh trước-sau và biên bản số.
+        </div>
+        <div class="lockin-item">
+          <strong>Danh sách thiết bị</strong>
+          Model, năm mua, lịch bảo trì gần nhất, chu kỳ kế tiếp.
+        </div>
+        <div class="lockin-item">
+          <strong>Bảo hành điện tử</strong>
+          Kho hóa đơn, phiếu bảo hành, cảnh báo hết hạn.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODEL -->
+<section id="model">
+  <div class="container">
+    <div class="section-label" data-num="iv">Mô hình kinh doanh</div>
+    <h2>Ba tier doanh thu, <em>một đòn bẩy</em> chiến lược.</h2>
+    <p class="section-lead">Mô hình hybrid kết hợp on-demand làm cửa ngõ, recurring làm cốt lõi, và B2B2C làm đòn bẩy phân phối.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier-label">Tier 1 · Cửa ngõ</div>
+        <h3>On-demand</h3>
+        <div class="price-amount">20–30%</div>
+        <div class="price-period">Take rate per service</div>
+        <ul>
+          <li>Đặt từng dịch vụ lẻ với giá niêm yết</li>
+          <li>Vệ sinh máy lạnh, sửa điện nước, thông tắc</li>
+          <li>Mục tiêu: thu hút khách mới, build database</li>
+          <li>Không phải dòng doanh thu chính</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <div class="featured-badge">Cốt lõi</div>
+        <div class="price-tier-label">Tier 2 · Recurring</div>
+        <h3>Subscription</h3>
+        <div class="price-amount">2,9–12<span style="font-size: 16px; vertical-align: middle;"> tr/năm</span></div>
+        <div class="price-period">3 gói: Basic, Standard, Premium</div>
+        <ul>
+          <li>Trả trước cả năm với chiết khấu, hoặc trả quý</li>
+          <li>Recurring revenue với retention cao</li>
+          <li>Biên lợi nhuận tốt nhờ in-house dispatching</li>
+          <li>Lock-in qua hồ sơ căn nhà</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="price-tier-label">Tier 3 · Đòn bẩy</div>
+        <h3>B2B2C</h3>
+        <div class="price-amount">Bulk</div>
+        <div class="price-period">Hợp đồng năm với BQL chung cư</div>
+        <ul>
+          <li>Giá ưu đãi 30–40% so với cá nhân (do volume)</li>
+          <li>BQL ký 1 hợp đồng = 200–500 khách</li>
+          <li>CAC giảm xuống 100–200k</li>
+          <li>Brand trust được vay từ tòa nhà</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pullquote" style="margin-top: 80px;">
+      <p class="pullquote-text">Khách rời nền tảng đồng nghĩa mất tất cả dữ liệu kỹ thuật của ngôi nhà — đây là switching cost không một marketplace truyền thống nào tạo ra được.</p>
+      <div class="pullquote-attribution">— Chiến lược lock-in của HomeMatey</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section id="flow" style="background: var(--cream-warm);">
+  <div class="container">
+    <div class="section-label" data-num="v">Sơ đồ nghiệp vụ</div>
+    <h2>Hai luồng <em>chính yếu</em>.</h2>
+    <p class="section-lead">On-demand cho khách mới và sửa chữa khẩn cấp. Recurring cho khách gói bảo trì — vòng đời 12 tháng được lập trình sẵn.</p>
+
+    <h3 style="font-family: var(--serif); font-size: 26px; color: var(--navy); margin-bottom: 24px; font-weight: 500; margin-top: 40px;">A. Flow on-demand</h3>
+    <p style="color: var(--ink-soft); max-width: 700px; margin-bottom: 16px;">Áp dụng cho khách đặt sửa chữa lẻ hoặc khẩn cấp. Sử dụng AI để chốt giá cố định trước khi thợ đến, loại bỏ rủi ro chặt chém.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">i.</div>
+        <div class="flow-title">Báo sự cố</div>
+        <div class="flow-desc">Khách chụp ảnh, mô tả</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">ii.</div>
+        <div class="flow-title">AI gợi ý</div>
+        <div class="flow-desc">Phân tích & đề xuất giá</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">iii.</div>
+        <div class="flow-title">Thợ xác nhận</div>
+        <div class="flow-desc">Chốt giá cố định</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">iv.</div>
+        <div class="flow-title">Dispatch</div>
+        <div class="flow-desc">In-house ưu tiên</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">v.</div>
+        <div class="flow-title">Thi công</div>
+        <div class="flow-desc">QR check-in, ảnh trước-sau</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">vi.</div>
+        <div class="flow-title">Nghiệm thu</div>
+        <div class="flow-desc">Biên bản số, bảo hành</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">vii.</div>
+        <div class="flow-title">Lưu hồ sơ</div>
+        <div class="flow-desc">Cập nhật Home Profile</div>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--serif); font-size: 26px; color: var(--navy); margin-bottom: 24px; font-weight: 500; margin-top: 80px;">B. Flow recurring (12 tháng)</h3>
+    <p style="color: var(--ink-soft); max-width: 700px; margin-bottom: 16px;">Áp dụng cho khách gói bảo trì. Toàn bộ năm được lập lịch trước, giúp tải đội thợ ổn định và giảm chi phí dispatching.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">i.</div>
+        <div class="flow-title">Đăng ký gói</div>
+        <div class="flow-desc">Qua app hoặc BQL</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">ii.</div>
+        <div class="flow-title">Khảo sát</div>
+        <div class="flow-desc">Lập hồ sơ chi tiết</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">iii.</div>
+        <div class="flow-title">Lên lịch năm</div>
+        <div class="flow-desc">4 mốc bảo trì định kỳ</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">iv.</div>
+        <div class="flow-title">Bảo trì quý</div>
+        <div class="flow-desc">Kiểm tra & vệ sinh</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">v.</div>
+        <div class="flow-title">Sửa khẩn cấp</div>
+        <div class="flow-desc">Ưu tiên trong gói</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">vi.</div>
+        <div class="flow-title">Báo cáo quý</div>
+        <div class="flow-desc">Số liệu, đề xuất</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">vii.</div>
+        <div class="flow-title">Gia hạn</div>
+        <div class="flow-desc">Tự động sau 12 tháng</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-label" data-num="vi">Tính năng nền tảng</div>
+    <h2>Bảy module, <em>một hệ sinh thái</em>.</h2>
+    <p class="section-lead">Từ ứng dụng cho khách hàng đến cổng B2B cho ban quản lý, từ admin nội bộ đến lớp AI thông minh.</p>
+
+    <div class="module">
+      <div class="module-letter">A.</div>
+      <div class="module-title">
+        <h3>Customer App</h3>
+        <p>B2C — cư dân</p>
+      </div>
+      <ul class="module-features">
+        <li>Đặt sửa chữa khẩn cấp với SLA 2h</li>
+        <li>AI gợi ý hạng mục từ ảnh sự cố</li>
+        <li>Hiển thị giá ước tính trước khi đặt</li>
+        <li>3 gói bảo trì recurring</li>
+        <li>Lịch bảo trì cả năm dạng calendar</li>
+        <li>Hồ sơ căn nhà chi tiết</li>
+        <li>Tracking thợ realtime trên bản đồ</li>
+        <li>QR xác thực thợ tại cửa</li>
+        <li>Thanh toán đa kênh</li>
+        <li>Bảo hành điện tử</li>
+        <li>Loyalty & referral</li>
+        <li>Push nhắc bảo trì định kỳ</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="module-letter">B.</div>
+      <div class="module-title">
+        <h3>Tasker App</h3>
+        <p>Đội thợ in-house & CTV</p>
+      </div>
+      <ul class="module-features">
+        <li>Quản lý job & dispatch</li>
+        <li>Xem hồ sơ căn nhà trước khi đến</li>
+        <li>Navigation tích hợp</li>
+        <li>Check-in QR tại cửa</li>
+        <li>Chụp ảnh trước-sau bắt buộc</li>
+        <li>Tạo phiếu báo giá phát sinh</li>
+        <li>Biên bản nghiệm thu số</li>
+        <li>Trang cá nhân & rating</li>
+        <li>Chứng chỉ tay nghề</li>
+        <li>Khóa đào tạo trong app</li>
+        <li>Ví thu nhập</li>
+        <li>Hai luồng UI: in-house & CTV</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="module-letter">C.</div>
+      <div class="module-title">
+        <h3>B2B Portal</h3>
+        <p>BQL chung cư & doanh nghiệp</p>
+      </div>
+      <ul class="module-features">
+        <li>Tạo hợp đồng cho cả tòa nhà</li>
+        <li>Cấu hình quyền lợi cư dân</li>
+        <li>Dashboard tỷ lệ sử dụng</li>
+        <li>Billing tập trung</li>
+        <li>Import danh sách cư dân</li>
+        <li>Kích hoạt voucher từng căn</li>
+        <li>Theo dõi feedback cư dân</li>
+        <li>Báo cáo định kỳ</li>
+        <li>Landing page riêng theo brand tòa</li>
+        <li>Đặt lịch nhanh không cần app</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="module-letter">D.</div>
+      <div class="module-title">
+        <h3>Admin Portal</h3>
+        <p>Vận hành nội bộ</p>
+      </div>
+      <ul class="module-features">
+        <li>Dispatch engine với thuật toán matching</li>
+        <li>Ưu tiên in-house cho gói recurring</li>
+        <li>SLA tracking realtime</li>
+        <li>Onboarding thợ mới</li>
+        <li>Quản lý ca - lịch làm việc</li>
+        <li>Template hợp đồng B2B</li>
+        <li>E-signature</li>
+        <li>Tính lương & hoa hồng</li>
+        <li>Đối soát thanh toán</li>
+        <li>Xuất hóa đơn VAT</li>
+        <li>Ticket system CSKH</li>
+        <li>Dashboard analytics</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="module-letter">E.</div>
+      <div class="module-title">
+        <h3>AI Layer</h3>
+        <p>Tự động hóa thông minh</p>
+      </div>
+      <ul class="module-features">
+        <li>Vision model phân loại sự cố từ ảnh</li>
+        <li>Gợi ý hạng mục & giá tham khảo</li>
+        <li>Học từ feedback thợ</li>
+        <li>AI báo giá theo dữ liệu lịch sử</li>
+        <li>Predictive maintenance</li>
+        <li>Cảnh báo bảo trì trước sự cố</li>
+        <li>Chatbot CSKH 24/7</li>
+        <li>Escalate human agent khi cần</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="module-letter">F.</div>
+      <div class="module-title">
+        <h3>Marketing & Growth</h3>
+        <p>Tăng trưởng có cấu trúc</p>
+      </div>
+      <ul class="module-features">
+        <li>Referral program 2 chiều</li>
+        <li>Cấp bậc cộng tác viên giới thiệu</li>
+        <li>Campaign builder</li>
+        <li>Voucher có điều kiện</li>
+        <li>Push notification theo segment</li>
+        <li>Blog kinh nghiệm bảo trì</li>
+        <li>Landing pages SEO</li>
+        <li>Dashboard theo dõi hiệu quả</li>
+      </ul>
+    </div>
+
+    <div class="module">
+      <div class="module-letter">G.</div>
+      <div class="module-title">
+        <h3>Platform Infra</h3>
+        <p>Hạ tầng nền tảng</p>
+      </div>
+      <ul class="module-features">
+        <li>Đăng nhập đa kênh (OTP, Google, Apple, Zalo)</li>
+        <li>Quản lý nhiều địa chỉ</li>
+        <li>Phân quyền chủ - người thuê</li>
+        <li>Ví trong app cho khách & thợ</li>
+        <li>Tích hợp VNPAY, MoMo, ZaloPay</li>
+        <li>Push, SMS, email, Zalo OA</li>
+        <li>Tích hợp Google Maps</li>
+        <li>Tích hợp ERP & CRM</li>
+        <li>Đa ngôn ngữ VN/EN</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ECONOMICS -->
+<section id="economics" style="background: var(--cream-warm);">
+  <div class="container">
+    <div class="section-label" data-num="vii">Pricing & Unit economics</div>
+    <h2>Một mô hình <em>bền vững</em>, không phụ thuộc burn rate.</h2>
+    <p class="section-lead">Recurring subscription giúp doanh thu predictable. B2B2C giúp CAC giảm đáng kể. Pháp nhân in-house giúp gross margin cao hơn pure marketplace.</p>
+
+    <h3 style="font-family: var(--serif); font-size: 26px; color: var(--navy); margin-bottom: 24px; font-weight: 500; margin-top: 40px;">3 gói recurring chính</h3>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier-label">Phổ thông</div>
+        <h3>Basic</h3>
+        <div class="price-amount">2,9 tr</div>
+        <div class="price-period">VNĐ / năm · ~241k/tháng</div>
+        <ul>
+          <li>2 lần vệ sinh máy lạnh / năm</li>
+          <li>1 lần kiểm tra điện - nước tổng quát</li>
+          <li>Hotline ưu tiên 24/7</li>
+          <li>Giảm 10% phí sửa chữa phát sinh</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <div class="featured-badge">Chủ lực</div>
+        <div class="price-tier-label">Trung cấp</div>
+        <h3>Standard</h3>
+        <div class="price-amount">5,9 tr</div>
+        <div class="price-period">VNĐ / năm · ~492k/tháng</div>
+        <ul>
+          <li>4 lần vệ sinh máy lạnh / năm</li>
+          <li>2 lần kiểm tra điện - nước</li>
+          <li>2 lần kiểm tra chống thấm</li>
+          <li>1 lần tổng vệ sinh / năm</li>
+          <li>Giảm 20% phí sửa chữa phát sinh</li>
+          <li>Miễn phí công 4 lần sửa nhỏ</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="price-tier-label">Cao cấp</div>
+        <h3>Premium</h3>
+        <div class="price-amount">12 tr</div>
+        <div class="price-period">VNĐ / năm · ~1tr/tháng</div>
+        <ul>
+          <li>Tần suất gấp đôi gói Standard</li>
+          <li>Miễn công 100% (chỉ tính vật tư)</li>
+          <li>Bảo hiểm tài sản đến 50 triệu</li>
+          <li>Dedicated home manager</li>
+          <li>Phản hồi sự cố trong 2h</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--serif); font-size: 26px; color: var(--navy); margin-bottom: 24px; font-weight: 500; margin-top: 80px;">Unit economics — Gói Standard</h3>
+
+    <div class="economics">
+      <div class="econ-card">
+        <div class="econ-label">Doanh thu & Chi phí / khách / năm</div>
+        <div class="econ-row">
+          <span class="econ-name">Doanh thu / khách / năm</span>
+          <span class="econ-value">5.900.000</span>
+        </div>
+        <div class="econ-row">
+          <span class="econ-name">Công thợ (tổng)</span>
+          <span class="econ-value">−1.760.000</span>
+        </div>
+        <div class="econ-row">
+          <span class="econ-name">Vật tư tiêu chuẩn</span>
+          <span class="econ-value">−400.000</span>
+        </div>
+        <div class="econ-row">
+          <span class="econ-name">Dispatching, app, payment</span>
+          <span class="econ-value">−150.000</span>
+        </div>
+        <div class="econ-row">
+          <span class="econ-name">Bảo hiểm trách nhiệm</span>
+          <span class="econ-value">−100.000</span>
+        </div>
+        <div class="econ-row total">
+          <span class="econ-name">Gross profit</span>
+          <span class="econ-value highlight-val">3.490.000</span>
+        </div>
+        <div class="econ-row" style="border-bottom: none; padding-top: 4px;">
+          <span class="econ-name" style="font-style: italic;">Gross margin</span>
+          <span class="econ-value" style="color: var(--terracotta);">~59%</span>
+        </div>
+      </div>
+      <div class="econ-card featured">
+        <div class="econ-label">CAC & LTV theo kênh</div>
+        <div class="econ-row">
+          <span class="econ-name">CAC — B2C trực tiếp</span>
+          <span class="econ-value">800k–1,5tr</span>
+        </div>
+        <div class="econ-row">
+          <span class="econ-name">CAC — Referral</span>
+          <span class="econ-value">300–500k</span>
+        </div>
+        <div class="econ-row">
+          <span class="econ-name">CAC — B2B2C qua BQL</span>
+          <span class="econ-value highlight-val">100–200k</span>
+        </div>
+        <div class="econ-row">
+          <span class="econ-name">Retention Y1→Y2</span>
+          <span class="econ-value">70%</span>
+        </div>
+        <div class="econ-row">
+          <span class="econ-name">Retention Y2→Y3</span>
+          <span class="econ-value">80%</span>
+        </div>
+        <div class="econ-row total">
+          <span class="econ-name">LTV (3-4 năm)</span>
+          <span class="econ-value highlight-val">~7,9 triệu</span>
+        </div>
+        <div class="econ-row" style="border-bottom: none; padding-top: 4px;">
+          <span class="econ-name" style="font-style: italic;">LTV/CAC (B2B2C)</span>
+          <span class="econ-value" style="color: var(--terracotta); font-family: var(--serif); font-size: 22px;">~40×</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <div class="highlight-label">Benchmark ngành</div>
+      <p>LTV/CAC > 3× là healthy. > 5× là rất tốt. HomeMatey ở mức 7,9× cho B2C và 40× cho B2B2C — cấu trúc bền vững, không cần burn rate cao để tăng trưởng.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="container">
+    <div class="section-label" data-num="viii">Lộ trình triển khai</div>
+    <h2>Ba giai đoạn, <em>tăng tốc dần</em>.</h2>
+    <p class="section-lead">Tập trung sâu một mảng trước khi mở rộng. Tận dụng tối đa lợi thế đội thợ và quy trình hiện hữu.</p>
+
+    <div class="roadmap">
+      <div class="phase">
+        <div class="phase-meta">
+          <div class="phase-num">01</div>
+          <div class="phase-time">Tháng 0–6</div>
+        </div>
+        <h3>Bảo trì chung cư cho cư dân hiện hữu</h3>
+        <p class="phase-goals">Validate model. Tập trung 3–5 BQL chung cư. Build app cơ bản, hồ sơ căn nhà phiên bản đầu, B2B portal cho BQL.</p>
+        <div class="phase-kpi">
+          <div class="phase-kpi-label">KPI Phase 1</div>
+          <ul>
+            <li><strong>3–5</strong> BQL ký hợp đồng</li>
+            <li><strong>500–1.000</strong> hộ active</li>
+            <li><strong>1,5–3 tỷ</strong> doanh thu</li>
+            <li><strong>NPS ≥ 50</strong></li>
+            <li><strong>≥70%</strong> retention recurring</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-meta">
+          <div class="phase-num">02</div>
+          <div class="phase-time">Tháng 6–18</div>
+        </div>
+        <h3>Mở rộng nhà phố & sửa chữa lớn</h3>
+        <p class="phase-goals">Scale lên 15–25 toà. Bổ sung chống thấm, sơn sửa, lắp đặt thiết bị. Marketplace có quản lý cho nhà thầu nhỏ. AI gợi ý hạng mục, predictive maintenance.</p>
+        <div class="phase-kpi">
+          <div class="phase-kpi-label">KPI Phase 2</div>
+          <ul>
+            <li><strong>15–25</strong> toà / khu đô thị</li>
+            <li><strong>5K–8K</strong> hộ active</li>
+            <li><strong>15–25 tỷ</strong> doanh thu</li>
+            <li><strong>Operating breakeven</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-meta">
+          <div class="phase-num">03</div>
+          <div class="phase-time">Tháng 18+</div>
+        </div>
+        <h3>Đa dịch vụ home services</h3>
+        <p class="phase-goals">Mở rộng giúp việc nhà cao cấp, smart home. Mở rộng HN, Đà Nẵng. Cân nhắc franchise hoặc M&A đội thợ địa phương. Cạnh tranh trực tiếp với bTaskee từ phân khúc premium / kỹ thuật.</p>
+        <div class="phase-kpi">
+          <div class="phase-kpi-label">KPI Phase 3</div>
+          <ul>
+            <li><strong>50+</strong> toà / khu đô thị</li>
+            <li><strong>20K+</strong> khách</li>
+            <li><strong>60–100 tỷ</strong> doanh thu</li>
+            <li><strong>EBITDA dương 10–15%</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--serif); font-size: 28px; color: var(--navy); margin: 80px 0 16px; font-weight: 500;">Rủi ro chính và phương án giảm thiểu</h3>
+    <p style="color: var(--ink-soft); max-width: 700px; margin-bottom: 8px;">Mỗi rủi ro đã có giải pháp cụ thể, không chỉ là quan sát.</p>
+
+    <div class="risk-grid">
+      <div class="risk-item">
+        <div class="risk-num">R-01</div>
+        <h4>Khách hủy gói giữa chừng</h4>
+        <div class="risk-mitigation">
+          <div class="risk-mitigation-label">Mitigation</div>
+          <p>Thu trước cả năm với chiết khấu 8–10%. Onboarding chỉn chu tạo cảm giác "đã đầu tư". Cam kết tỉ lệ hoàn tiền minh bạch.</p>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-num">R-02</div>
+        <h4>Job phát sinh vượt buffer</h4>
+        <div class="risk-mitigation">
+          <div class="risk-mitigation-label">Mitigation</div>
+          <p>Định nghĩa rõ giới hạn miễn phí (job &lt;30 phút, vật tư khách trả). Cảnh báo khi dùng quá 80% buffer. Up-sell sang gói cao hơn.</p>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-num">R-03</div>
+        <h4>Đội in-house quá tải mùa cao điểm</h4>
+        <div class="risk-mitigation">
+          <div class="risk-mitigation-label">Mitigation</div>
+          <p>Lập trước lịch khảo sát rải đều cả năm cho khách gói. CTV mở rộng overflow. Pricing surge nhẹ cho on-demand mùa cao điểm.</p>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-num">R-04</div>
+        <h4>BQL ép giá khi có đối thủ</h4>
+        <div class="risk-mitigation">
+          <div class="risk-mitigation-label">Mitigation</div>
+          <p>Contract 2–3 năm với pricing escalator. Tích hợp sâu vào quy trình BQL (training, system integration) tạo switching cost.</p>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-num">R-05</div>
+        <h4>Leak rate khách-thợ trao đổi riêng</h4>
+        <div class="risk-mitigation">
+          <div class="risk-mitigation-label">Mitigation</div>
+          <p>Hồ sơ căn nhà chỉ accessible qua app → mất giá trị nếu leak. Bảo hành công ty không phải bảo hành cá nhân thợ.</p>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-num">R-06</div>
+        <h4>bTaskee mở rộng sang mảng kỹ thuật</h4>
+        <div class="risk-mitigation">
+          <div class="risk-mitigation-label">Mitigation</div>
+          <p>Tốc độ là lợi thế. Build deep moat trong bảo trì kỹ thuật trước. Lợi thế asset thật khó replicate trong thời gian ngắn.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="container">
+    <h2>Một <em>khoảng trống</em><br>đáng giá tỉ đô.</h2>
+    <p>Mảng bảo trì kỹ thuật chuyên sâu cho chung cư và nhà phố tại Việt Nam chưa có người dẫn đầu rõ rệt. HomeMatey kết hợp lợi thế asset vận hành thật với mô hình recurring + B2B2C, tạo cấu trúc kinh doanh bền vững không phụ thuộc burn rate.</p>
+    <p style="font-family: var(--serif); font-style: italic; font-size: 24px; color: var(--terracotta-soft); max-width: 700px;">Chúng tôi không cạnh tranh trực tiếp với bTaskee — chúng tôi xây dựng một thị trường kế bên, sâu hơn, có moat mạnh hơn.</p>
+
+    <div class="closing-meta">
+      <div class="closing-meta-item">
+        <label>Liên hệ</label>
+        <span>HomeMatey Co., Ltd.</span>
+      </div>
+      <div class="closing-meta-item">
+        <label>Tài liệu</label>
+        <span>Investor Memo v1.0</span>
+      </div>
+      <div class="closing-meta-item">
+        <label>Trạng thái</label>
+        <span>Confidential — 2026</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
