@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phân tích FPT — Mô hình kinh doanh và tương lai trong kỷ nguyên AI Coding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #0a0a0a;
+    --ink-soft: #2a2a2a;
+    --muted: #6a6a6a;
+    --line: #1a1a1a;
+    --line-soft: #d4d4d4;
+    --accent-bg: #0a0a0a;
+    --accent-fg: #ffffff;
+    --grid-line: rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* === HEADER === */
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding: 28px 0 16px;
+    margin-bottom: 0;
+    background: var(--bg);
+  }
+
+  .masthead-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .masthead-meta {
+    display: flex;
+    gap: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .masthead-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .masthead-edition {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .hero-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .hero-kicker::before {
+    content: "";
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    margin-bottom: 32px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .hero-title strong {
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  .hero-deck {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 720px;
+    font-style: italic;
+  }
+
+  .hero-byline {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line-soft);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+
+  /* === SECTION === */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  section:last-of-type {
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(32px, 4.5vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 32px;
+    max-width: 800px;
+  }
+
+  h2 em {
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 48px 0 16px;
+  }
+
+  h4 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 32px 0 12px;
+  }
+
+  p {
+    font-size: 17px;
+    line-height: 1.65;
+    margin-bottom: 20px;
+    color: var(--ink-soft);
+    max-width: 720px;
+  }
+
+  p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* === LEAD PARAGRAPH === */
+  .lead {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--ink);
+    border-left: 3px solid var(--ink);
+    padding-left: 24px;
+    margin: 32px 0;
+    max-width: 720px;
+  }
+
+  .lead em {
+    font-style: italic;
+  }
+
+  /* === DROPCAP === */
+  .dropcap::first-letter {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 84px;
+    line-height: 0.85;
+    float: left;
+    margin: 6px 12px 0 0;
+    color: var(--ink);
+  }
+
+  /* === KEY STATS GRID === */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    margin: 48px 0;
+    border-top: 2px solid var(--ink);
+    border-left: 1px solid var(--line-soft);
+  }
+
+  .stat {
+    padding: 28px 24px;
+    border-right: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .stat-num small {
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* === PILLAR === */
+  .pillar {
+    border-top: 1px solid var(--ink);
+    padding-top: 32px;
+    margin-bottom: 48px;
+  }
+
+  .pillar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .pillar-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+
+  .pillar-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border: 1px solid var(--ink);
+    padding: 4px 10px;
+  }
+
+  .pillar-stats {
+    display: flex;
+    gap: 32px;
+    margin: 16px 0 20px;
+    flex-wrap: wrap;
+  }
+
+  .pillar-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .pillar-stat strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .pillar-eval {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 20px;
+  }
+
+  .pillar-eval-col h5 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+    color: var(--muted);
+  }
+
+  .pillar-eval ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .pillar-eval li {
+    font-size: 14px;
+    line-height: 1.55;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 8px;
+    color: var(--ink-soft);
+  }
+
+  .pillar-eval li::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+  }
+
+  .eval-pos li::before {
+    content: "+";
+    color: var(--ink);
+  }
+
+  .eval-neg li::before {
+    content: "−";
+    color: var(--ink);
+  }
+
+  /* === TABLE === */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 32px 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-align: left;
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--ink);
+    color: var(--ink);
+    font-weight: 700;
+    vertical-align: bottom;
+  }
+
+  th:not(:first-child) {
+    text-align: center;
+  }
+
+  td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+
+  td:not(:first-child) {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  td:first-child {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  tbody tr:hover {
+    background: rgba(0,0,0,0.02);
+  }
+
+  .stars {
+    letter-spacing: 1px;
+    font-family: serif;
+  }
+
+  /* === SCENARIO === */
+  .scenario {
+    border: 2px solid var(--ink);
+    padding: 32px;
+    margin-bottom: 24px;
+    background: var(--bg);
+    position: relative;
+  }
+
+  .scenario.featured {
+    background: var(--ink);
+    color: var(--accent-fg);
+  }
+
+  .scenario.featured h3,
+  .scenario.featured p,
+  .scenario.featured .scenario-prob {
+    color: var(--accent-fg);
+  }
+
+  .scenario.featured .scenario-tag {
+    background: var(--accent-fg);
+    color: var(--ink);
+  }
+
+  .scenario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .scenario-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+
+  .scenario-meta {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .scenario-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--accent-fg);
+    padding: 4px 10px;
+    margin-bottom: 8px;
+  }
+
+  .scenario-prob {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .scenario-prob small {
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 0.6;
+  }
+
+  .scenario p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* === FORECAST CHART === */
+  .forecast {
+    margin: 48px 0;
+  }
+
+  .forecast-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .forecast-table th,
+  .forecast-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--line-soft);
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  .forecast-table th {
+    font-size: 10px;
+    border-bottom: 1px solid var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .forecast-table td:first-child,
+  .forecast-table th:first-child {
+    text-align: left;
+    font-weight: 700;
+  }
+
+  .forecast-bar-cell {
+    position: relative;
+    text-align: left !important;
+    padding: 12px !important;
+    min-width: 200px;
+  }
+
+  .forecast-bar {
+    height: 8px;
+    background: var(--ink);
+    margin-top: 4px;
+  }
+
+  /* === DEATH LIST === */
+  .death-list,
+  .alive-list {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0;
+    border-top: 1px solid var(--ink);
+  }
+
+  .death-list li,
+  .alive-list li {
+    padding: 18px 0 18px 48px;
+    border-bottom: 1px solid var(--line-soft);
+    position: relative;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+
+  .death-list li::before {
+    content: "✕";
+    position: absolute;
+    left: 8px;
+    top: 16px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--ink);
+  }
+
+  .alive-list li::before {
+    content: "→";
+    position: absolute;
+    left: 8px;
+    top: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  .death-list li strong,
+  .alive-list li strong {
+    color: var(--ink);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* === PULL QUOTE === */
+  .pullquote {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-align: center;
+    padding: 48px 32px;
+    margin: 48px -32px;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    color: var(--ink);
+    max-width: none;
+  }
+
+  .pullquote::before,
+  .pullquote::after {
+    content: '"';
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .pullquote-attr {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 24px;
+    color: var(--muted);
+  }
+
+  /* === INSIGHT BOX === */
+  .insight-box {
+    background: var(--ink);
+    color: var(--accent-fg);
+    padding: 48px 40px;
+    margin: 48px 0;
+  }
+
+  .insight-box h3 {
+    color: var(--accent-fg);
+    margin-top: 0;
+  }
+
+  .insight-box p {
+    color: rgba(255,255,255,0.85);
+    max-width: none;
+  }
+
+  .insight-box strong {
+    color: var(--accent-fg);
+  }
+
+  .insight-list {
+    list-style: none;
+    counter-reset: insight;
+    padding: 0;
+    margin-top: 32px;
+  }
+
+  .insight-list li {
+    counter-increment: insight;
+    padding: 24px 0 24px 64px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+  }
+
+  .insight-list li:last-child {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .insight-list li::before {
+    content: counter(insight, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 24px;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--accent-fg);
+    line-height: 1;
+  }
+
+  .insight-list li strong {
+    display: block;
+    color: var(--accent-fg);
+    font-size: 17px;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* === VERDICT === */
+  .verdict {
+    padding: 64px 0;
+    text-align: center;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    margin: 64px 0;
+  }
+
+  .verdict-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .verdict-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .verdict-text em {
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 64px 0;
+    text-align: left;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+
+  footer p {
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    margin-bottom: 8px;
+    max-width: none;
+  }
+
+  /* === COMPARE === */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 32px 0;
+    border: 2px solid var(--ink);
+  }
+
+  .compare-col {
+    padding: 28px;
+  }
+
+  .compare-col:first-child {
+    border-right: 1px solid var(--ink);
+  }
+
+  .compare-col h4 {
+    margin-top: 0;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .compare-col ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .compare-col li {
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--ink-soft);
+  }
+
+  .compare-col li:last-child {
+    border-bottom: none;
+  }
+
+  .compare-col li strong {
+    color: var(--ink);
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+  }
+
+  /* === TOC === */
+  .toc {
+    border: 1px solid var(--ink);
+    padding: 28px 32px;
+    margin: 48px 0;
+  }
+
+  .toc-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    color: var(--muted);
+  }
+
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+    padding: 0;
+  }
+
+  .toc li {
+    counter-increment: toc;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+  }
+
+  .toc li:last-child {
+    border-bottom: none;
+  }
+
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .toc a {
+    color: var(--ink);
+    text-decoration: none;
+    flex: 1;
+  }
+
+  .toc a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 700px) {
+    .container { padding: 0 20px; }
+    .hero { padding: 48px 0 40px; }
+    section { padding: 56px 0; }
+    .pillar-eval { grid-template-columns: 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-col:first-child { border-right: none; border-bottom: 1px solid var(--ink); }
+    .pullquote { padding: 32px 16px; margin: 32px -20px; }
+    .insight-box { padding: 32px 24px; }
+    .scenario { padding: 24px; }
+  }
+
+  /* Small ornament */
+  .ornament {
+    text-align: center;
+    margin: 48px 0;
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    color: var(--ink);
+    letter-spacing: 0.5em;
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container masthead-inner">
+    <div class="masthead-title">FPT&nbsp;·&nbsp;Briefing</div>
+    <div class="masthead-meta">
+      <span>Tháng 5 / 2026</span>
+      <span>Phân tích chiến lược</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-kicker">Briefing đặc biệt — Việt Nam, ngành công nghệ</div>
+    <h1 class="hero-title">
+      Tập đoàn <em>FPT</em>:<br>
+      mô hình kinh doanh và <strong>tương lai</strong><br>
+      trong kỷ nguyên AI Coding.
+    </h1>
+    <p class="hero-deck">
+      Một đánh giá thẳng thắn về bốn trụ cột của FPT, hệ sinh thái sản phẩm Made-by-FPT, và câu hỏi sống còn: liệu mảng outsourcing — vốn đang đóng góp phần lớn doanh thu — có thể tồn tại khi marginal cost của một AI coding agent đã sụp đổ về cơ bản chỉ còn chi phí điện?
+    </p>
+    <div class="hero-byline">
+      <span>Một briefing dành cho founder đang xây sản phẩm</span>
+      <span>Đọc · 18 phút</span>
+    </div>
+  </section>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Mục lục</div>
+    <ol>
+      <li><a href="#overview">Bức tranh tổng quan</a></li>
+      <li><a href="#pillars">Bốn trụ cột kinh doanh</a></li>
+      <li><a href="#products">Made-by-FPT — tham vọng thoát outsourcing</a></li>
+      <li><a href="#swot">Điểm mạnh, điểm yếu, cơ hội, thách thức</a></li>
+      <li><a href="#ai-shock">Cú sốc AI coding — nó thật, nó đang đến</a></li>
+      <li><a href="#india">Bài học từ Ấn Độ</a></li>
+      <li><a href="#scenarios">Bốn kịch bản 2026—2030</a></li>
+      <li><a href="#dying">Loại công việc nào sẽ chết</a></li>
+      <li><a href="#forecast">Dự báo cụ thể cho FPT outsource</a></li>
+      <li><a href="#verdict">Đánh giá cuối cùng</a></li>
+      <li><a href="#insight">Insight cho bạn</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. OVERVIEW -->
+  <section id="overview">
+    <span class="section-num">§ 01</span>
+    <div class="section-label">Bức tranh tổng quan</div>
+    <h2>Tập đoàn công nghệ <em>lớn nhất Việt Nam</em>, trên nhiều phương diện.</h2>
+
+    <p class="dropcap">FPT là tập đoàn công nghệ niêm yết lớn nhất Việt Nam, doanh thu năm 2024 đạt 2.47 tỷ USD và lợi nhuận trước thuế 434.57 triệu USD — tăng trưởng lần lượt 19.4% và 20.3% so với năm trước, vượt mục tiêu đề ra. Trong 9 tháng đầu 2025, mảng Công nghệ (gồm IT trong nước và toàn cầu) đóng góp 62% doanh thu và 45% lợi nhuận trước thuế của tập đoàn — tương đương khoảng 30,949 tỷ đồng và 4,333 tỷ đồng.</p>
+
+    <p>Đó là bộ khung cơ bản. Câu chuyện thú vị nằm ở cấu trúc — và ở rủi ro mà cấu trúc đó đang đối mặt.</p>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-num">2.47<small>B$</small></div>
+        <div class="stat-label">Doanh thu 2024</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">62<small>%</small></div>
+        <div class="stat-label">Đóng góp từ mảng Công nghệ</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">44<small>%</small></div>
+        <div class="stat-label">Doanh thu Global IT từ Nhật Bản</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">~3<small>%</small></div>
+        <div class="stat-label">Tỷ trọng sản phẩm Made-by-FPT</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. PILLARS -->
+  <section id="pillars">
+    <span class="section-num">§ 02</span>
+    <div class="section-label">Bốn trụ cột</div>
+    <h2><em>Diversification</em> hợp lý, nhưng không đồng đều.</h2>
+
+    <p>FPT đứng trên bốn chân: Global IT Services (FPT Software), Domestic IT (FPT IS), Telecommunications (FPT Telecom), và Education. Mỗi chân có vai trò riêng, biên lợi nhuận riêng, và mức độ rủi ro AI riêng.</p>
+
+    <!-- Pillar 1 -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-title">01 — Global IT Services</div>
+        <div class="pillar-tag">Con gà đẻ trứng vàng</div>
+      </div>
+      <div class="pillar-stats">
+        <div class="pillar-stat"><strong>25,574 tỷ</strong>Doanh thu 9T2025 (+12.8%)</div>
+        <div class="pillar-stat"><strong>4,073 tỷ</strong>PBT (+12.7%)</div>
+        <div class="pillar-stat"><strong>~30,000</strong>Nhân viên</div>
+      </div>
+      <p><strong>Bản chất:</strong> Outsourcing/offshoring phần mềm cho Nhật, Mỹ, EU, APAC. Phân bổ thị trường: Nhật 44%, Mỹ 24%, EU 10%, APAC 22%. Mô hình ăn chênh lệch chi phí lập trình viên Việt Nam so với phương Tây — labor arbitrage.</p>
+      <div class="pillar-eval">
+        <div class="pillar-eval-col eval-pos">
+          <h5>Điểm tựa</h5>
+          <ul>
+            <li>Volume cao, dòng tiền ổn định</li>
+            <li>Moat: scale và quan hệ Nhật 25+ năm</li>
+            <li>Khách hàng enterprise, hợp đồng dài</li>
+          </ul>
+        </div>
+        <div class="pillar-eval-col eval-neg">
+          <h5>Điểm yếu</h5>
+          <ul>
+            <li>Margin thấp, dễ bị nén</li>
+            <li>Phụ thuộc labor arbitrage — đang chết</li>
+            <li>Cạnh tranh Ấn Độ, Đông Âu</li>
+            <li>AI có thể "ăn" mảng này</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pillar 2 -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-title">02 — Domestic IT Services</div>
+        <div class="pillar-tag">Hạt giống cho sản phẩm</div>
+      </div>
+      <div class="pillar-stats">
+        <div class="pillar-stat"><strong>5,376 tỷ</strong>Doanh thu 9T2025 (+1.5%)</div>
+        <div class="pillar-stat"><strong>260 tỷ</strong>PBT (+31.9%)</div>
+      </div>
+      <p><strong>Bản chất:</strong> Tích hợp hệ thống cho doanh nghiệp lớn và chính phủ Việt Nam — ngân hàng, viễn thông, năng lượng. Quan hệ chính phủ chặt chẽ tạo moat thật trong các hợp đồng công.</p>
+      <div class="pillar-eval">
+        <div class="pillar-eval-col eval-pos">
+          <h5>Điểm tựa</h5>
+          <ul>
+            <li>Moat từ quan hệ chính phủ</li>
+            <li>Lợi nhuận tăng nhanh hơn doanh thu</li>
+            <li>Bệ phóng cho sản phẩm nội địa</li>
+          </ul>
+        </div>
+        <div class="pillar-eval-col eval-neg">
+          <h5>Điểm yếu</h5>
+          <ul>
+            <li>Tăng trưởng doanh thu chậm (1.5%)</li>
+            <li>Phụ thuộc giải ngân ngân sách</li>
+            <li>Thị trường Việt Nam có giới hạn</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pillar 3 -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-title">03 — Telecommunications</div>
+        <div class="pillar-tag">Bò sữa</div>
+      </div>
+      <div class="pillar-stats">
+        <div class="pillar-stat"><strong>13,738 tỷ</strong>Doanh thu 9T2025 (+11.5%)</div>
+        <div class="pillar-stat"><strong>3,091 tỷ</strong>PBT (+21.3%)</div>
+      </div>
+      <p><strong>Bản chất:</strong> Internet băng thông rộng, data center, Pay TV. Cash cow ổn định với margin tốt. Data center sẽ là asset quan trọng cho thời kỳ AI — nơi cho thuê GPU, hosting model.</p>
+      <div class="pillar-eval">
+        <div class="pillar-eval-col eval-pos">
+          <h5>Điểm tựa</h5>
+          <ul>
+            <li>Cash cow ổn định</li>
+            <li>Lợi nhuận tăng nhanh hơn doanh thu</li>
+            <li>Data center cho AI là lợi thế dài hạn</li>
+          </ul>
+        </div>
+        <div class="pillar-eval-col eval-neg">
+          <h5>Điểm yếu</h5>
+          <ul>
+            <li>Thị trường internet bão hòa</li>
+            <li>CAPEX rất lớn để duy trì hạ tầng</li>
+            <li>Cạnh tranh từ Viettel, VNPT</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pillar 4 -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-title">04 — Education</div>
+        <div class="pillar-tag">Đầu tư dài hạn</div>
+      </div>
+      <div class="pillar-stats">
+        <div class="pillar-stat"><strong>5,195 tỷ</strong>Doanh thu 9T2025 (+1%)</div>
+        <div class="pillar-stat"><strong>—</strong>Đại học, cao đẳng, học viện</div>
+      </div>
+      <p><strong>Bản chất:</strong> Đại học FPT, Polytechnic, Aptech, Greenwich — chuỗi giáo dục công nghệ. Tạo nguồn nhân lực cho FPT Software, tạo flywheel effect bền vững. Brand reinforcement quan trọng cho cả tập đoàn.</p>
+      <div class="pillar-eval">
+        <div class="pillar-eval-col eval-pos">
+          <h5>Điểm tựa</h5>
+          <ul>
+            <li>Flywheel với mảng Software</li>
+            <li>Margin cao nếu scale được</li>
+            <li>Brand reinforcement</li>
+          </ul>
+        </div>
+        <div class="pillar-eval-col eval-neg">
+          <h5>Điểm yếu</h5>
+          <ul>
+            <li>Tăng trưởng chậm (1%)</li>
+            <li>Có dấu hiệu bão hòa</li>
+            <li>Không phải động cơ tăng trưởng</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MADE-BY-FPT -->
+  <section id="products">
+    <span class="section-num">§ 03</span>
+    <div class="section-label">Hệ sinh thái sản phẩm</div>
+    <h2><em>Made-by-FPT</em>: tham vọng lớn, kết quả còn khiêm tốn.</h2>
+
+    <p>Đây là câu chuyện thú vị nhất khi nhìn FPT — và cũng là chỉ báo tốt nhất về hướng đi tương lai. Hệ sinh thái sản phẩm Made-by-FPT đạt 1,845 tỷ đồng doanh thu trong 9 tháng đầu 2025, tăng 22.8% so với cùng kỳ. Tốc độ tăng tốt, nhưng tỷ trọng so với toàn tập đoàn vẫn chỉ khoảng 3%.</p>
+
+    <p>FPT có sáu sản phẩm Made-by-FPT nổi bật được công nhận: Akabot (RPA — flagship product), FPT eID (định danh số), FPT.EagleEye (an ninh mạng), FPT.eContract (hợp đồng điện tử), FPT.eSign (chữ ký số), và FPT Play (truyền hình online). Akabot đã phục vụ hơn 4,000 khách hàng tại 21 quốc gia, đầu năm 2026 vừa được cấp bằng sáng chế tại Đài Loan.</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Đánh giá</th>
+            <th>Lý do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Akabot</td>
+            <td class="stars">★★★★</td>
+            <td style="text-align:left">Gartner công nhận, có patent quốc tế. Nhưng RPA đang bị disrupt bởi AI agentic native — cần pivot mạnh.</td>
+          </tr>
+          <tr>
+            <td>FPT.AI</td>
+            <td class="stars">★★★</td>
+            <td style="text-align:left">Tốt cho thị trường VN nhưng generic, khó cạnh tranh OpenAI / Anthropic ở enterprise.</td>
+          </tr>
+          <tr>
+            <td>akaChain</td>
+            <td class="stars">★★</td>
+            <td style="text-align:left">Blockchain hype đã qua. Use case chưa rõ. Ít traction.</td>
+          </tr>
+          <tr>
+            <td>FPT.eContract / eSign</td>
+            <td class="stars">★★★★</td>
+            <td style="text-align:left">Tailwind từ regulation. Cash cow ổn định. Compete MISA, VNPT.</td>
+          </tr>
+          <tr>
+            <td>FPT.EagleEye</td>
+            <td class="stars">★★★</td>
+            <td style="text-align:left">Cybersecurity là wave dài. Cạnh tranh Viettel Cyber Security, CMC.</td>
+          </tr>
+          <tr>
+            <td>FPT eID</td>
+            <td class="stars">★★★</td>
+            <td style="text-align:left">Government-driven. Phụ thuộc chính sách.</td>
+          </tr>
+          <tr>
+            <td>FPT Play</td>
+            <td class="stars">★★</td>
+            <td style="text-align:left">Streaming khó lãi. Cạnh tranh Netflix, K+, Galaxy Play.</td>
+          </tr>
+          <tr>
+            <td>AI Factory</td>
+            <td class="stars">★★★★★</td>
+            <td style="text-align:left">Bet lớn 200M USD với NVIDIA, đúng thời điểm, có moat hạ tầng.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>AI Factory — bet lớn nhất hiện tại</h3>
+    <p>FPT đã đầu tư 200 triệu USD xây AI factory với NVIDIA H100, sau đó nâng cấp với HGX B300. Các AI Factory tại Việt Nam và Nhật đã đạt khoảng 70% utilization chỉ sau 1 năm, xử lý hơn 1.1 nghìn tỷ tokens, fine-tune 70 model AI cho khách hàng.</p>
+
+    <p>Theo MBS Research, hai AI factory dự kiến đóng góp khoảng 1,250 tỷ đồng doanh thu (~2.2% mảng IT) trong 2026, sau đó duy trì tăng trưởng 30—50% các năm tiếp theo. Đây là bet đúng wave, nhưng vẫn là "picks and shovels" — cho thuê hạ tầng — chứ chưa phải sản phẩm AI native với margin cao thật sự.</p>
+  </section>
+
+  <!-- 4. SWOT-like -->
+  <section id="swot">
+    <span class="section-num">§ 04</span>
+    <div class="section-label">Điểm mạnh & điểm yếu</div>
+    <h2>Một tập đoàn <em>tốt</em>, đang đứng trước <em>vực sâu</em>.</h2>
+
+    <div class="compare-grid">
+      <div class="compare-col">
+        <h4>Điểm mạnh</h4>
+        <ul>
+          <li><strong>Diversification hợp lý</strong>4 trụ cột không tương quan trực tiếp, giảm rủi ro hệ thống</li>
+          <li><strong>Talent pipeline tự cung tự cấp</strong>Education feed Software, tạo cost advantage bền vững</li>
+          <li><strong>Government relationships</strong>Tập đoàn tư nhân được "chọn mặt gửi vàng" cho dự án quốc gia</li>
+          <li><strong>AI bet đúng thời điểm</strong>Đối tác NVIDIA từ 2024, factory utilization 70% sau 1 năm</li>
+          <li><strong>Brand mạnh ở Nhật</strong>25+ năm xây dựng quan hệ, khó copy bằng AI</li>
+        </ul>
+      </div>
+      <div class="compare-col">
+        <h4>Điểm yếu</h4>
+        <ul>
+          <li><strong>Phụ thuộc outsourcing</strong>~80% doanh thu IT từ services, chỉ ~3% từ products</li>
+          <li><strong>Made-by-FPT chưa scale đúng kỳ vọng</strong>8 năm phát triển Akabot mà chưa có "unicorn product"</li>
+          <li><strong>Rủi ro AI disruption</strong>Outsourcing model có thể bị "ăn" trong 5—10 năm</li>
+          <li><strong>Cạnh tranh lương trong nước</strong>Lương dev VN tiệm cận Đông Âu, margin services bị nén</li>
+          <li><strong>Spray and pray</strong>Quá nhiều sản phẩm, ít sản phẩm "global hit"</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament">§ § §</div>
+
+  <!-- 5. AI SHOCK -->
+  <section id="ai-shock">
+    <span class="section-num">§ 05</span>
+    <div class="section-label">Cú sốc AI Coding</div>
+    <h2>Marginal cost của một <em>AI coding agent</em><br>đã sụp đổ về cơ bản chỉ còn <em>chi phí điện</em>.</h2>
+
+    <p class="lead">
+      Đây không phải "rồi sẽ xảy ra". Đây là điều đang xảy ra, ngay bây giờ, với tốc độ mà ngay cả những người trong ngành cũng không lường trước được. Câu hỏi không còn là <em>liệu</em> labor arbitrage có chết không, mà là <em>nhanh đến mức nào</em>.
+    </p>
+
+    <p>Mức độ áp dụng AI coding đầu 2026 đã vượt mọi dự báo:</p>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-num">73<small>%</small></div>
+        <div class="stat-label">Đội ngũ engineering dùng AI coding hàng ngày — tăng từ 41% trong 2025</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">29<small>M</small></div>
+        <div class="stat-label">Lượt cài Claude Code mỗi ngày, tăng từ 17.7M chỉ trong 1 tháng</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12<small>×</small></div>
+        <div class="stat-label">Tăng tốc trung bình trên các task — 14.8 phút thay vì 3.8 giờ</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">75<small>%</small></div>
+        <div class="stat-label">Startup đang dùng Claude Code — chưa AI tool nào đạt mức này</div>
+      </div>
+    </div>
+
+    <p>Một principal engineer của Google công khai thừa nhận tại meetup Seattle đầu 2026 rằng Claude tái tạo cả năm công việc kiến trúc trong một giờ. Microsoft — công ty sở hữu GitHub Copilot — đã áp dụng rộng rãi Claude Code trong các đội kỹ thuật chính của mình. Khi công ty bán Copilot lại chọn Claude Code cho công việc quan trọng nhất, đó là tín hiệu thị trường mạnh mẽ nhất có thể có.</p>
+
+    <p>Nói một cách kinh tế: khi chi phí biên của một dòng code = chi phí điện, lợi thế "lao động rẻ" của Việt Nam và Ấn Độ trong outsourcing — vốn là nền tảng của ngành xuất khẩu IT 200 tỷ USD trong 30 năm — trở nên vô nghĩa.</p>
+
+    <div class="pullquote">
+      Đây là lần đầu tiên trong 30 năm, lợi thế lao động rẻ của Việt Nam và Ấn Độ trong IT bị đe dọa thật sự.
+      <span class="pullquote-attr">— Quan sát thị trường, Q1 2026</span>
+    </div>
+  </section>
+
+  <!-- 6. INDIA LESSON -->
+  <section id="india">
+    <span class="section-num">§ 06</span>
+    <div class="section-label">Bài học từ Ấn Độ</div>
+    <h2>Cú sốc đã xảy ra với <em>"đàn anh"</em> của FPT.</h2>
+
+    <p>FPT đang chơi cùng sân với TCS, Infosys, Wipro. Nhìn họ sẽ thấy tương lai. Và bức tranh không đẹp.</p>
+
+    <h3>Ngày 4 tháng 2, 2026 — "ngày phán xét"</h3>
+    <p>Khi Anthropic phát hành plugin Claude Cowork, chỉ số IT của Ấn Độ giảm gần 6% trong một ngày. Plugin được thiết kế để tự động hóa chính các công việc kiến thức lặp đi lặp lại — bread and butter của outsourcing Ấn Độ: review hợp đồng, tracking compliance, dự báo bán hàng. Đây là dấu hiệu đầu tiên rõ ràng rằng AI có thể khiến phần lớn ngành outsourcing IT Ấn Độ trở nên lỗi thời.</p>
+
+    <h3>Báo cáo Citrini Research</h3>
+    <p>Báo cáo "The 2028 Global Intelligence Crisis" cảnh báo: nếu Fortune 500 có thể tự build phần mềm bằng agentic AI, mô hình outsourcing 200 tỷ USD không chỉ co lại — mà bốc hơi. Đây không chỉ là vấn đề công nghệ, mà là mối đe dọa kinh tế quốc gia. Nếu xuất khẩu IT không đem được USD về, đồng Rupee có thể giảm 18% so với USD trong vài tháng.</p>
+
+    <h3>Cú sốc thật đã đến</h3>
+    <p>TCS, Infosys, Wipro đã sa thải hơn 5,000 vị trí ở Mỹ trong những tháng gần đây. Số WARN notice (thông báo sa thải lớn) Q1 2026 đã vượt cả năm 2025 cộng lại. TCS giảm 23,460 nhân sự trong FY26.</p>
+
+    <p>"Big four" Ấn Độ về cơ bản đã ngừng tuyển dụng. Tăng trưởng doanh thu của họ tụt từ 15—25% YoY xuống còn: HCL +7.4%, Infosys +1.7%, TCS +3%, Wipro +5.5%.</p>
+
+    <div class="pullquote">
+      Nếu công ty Mỹ có thể tự động hóa review hợp đồng pháp lý nội bộ bằng Claude Cowork, tại sao họ phải trả cho đội 50 người ở Bangalore?
+      <span class="pullquote-attr">— Co-founder CloudPe, dẫn lời trong Rest of World</span>
+    </div>
+  </section>
+
+  <!-- 7. SCENARIOS -->
+  <section id="scenarios">
+    <span class="section-num">§ 07</span>
+    <div class="section-label">Bốn kịch bản 2026—2030</div>
+    <h2>Tương lai mảng outsource của FPT, theo <em>xác suất</em>.</h2>
+
+    <div class="scenario">
+      <div class="scenario-header">
+        <div>
+          <div class="scenario-title">Kịch bản 01 — Soft Landing</div>
+        </div>
+        <div class="scenario-meta">
+          <div class="scenario-tag">Lạc quan</div>
+          <div class="scenario-prob">30<small>% xác suất</small></div>
+        </div>
+      </div>
+      <p>AI coding làm giảm năng suất outsourcing 30—40% trong 3—5 năm. Khách hàng giảm size hợp đồng nhưng vẫn cần FPT cho tích hợp, maintenance, domain expertise. Tăng trưởng chậm lại còn 5—8% mỗi năm thay vì 12—15%. Doanh thu Global IT 2030 ước tính 45—50 ngàn tỷ, thấp hơn projection cũ khoảng 15—20%. <strong>FPT sống được, tăng trưởng dưới kỳ vọng.</strong></p>
+    </div>
+
+    <div class="scenario featured">
+      <div class="scenario-header">
+        <div>
+          <div class="scenario-title">Kịch bản 02 — Margin Compression</div>
+        </div>
+        <div class="scenario-meta">
+          <div class="scenario-tag">Khả năng nhất</div>
+          <div class="scenario-prob">35<small>% xác suất</small></div>
+        </div>
+      </div>
+      <p>Doanh thu vẫn tăng do lượng project mới nhiều hơn, nhưng margin bị nén nặng. Khách hàng dùng AI coding, chỉ trả tiền cho "AI-augmented developer" với giá rẻ hơn 30—50%. Logic: 1 dev FPT giờ + Claude Code = năng suất 3—5 dev cũ. Khách hàng biết điều này nên đòi giảm giá. <strong>Volume tăng nhưng giá/giờ giảm — lợi nhuận đi ngang hoặc giảm.</strong> Đây chính xác là kịch bản đang xảy ra với "Big four" Ấn Độ.</p>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-header">
+        <div>
+          <div class="scenario-title">Kịch bản 03 — Hard Disruption</div>
+        </div>
+        <div class="scenario-meta">
+          <div class="scenario-tag">Tiêu cực</div>
+          <div class="scenario-prob">25<small>% xác suất</small></div>
+        </div>
+      </div>
+      <p>Trong 3 năm, các Fortune 500 chuyển hẳn sang in-house AI development. Hợp đồng outsource bị hủy hàng loạt. Mảng Global IT Services giảm 20—40% doanh thu trong 2027—2029. Layoff bắt buộc 5,000—10,000 nhân viên. Cổ phiếu FPT có thể giảm 40—60%. <strong>FPT buộc phải "đi sâu" thay vì "đi rộng" — chỉ giữ lại các competency cao cấp.</strong></p>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-header">
+        <div>
+          <div class="scenario-title">Kịch bản 04 — Reinvention Success</div>
+        </div>
+        <div class="scenario-meta">
+          <div class="scenario-tag">Lý tưởng</div>
+          <div class="scenario-prob">10<small>% xác suất</small></div>
+        </div>
+      </div>
+      <p>FPT pivot thành công sang AI-first services, AI Factory trở thành unicorn business, Made-by-FPT đột phá. Cần điều kiện: 1—2 sản phẩm Made-in-Vietnam global hit, AI Factory đạt 500M—1B USD doanh thu, văn hóa công ty thay đổi từ "services mindset" sang "product mindset". <strong>Khả năng thấp nhưng không phải không thể.</strong></p>
+    </div>
+  </section>
+
+  <!-- 8. WORK CATEGORIES -->
+  <section id="dying">
+    <span class="section-num">§ 08</span>
+    <div class="section-label">Phân loại lao động</div>
+    <h2>Loại công việc nào sẽ <em>chết</em>, loại nào sẽ <em>sống</em>.</h2>
+
+    <h3>Sẽ chết — chiếm ước tính 40—60% lực lượng FPT Software</h3>
+    <ul class="death-list">
+      <li><strong>Body shopping junior</strong>1—3 năm kinh nghiệm, code Java/JavaScript thuần. AI làm tốt hơn, rẻ hơn 100 lần.</li>
+      <li><strong>Manual testing</strong>Test automation và AI test generation đã thay thế hoàn toàn.</li>
+      <li><strong>Maintenance code legacy</strong>AI hiểu code cũ tốt hơn dev junior — đặc biệt với context window 1M+ tokens.</li>
+      <li><strong>Translation work</strong>Tiếng Nhật ⇄ Anh trong tài liệu kỹ thuật — LLM giải quyết hoàn toàn.</li>
+      <li><strong>Documentation</strong>AI tự generate từ codebase, không cần technical writer.</li>
+    </ul>
+
+    <h3>Sẽ tồn tại — nhưng cần ít người hơn 5—10 lần</h3>
+    <ul class="alive-list">
+      <li><strong>AI orchestration / agent design</strong>Thiết kế hệ thống multi-agent, tool integration, prompt engineering.</li>
+      <li><strong>Domain expertise + AI</strong>Hiểu sâu business banking, manufacturing, healthcare và áp dụng AI cho đúng context.</li>
+      <li><strong>Compliance & Security</strong>Vẫn cần human accountability cho các quyết định quan trọng.</li>
+      <li><strong>Tích hợp hệ thống phức tạp</strong>Doanh nghiệp lớn vẫn cần partner có accountability cho hệ thống phụ thuộc lẫn nhau.</li>
+      <li><strong>On-site consulting</strong>Làm việc trực tiếp với khách hàng, hiểu pain point thật, đưa ra giải pháp.</li>
+    </ul>
+  </section>
+
+  <!-- 9. FORECAST -->
+  <section id="forecast">
+    <span class="section-num">§ 09</span>
+    <div class="section-label">Dự báo định lượng</div>
+    <h2>Doanh thu Global IT Services — <em>kịch bản hợp lý nhất</em>.</h2>
+
+    <div class="table-wrapper">
+      <table class="forecast-table">
+        <thead>
+          <tr>
+            <th>Năm</th>
+            <th>Doanh thu</th>
+            <th>Tăng trưởng</th>
+            <th>Trực quan</th>
+            <th>Diễn biến</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025</td>
+            <td>~34,000 tỷ</td>
+            <td>+12.8%</td>
+            <td class="forecast-bar-cell"><div class="forecast-bar" style="width:85%"></div></td>
+            <td>Năm trước AI shock thực sự</td>
+          </tr>
+          <tr>
+            <td>2026</td>
+            <td>~38,000 tỷ</td>
+            <td>+12%</td>
+            <td class="forecast-bar-cell"><div class="forecast-bar" style="width:95%"></div></td>
+            <td>Nhật vẫn chưa ngấm AI</td>
+          </tr>
+          <tr>
+            <td>2027</td>
+            <td>~41,000 tỷ</td>
+            <td>+8%</td>
+            <td class="forecast-bar-cell"><div class="forecast-bar" style="width:100%"></div></td>
+            <td>Bắt đầu compression</td>
+          </tr>
+          <tr>
+            <td>2028</td>
+            <td>~42,000 tỷ</td>
+            <td>+2—3%</td>
+            <td class="forecast-bar-cell"><div class="forecast-bar" style="width:100%"></div></td>
+            <td>Plateau, Nhật bắt đầu cắt</td>
+          </tr>
+          <tr>
+            <td>2029</td>
+            <td>~40,000 tỷ</td>
+            <td>−5%</td>
+            <td class="forecast-bar-cell"><div class="forecast-bar" style="width:96%"></div></td>
+            <td>Suy giảm nhẹ</td>
+          </tr>
+          <tr>
+            <td>2030</td>
+            <td>~38,000 tỷ</td>
+            <td>−5%</td>
+            <td class="forecast-bar-cell"><div class="forecast-bar" style="width:91%"></div></td>
+            <td>Stabilize ở mức thấp hơn</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>So với kịch bản "không có AI disruption": doanh thu 2030 sẽ thấp hơn khoảng 30—40% so với phóng tuyến tính cũ.</p>
+
+    <h4>Headcount</h4>
+    <p>Từ ~30,000 người (2025) xuống ~22,000—25,000 người (2030) — giảm 15—25%. Nhưng quan trọng hơn là cơ cấu thay đổi: tỷ lệ junior giảm mạnh, senior + AI specialist tăng.</p>
+
+    <h4>Margin (PBT margin)</h4>
+    <p>Từ ~16% (2025) xuống ~10—12% (2030) — bị nén bởi cạnh tranh giá.</p>
+
+    <h4>Cổ phiếu</h4>
+    <p>Mảng outsource có thể bị thị trường discount mạnh. Nếu AI Factory và Made-by-FPT không scale kịp, P/E có thể giảm từ 20—25 hiện tại xuống 12—15.</p>
+  </section>
+
+  <!-- 10. VERDICT -->
+  <section id="verdict">
+    <span class="section-num">§ 10</span>
+    <div class="section-label">Đánh giá cuối cùng</div>
+
+    <div class="verdict">
+      <div class="verdict-label">Kết luận</div>
+      <div class="verdict-text">
+        Mảng outsource của FPT trong 5 năm tới:<br>
+        <em>Suy thoái vừa phải</em>, không sụp đổ.
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-col">
+        <h4>Lý do tin còn sống</h4>
+        <ul>
+          <li><strong>Phụ thuộc Nhật cao</strong>Có thêm 2—3 năm đệm so với khách Mỹ</li>
+          <li><strong>Quy mô nhỏ hơn TCS</strong>Linh hoạt hơn, pivot nhanh hơn</li>
+          <li><strong>Quan hệ 25 năm</strong>Moat thật, AI không thay được niềm tin</li>
+          <li><strong>Government VN hỗ trợ</strong>Domestic market làm đệm</li>
+          <li><strong>AI Factory bet đúng</strong>Đi trước nhiều đối thủ khu vực</li>
+        </ul>
+      </div>
+      <div class="compare-col">
+        <h4>Lý do lo ngại</h4>
+        <ul>
+          <li><strong>Margin bị nén nặng</strong>Volume tăng nhưng giá giảm</li>
+          <li><strong>Pivot 50%+ lực lượng</strong>Khó về văn hóa và năng lực</li>
+          <li><strong>Made-by-FPT chưa đủ trưởng thành</strong>Không đủ làm phao cứu sinh</li>
+          <li><strong>Cú sốc Nhật chậm nhưng nặng</strong>Khi đến sẽ rất mạnh</li>
+          <li><strong>Cạnh tranh giá khốc liệt</strong>Indian giants pivot quyết liệt</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Timeline dự đoán cụ thể</h3>
+    <p><strong>2026—2027:</strong> FPT vẫn báo cáo tăng trưởng tốt, "everything is fine" narrative chiếm chủ đạo.</p>
+    <p><strong>2028:</strong> Bắt đầu xuất hiện dấu hiệu compression rõ ràng. Tăng trưởng chậm lại đáng kể.</p>
+    <p><strong>2029—2030:</strong> FPT phải cơ cấu lại nghiêm túc, có thể có đợt layoff lớn đầu tiên.</p>
+
+    <p class="lead">FPT có sống được không? Có. Nhưng sẽ là một FPT khác — nhỏ hơn về services, lớn hơn về products và AI infrastructure. Tổng quy mô có thể tăng nhưng <em>không tăng tuyến tính</em> như 10 năm qua.</p>
+  </section>
+
+  <!-- 11. INSIGHT -->
+  <section id="insight">
+    <span class="section-num">§ 11</span>
+    <div class="section-label">Insight cho bạn</div>
+
+    <div class="insight-box">
+      <h3>Năm bài học cho founder đang xây sản phẩm</h3>
+      <p>Câu chuyện AI disruption services này không chỉ là về FPT. Nó có ý nghĩa cụ thể cho bạn — người đang đứng trước quyết định build sản phẩm của riêng mình với team IT mạnh và vốn 2—10 tỷ.</p>
+
+      <ol class="insight-list">
+        <li>
+          <strong>Đừng build "outsource business" nữa.</strong>
+          Nếu trong đầu bạn còn ý tưởng "làm dịch vụ phần mềm cho khách Mỹ/Nhật" — dẹp đi. 5 năm nữa sẽ không còn không gian. Sân chơi đó đang co lại với tốc độ chưa từng thấy.
+        </li>
+        <li>
+          <strong>Vertical SaaS với AI native là hướng đúng.</strong>
+          Khi labor arbitrage chết, lợi thế chuyển sang domain depth và product. Đây chính là hướng bạn đang đi — hoàn toàn phù hợp với wave. Chọn 1 ngành sâu, làm 5—10 năm, không cần exit.
+        </li>
+        <li>
+          <strong>AI tools làm bạn tăng tốc 5—10 lần.</strong>
+          Team IT 5—15 người + AI coding = năng suất tương đương team 30—50 người 3 năm trước. Vốn 2—10 tỷ giờ đủ làm cả Vertical SaaS lẫn AI features. Đây là moment vàng cho founder solo và small team.
+        </li>
+        <li>
+          <strong>FPT KHÔNG phải đối thủ — thậm chí có thể là khách hàng.</strong>
+          Khi mảng services của FPT bị nén, FPT sẽ acquire các sản phẩm vertical SaaS để mở rộng product portfolio. Bạn có thể trở thành acquisition target rất hấp dẫn cho FPT trong 5—7 năm.
+        </li>
+        <li>
+          <strong>Việt Nam đang ở thế nguy — và đó là cơ hội.</strong>
+          Cả ngành IT Việt Nam (~700,000 dev) đang ở thế giống Ấn Độ. Sẽ có hàng vạn dev VN cần "chuyển nghề" sang product trong 5 năm tới. Nguồn nhân lực giá tốt cho founder. Bạn có thể tuyển được senior với giá hợp lý hơn nhiều so với hiện tại.
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="ornament">end</div>
+
+  <footer>
+    <p>Briefing này tổng hợp từ phân tích báo cáo tài chính FPT 9T2025, MBS Research, Citrini Research "The 2028 Global Intelligence Crisis", và dữ liệu adoption AI coding tools đầu 2026.</p>
+    <p>Mục đích: hỗ trợ founder Việt Nam đang cân nhắc chiến lược build sản phẩm trong bối cảnh AI disruption.</p>
+    <p style="margin-top:24px">Tháng 5 / 2026 — Briefing số 01</p>
+  </footer>
+
+</div>
+
+</body>
+</html>

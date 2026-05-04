@@ -246,615 +246,1026 @@
 <div class="container">
 
 <header class="doc-header">
-  <h1>KPI/PMS Tập đoàn — Specification v1.3</h1>
-  <div class="meta">
-    <div><strong>Version:</strong> 1.3</div>
-    <div><strong>Ngày:</strong> 2026-05-03</div>
-    <div><strong>BA:</strong> Vibalink Team</div>
-    <div><strong>Status:</strong> <span class="badge confirmed">🟢 Khách đã confirm</span></div>
-  </div>
+<h1>KPI/PMS Tập đoàn — Specification</h1>
+<div class="meta">
+<div><strong>Version:</strong> 1.4</div>
+<div><strong>Ngày:</strong> 2026-05-04</div>
+<div><strong>BA:</strong> AI Agent (Claude)</div>
+<div><strong>Status:</strong> <span class="badge">🟡 Chờ khách confirm</span></div>
+</div>
 </header>
 
-<nav class="toc">
-  <h3>Mục lục</h3>
-  <ol>
-    <li><a href="#sec-1">Tổng quan</a></li>
-    <li><a href="#sec-2">Yêu cầu chức năng</a></li>
-    <li><a href="#sec-3">Yêu cầu phi chức năng</a></li>
-    <li><a href="#sec-4">Giao diện &amp; UX</a></li>
-    <li><a href="#sec-5">Dữ liệu</a></li>
-    <li><a href="#sec-6">Tích hợp</a></li>
-    <li><a href="#sec-7">Platform mong muốn</a></li>
-    <li><a href="#sec-8">Kế hoạch phase</a></li>
-    <li><a href="#sec-9">Rủi ro &amp; giả định</a></li>
-    <li><a href="#sec-10">Open questions</a></li>
-    <li><a href="#sec-11">Glossary</a></li>
-    <li><a href="#sec-12">Changelog</a></li>
-  </ol>
-</nav>
-
-<h2 id="sec-1">1. Tổng quan</h2>
-
+<h1>KPI/PMS Tập đoàn — Specification</h1>
+<p><strong>Version:</strong> 1.4
+<strong>Ngày:</strong> 2026-05-04
+<strong>BA:</strong> AI Agent (Claude)
+<strong>Status:</strong> 🟡 Chờ khách confirm</p>
+<hr>
+<h2>1. Tổng quan</h2>
 <h3>1.1. Mục đích</h3>
 <p>Xây dựng hệ thống quản trị hiệu suất (Performance Management System) nội bộ cho tập đoàn, số hóa toàn bộ quy trình thiết lập, phân bổ, theo dõi và đánh giá KPI/PMS từ cấp Tập đoàn xuống cấp đơn vị và cá nhân. Hệ thống thay thế quy trình thủ công bằng Excel/biểu mẫu giấy hiện tại, đảm bảo minh bạch, truy vết được và rút ngắn thời gian tổng hợp kết quả.</p>
-
 <h3>1.2. Đối tượng người dùng</h3>
 <ul>
-  <li><strong>Primary:</strong> Nhân viên toàn tập đoàn (~10 công ty con) — từ nhân viên nghiệp vụ đến quản lý cấp trung, sử dụng hệ thống để thiết lập mục tiêu và tự đánh giá. Mức tech-savvy trung bình, quen dùng Excel.</li>
-  <li><strong>Secondary:</strong> HR/QTNNL và quản trị hệ thống — cấu hình, vận hành và kiểm soát toàn bộ quy trình.</li>
+<li><strong>Primary:</strong> Nhân viên toàn tập đoàn (~10 công ty con) — từ nhân viên nghiệp vụ đến quản lý cấp trung, sử dụng hệ thống để thiết lập mục tiêu và tự đánh giá. Mức tech-savvy trung bình, quen dùng Excel.</li>
+<li><strong>Secondary:</strong> HR/QTNNL và quản trị hệ thống — cấu hình, vận hành và kiểm soát toàn bộ quy trình.</li>
 </ul>
-
 <h3>1.3. Mục tiêu kinh doanh</h3>
 <ul>
-  <li>Số hóa thống nhất quy trình KPI/PMS toàn tập đoàn, loại bỏ phụ thuộc vào file Excel phân tán.</li>
-  <li>Chuẩn hóa thư viện KPI, ma trận năng lực và biểu mẫu theo cấp bậc E/M/P/S.</li>
-  <li>Tăng tính minh bạch nhờ lịch sử phê duyệt, lưu vết chỉnh sửa và hồ sơ minh chứng.</li>
-  <li>Rút ngắn thời gian tổng hợp kết quả và phát hành xếp loại cuối năm.</li>
-  <li>Cung cấp báo cáo quản trị hiệu suất theo nhiều chiều: Tập đoàn, đơn vị, chức danh, cấp bậc, cá nhân.</li>
+<li>Số hóa thống nhất quy trình KPI/PMS toàn tập đoàn, loại bỏ phụ thuộc vào file Excel phân tán.</li>
+<li>Chuẩn hóa thư viện KPI, ma trận năng lực và biểu mẫu theo cấp bậc E/M/P/S.</li>
+<li>Tăng tính minh bạch nhờ lịch sử phê duyệt, lưu vết chỉnh sửa và hồ sơ minh chứng.</li>
+<li>Rút ngắn thời gian tổng hợp kết quả và phát hành xếp loại cuối năm.</li>
+<li>Cung cấp báo cáo quản trị hiệu suất theo nhiều chiều: Tập đoàn, đơn vị, chức danh, cấp bậc, cá nhân.</li>
 </ul>
-
 <h3>1.4. Phạm vi</h3>
-
-<div class="section-card">
-  <h5>In-scope (Phase 1 — phải làm)</h5>
-  <ul>
-    <li>Quản lý cơ cấu tổ chức, chức danh, nhóm cấp bậc, tuyến quản lý và phân quyền</li>
-    <li>Quản lý chu kỳ PMS/KPI theo năm và các kỳ con (đầu năm, giữa kỳ, cuối năm)</li>
-    <li>KPI cấp Tập đoàn, thư viện KPI, KPI/AOP cấp đơn vị</li>
-    <li>PMS cá nhân gồm KPI (70%) và năng lực/lãnh đạo/hành vi (30%) theo cấp bậc E/M/P/S</li>
-    <li>Workflow phê duyệt nhiều cấp (review, trả lại, điều chỉnh, phê duyệt)</li>
-    <li>Đánh giá giữa kỳ (tham khảo) và đánh giá cuối năm (chính thức)</li>
-    <li>Tính điểm, xếp loại, điểm thưởng</li>
-    <li>Import/export Excel với kiểm tra dữ liệu và trả file lỗi</li>
-    <li>Quản lý minh chứng</li>
-    <li>Dashboard và báo cáo cơ bản</li>
-    <li>Audit log, thông báo và nhắc việc</li>
-  </ul>
-</div>
-
-<div class="section-card">
-  <h5>Out-of-scope (KHÔNG làm ở Phase 1)</h5>
-  <ul>
-    <li>Tính lương thưởng tự động dựa trên kết quả PMS</li>
-    <li>Mobile app native</li>
-    <li>AI gợi ý KPI hoặc AI chấm điểm tự động</li>
-    <li>Tích hợp hai chiều thời gian thực với hệ thống tài chính, vận hành, CRM</li>
-    <li>Tích hợp HRM/LDAP/SSO (chưa cần Phase 1)</li>
-    <li>Goal cascading trực quan, KPI suggestion engine, calibration session, development plan auto-generate, compensation export, advanced analytics (→ Phase 2)</li>
-  </ul>
-</div>
-
+<p><strong>In-scope (Phase 1 — phải làm):</strong></p>
+<ul>
+<li>Quản lý cơ cấu tổ chức, chức danh, nhóm cấp bậc, tuyến quản lý và phân quyền</li>
+<li>Quản lý chu kỳ PMS/KPI theo năm và các kỳ con (đầu năm, giữa kỳ, cuối năm)</li>
+<li>KPI cấp Tập đoàn, thư viện KPI, KPI/AOP cấp đơn vị</li>
+<li>PMS cá nhân gồm KPI (70%) và năng lực/lãnh đạo/hành vi (30%) theo cấp bậc E/M/P/S</li>
+<li>Workflow phê duyệt nhiều cấp (review, trả lại, điều chỉnh, phê duyệt)</li>
+<li>Đánh giá giữa kỳ (tham khảo) và đánh giá cuối năm (chính thức)</li>
+<li>Tính điểm, xếp loại, điểm thưởng</li>
+<li>Import/export Excel với kiểm tra dữ liệu và trả file lỗi</li>
+<li>Quản lý minh chứng</li>
+<li>Dashboard và báo cáo cơ bản</li>
+<li>Audit log, thông báo và nhắc việc</li>
+</ul>
+<p><strong>Out-of-scope (KHÔNG làm ở Phase 1):</strong></p>
+<ul>
+<li>Tính lương thưởng tự động dựa trên kết quả PMS</li>
+<li>Mobile app native</li>
+<li>AI gợi ý KPI hoặc AI chấm điểm tự động</li>
+<li>Tích hợp hai chiều thời gian thực với hệ thống tài chính, vận hành, CRM</li>
+<li>Tích hợp HRM/LDAP/SSO (chưa cần Phase 1)</li>
+<li>Goal cascading trực quan, KPI suggestion engine, calibration session, development plan auto-generate, compensation export, advanced analytics (→ Phase 2)</li>
+</ul>
 <hr>
-
-<h2 id="sec-2">2. Yêu cầu chức năng</h2>
-
+<h2>2. Yêu cầu chức năng</h2>
 <h3>2.1. User roles</h3>
 <table>
-  <thead>
-    <tr><th>Role</th><th>Quyền hạn</th><th>Ghi chú</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Nhân viên</td><td>Thiết lập PMS cá nhân, tự đánh giá, cập nhật minh chứng, gửi phê duyệt</td><td>Tất cả nhân viên trong tập đoàn</td></tr>
-    <tr><td>Quản lý trực tiếp (QLTT)</td><td>Review, nhận xét, chấm điểm, phê duyệt/trả lại hồ sơ nhân viên; quyết định cộng điểm thưởng</td><td>Quản lý cấp team/phòng</td></tr>
-    <tr><td>Trưởng đơn vị</td><td>Thiết lập KPI/AOP đơn vị, đánh giá cấp đơn vị, phê duyệt cấp cao nhất cho hồ sơ thuộc đơn vị</td><td>Giám đốc công ty con / trưởng khối</td></tr>
-    <tr><td>HR/QTNNL</td><td>Cấu hình chu kỳ, template, thư viện KPI, theo dõi tiến độ, tổng hợp, kiểm soát quy trình, import dữ liệu</td><td>Bộ phận nhân sự tập đoàn</td></tr>
-    <tr><td>Người được ủy quyền cấp Tập đoàn</td><td>Xem xét, điều chỉnh và phê duyệt KPI cấp Tập đoàn</td><td>Lãnh đạo cấp cao</td></tr>
-    <tr><td>Quản trị hệ thống (Admin)</td><td>Quản lý người dùng, vai trò, tham số hệ thống, phân quyền</td><td>IT admin</td></tr>
-  </tbody>
-</table>
-
+<thead>
+<tr>
+<th>Role</th>
+<th>Quyền hạn</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nhân viên</td>
+<td>Thiết lập PMS cá nhân, tự đánh giá, cập nhật minh chứng, gửi phê duyệt</td>
+<td>Tất cả nhân viên trong tập đoàn</td>
+</tr>
+<tr>
+<td>Quản lý trực tiếp (QLTT)</td>
+<td>Review, nhận xét, chấm điểm, phê duyệt/trả lại hồ sơ nhân viên; quyết định cộng điểm thưởng</td>
+<td>Quản lý cấp team/phòng</td>
+</tr>
+<tr>
+<td>Trưởng đơn vị</td>
+<td>Thiết lập KPI/AOP đơn vị, đánh giá cấp đơn vị, phê duyệt cấp cao nhất cho hồ sơ thuộc đơn vị</td>
+<td>Giám đốc công ty con / trưởng khối</td>
+</tr>
+<tr>
+<td>HR/QTNNL</td>
+<td>Cấu hình chu kỳ, template, thư viện KPI, theo dõi tiến độ, tổng hợp, kiểm soát quy trình, import dữ liệu</td>
+<td>Bộ phận nhân sự tập đoàn</td>
+</tr>
+<tr>
+<td>Người được ủy quyền cấp Tập đoàn</td>
+<td>Xem xét, điều chỉnh và phê duyệt KPI cấp Tập đoàn</td>
+<td>Lãnh đạo cấp cao</td>
+</tr>
+<tr>
+<td>Quản trị hệ thống (Admin)</td>
+<td>Quản lý người dùng, vai trò, tham số hệ thống, phân quyền</td>
+<td>IT admin</td>
+</tr>
+</tbody></table>
 <h3>2.2. Danh sách tính năng (feature list)</h3>
 <table>
-  <thead>
-    <tr><th>#</th><th>Feature</th><th>Priority</th><th>Phase</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>F1</td><td>Quản lý cơ cấu tổ chức</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F2</td><td>Quản lý người dùng và phân quyền (RBAC)</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F3</td><td>Cấu hình chu kỳ đánh giá</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F4</td><td>Cấu hình workflow phê duyệt</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F5</td><td>Cấu hình biểu mẫu theo cấp bậc E/M/P/S</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F6</td><td>Thiết lập KPI cấp Tập đoàn</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F7</td><td>Quản lý thư viện KPI</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F8</td><td>Thiết lập KPI/AOP đơn vị</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F9</td><td>Thiết lập PMS cá nhân</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F10</td><td>Đánh giá giữa kỳ (cá nhân + đơn vị + Tập đoàn)</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F11</td><td>Điều chỉnh mục tiêu giữa kỳ</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F12</td><td>Đánh giá cuối năm (tự đánh giá + QLTT + cấp phê duyệt)</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F13</td><td>Đánh giá năng lực/lãnh đạo/hành vi theo cấp bậc</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F14</td><td>Tính điểm, điểm thưởng, làm tròn và xếp loại</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F15</td><td>Import/export Excel (với kiểm tra và trả file lỗi)</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F16</td><td>Quản lý minh chứng</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F17</td><td>Thông báo và nhắc việc</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F18</td><td>Dashboard tiến độ và kết quả</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F19</td><td>Báo cáo xếp loại và phân bố</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F20</td><td>Audit log</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F21</td><td>So sánh phiên bản (trước/sau điều chỉnh)</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F22</td><td>Phát hành kết quả cuối năm và khóa dữ liệu</td><td class="priority-M">M</td><td>1</td></tr>
-    <tr><td>F23</td><td>Goal cascading trực quan</td><td class="priority-S">S</td><td>2</td></tr>
-    <tr><td>F24</td><td>KPI suggestion engine</td><td class="priority-S">S</td><td>2</td></tr>
-    <tr><td>F25</td><td>Workflow builder cấu hình nâng cao</td><td class="priority-S">S</td><td>2</td></tr>
-    <tr><td>F26</td><td>SLA reminder và cảnh báo quá hạn</td><td class="priority-S">S</td><td>2</td></tr>
-    <tr><td>F27</td><td>Calibration session (hiệu chỉnh phân bố điểm)</td><td class="priority-C">C</td><td>2</td></tr>
-    <tr><td>F28</td><td>Advanced analytics (heatmap, độ lệch, tỷ lệ)</td><td class="priority-C">C</td><td>2</td></tr>
-    <tr><td>F29</td><td>Evidence tagging và full-text search</td><td class="priority-C">C</td><td>2</td></tr>
-    <tr><td>F30</td><td>Development plan auto-generate</td><td class="priority-C">C</td><td>2</td></tr>
-    <tr><td>F31</td><td>Compensation export</td><td class="priority-C">C</td><td>2</td></tr>
-    <tr><td>F32</td><td>Mobile approval</td><td class="priority-C">C</td><td>2</td></tr>
-  </tbody>
-</table>
-
+<thead>
+<tr>
+<th>#</th>
+<th>Feature</th>
+<th>Priority</th>
+<th>Phase</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>F1</td>
+<td>Quản lý cơ cấu tổ chức</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>Quản lý người dùng và phân quyền (RBAC)</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F3</td>
+<td>Cấu hình chu kỳ đánh giá</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F4</td>
+<td>Cấu hình workflow phê duyệt</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F5</td>
+<td>Cấu hình biểu mẫu theo cấp bậc E/M/P/S</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F6</td>
+<td>Thiết lập KPI cấp Tập đoàn</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F7</td>
+<td>Quản lý thư viện KPI</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F8</td>
+<td>Thiết lập KPI/AOP đơn vị</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F9</td>
+<td>Thiết lập PMS cá nhân</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Đánh giá giữa kỳ (cá nhân + đơn vị + Tập đoàn)</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F11</td>
+<td>Điều chỉnh mục tiêu giữa kỳ</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>Đánh giá cuối năm (tự đánh giá + QLTT + cấp phê duyệt)</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Đánh giá năng lực/lãnh đạo/hành vi theo cấp bậc</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F14</td>
+<td>Tính điểm, điểm thưởng, làm tròn và xếp loại</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F15</td>
+<td>Import/export Excel (với kiểm tra và trả file lỗi)</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F16</td>
+<td>Quản lý minh chứng</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F17</td>
+<td>Thông báo và nhắc việc</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F18</td>
+<td>Dashboard tiến độ và kết quả</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F19</td>
+<td>Báo cáo xếp loại và phân bố</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F20</td>
+<td>Audit log</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F21</td>
+<td>So sánh phiên bản (trước/sau điều chỉnh)</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F22</td>
+<td>Phát hành kết quả cuối năm và khóa dữ liệu</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F33</td>
+<td>Cài đặt hệ thống (cấu hình menu, tham số)</td>
+<td>M</td>
+<td>1</td>
+</tr>
+<tr>
+<td>F23</td>
+<td>Goal cascading trực quan</td>
+<td>S</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F24</td>
+<td>KPI suggestion engine</td>
+<td>S</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F25</td>
+<td>Workflow builder cấu hình nâng cao</td>
+<td>S</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F26</td>
+<td>SLA reminder và cảnh báo quá hạn</td>
+<td>S</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F27</td>
+<td>Calibration session (hiệu chỉnh phân bố điểm)</td>
+<td>C</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F28</td>
+<td>Advanced analytics (heatmap, độ lệch, tỷ lệ)</td>
+<td>C</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F29</td>
+<td>Evidence tagging và full-text search</td>
+<td>C</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F30</td>
+<td>Development plan auto-generate</td>
+<td>C</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F31</td>
+<td>Compensation export</td>
+<td>C</td>
+<td>2</td>
+</tr>
+<tr>
+<td>F32</td>
+<td>Mobile approval</td>
+<td>C</td>
+<td>2</td>
+</tr>
+</tbody></table>
 <h3>2.3. Chi tiết từng tính năng</h3>
-
-<div class="feature-card">
-  <h4>F1 — Quản lý cơ cấu tổ chức</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR</strong>, tôi muốn <strong>quản lý cấu trúc tập đoàn, công ty con, khối, phòng ban, chức danh và nhóm cấp bậc E/M/P/S</strong>, để <strong>hệ thống áp đúng biểu mẫu, workflow và phân quyền dữ liệu cho từng người</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Tạo/sửa/xóa/vô hiệu hóa được các cấp: Tập đoàn → Công ty → Khối → Phòng ban</li>
-    <li>Gán chức danh và nhóm cấp bậc (E/M/P/S) cho từng vị trí</li>
-    <li>Thiết lập tuyến quản lý (ai báo cáo ai)</li>
-    <li>Hỗ trợ import danh sách tổ chức từ Excel</li>
-    <li>Thay đổi cơ cấu tổ chức được ghi audit log</li>
-  </ul>
-  <h5>Edge cases</h5>
-  <ul>
-    <li>Xóa đơn vị đang có nhân viên → cảnh báo và yêu cầu chuyển nhân viên trước</li>
-    <li>Nhân viên chuyển đơn vị giữa chu kỳ → vẫn phải hoàn tất chu kỳ đó tại đơn vị cũ, hồ sơ PMS giữ ở đơn vị cũ</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F2 — Quản lý người dùng và phân quyền (RBAC)</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>admin hệ thống</strong>, tôi muốn <strong>cấp tài khoản, gán vai trò và phạm vi dữ liệu theo đơn vị</strong>, để <strong>người dùng chỉ thấy và thao tác được trên dữ liệu thuộc phạm vi của mình</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Tạo/sửa/khóa/mở khóa tài khoản người dùng</li>
-    <li>Gán 1 hoặc nhiều vai trò cho mỗi người dùng</li>
-    <li>Phân quyền theo vai trò (RBAC) kết hợp phạm vi dữ liệu theo đơn vị</li>
-    <li>Hỗ trợ import danh sách người dùng từ Excel</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F3 — Cấu hình chu kỳ đánh giá</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR</strong>, tôi muốn <strong>tạo chu kỳ PMS/KPI theo năm và các kỳ con (đầu năm, giữa kỳ, cuối năm) với các mốc đóng/mở dữ liệu</strong>, để <strong>kiểm soát thời gian thực hiện từng giai đoạn</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Tạo chu kỳ năm với các kỳ con và mốc thời gian mở/đóng</li>
-    <li>Khi hết hạn kỳ, hệ thống tự động khóa nhập liệu (có thể mở lại thủ công bởi HR)</li>
-    <li>Cấu hình mà không cần sửa mã nguồn</li>
-    <li>Hỗ trợ nhiều chu kỳ năm (lịch sử)</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F4 — Cấu hình workflow phê duyệt</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR</strong>, tôi muốn <strong>thiết lập tuyến phê duyệt theo loại hồ sơ (KPI Tập đoàn, KPI đơn vị, PMS cá nhân)</strong>, để <strong>hồ sơ đi đúng tuyến duyệt theo quy trình tập đoàn</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Cấu hình các bước phê duyệt cho từng loại hồ sơ</li>
-    <li>Hỗ trợ tối thiểu 3 cấp: nhân viên → QLTT → cấp phê duyệt cao nhất</li>
-    <li>Hỗ trợ hành động: phê duyệt, trả lại, yêu cầu chỉnh sửa</li>
-    <li>Lưu lịch sử phê duyệt đầy đủ (người xử lý, thời gian, ý kiến)</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F5 — Cấu hình biểu mẫu theo cấp bậc E/M/P/S</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR</strong>, tôi muốn <strong>thiết lập template PMS, bộ năng lực/lãnh đạo/hành vi cho từng cấp bậc E (Lãnh đạo), M (Quản lý), P (Chuyên môn), S (Nghiệp vụ)</strong>, để <strong>hệ thống tự áp đúng form khi nhân viên tạo PMS</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Tạo/sửa template riêng cho E, M, P, S</li>
-    <li>Mỗi template xác định rõ phần KPI và phần năng lực/lãnh đạo/hành vi tương ứng</li>
-    <li>Khi nhân viên tạo PMS, hệ thống tự chọn template theo cấp bậc — nhân viên không cần chọn thủ công</li>
-    <li>Hỗ trợ versioning cho template (giữ bản cũ khi cập nhật)</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F6 — Thiết lập KPI cấp Tập đoàn</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR</strong>, tôi muốn <strong>tạo bộ KPI chiến lược cấp Tập đoàn dựa trên mục tiêu trọng tâm đã được phê duyệt</strong>, để <strong>làm nguồn phân rã xuống đơn vị</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Tạo/sửa KPI cấp Tập đoàn với đầy đủ thông tin: tên, định nghĩa, chỉ tiêu, công thức tính/nguyên tắc chấm, cơ sở ghi nhận</li>
-    <li>Trình phê duyệt theo tuyến (người có thẩm quyền cấp Tập đoàn)</li>
-    <li>Sau khi duyệt, KPI Tập đoàn trở thành nguồn cho KPI đơn vị và thư viện KPI</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F7 — Quản lý thư viện KPI</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR</strong>, tôi muốn <strong>import và quản lý thư viện KPI tập trung</strong>, để <strong>các đơn vị và cá nhân có thể chọn tái sử dụng, giảm thời gian thiết lập</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Import thư viện KPI từ Excel</li>
-    <li>Tìm kiếm, lọc KPI theo nhóm/đơn vị/chức danh</li>
-    <li>Hỗ trợ versioning (cập nhật thư viện mà không mất bản cũ)</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F8 — Thiết lập KPI/AOP đơn vị</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>trưởng đơn vị</strong>, tôi muốn <strong>phân rã KPI từ cấp Tập đoàn xuống đơn vị và lập kế hoạch hành động (AOP) gắn với từng KPI đơn vị</strong>, để <strong>bảo đảm mục tiêu đơn vị liên kết mục tiêu tập đoàn</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Tạo KPI đơn vị từ KPI Tập đoàn và/hoặc thư viện KPI</li>
-    <li>Tạo AOP (kế hoạch hành động) cho từng KPI đơn vị</li>
-    <li>Trình phê duyệt theo tuyến workflow</li>
-    <li>KPI đơn vị sau khi duyệt trở thành cơ sở thiết lập PMS cá nhân</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F9 — Thiết lập PMS cá nhân</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>nhân viên</strong>, tôi muốn <strong>tạo bộ PMS cá nhân theo đúng template cấp bậc, chọn KPI từ thư viện hoặc kế thừa từ KPI đơn vị</strong>, để <strong>giảm thời gian nhập tay và đảm bảo đúng định hướng</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Hệ thống tự áp template theo cấp bậc E/M/P/S</li>
-    <li>Khai báo tối đa 8 mục tiêu KPI cá nhân</li>
-    <li>Tổng trọng số các mục tiêu phải bằng 100</li>
-    <li>Mỗi KPI phải có: tên, định nghĩa, chỉ tiêu, công thức tính/nguyên tắc chấm, cơ sở ghi nhận</li>
-    <li>Chọn KPI từ thư viện hoặc nhập tự do</li>
-    <li>Khai báo minh chứng dự kiến</li>
-    <li>Trình phê duyệt theo workflow (QLTT → cấp phê duyệt cao nhất)</li>
-  </ul>
-  <h5>Edge cases</h5>
-  <ul>
-    <li>Tổng trọng số ≠ 100 → cảnh báo và không cho trình duyệt</li>
-    <li>Số mục tiêu &gt; 8 → không cho thêm và hiển thị thông báo</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F10 — Đánh giá giữa kỳ</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>nhân viên</strong>, tôi muốn <strong>cập nhật tiến độ, nhận xét và minh chứng giữa năm</strong>, để <strong>QLTT nắm được tình hình và cho feedback kịp thời</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Nhân viên cập nhật tiến độ thực hiện và đính kèm minh chứng</li>
-    <li>QLTT và cấp phê duyệt nhận xét, chấm điểm tham khảo</li>
-    <li>Điểm giữa kỳ chỉ mang tính tham khảo — KHÔNG cộng vào điểm cuối năm</li>
-    <li>HR có thể import kết quả giữa kỳ cấp Tập đoàn/đơn vị từ Excel</li>
-    <li>Dữ liệu import không hợp lệ → trả file lỗi chi tiết theo dòng/cột</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F11 — Điều chỉnh mục tiêu giữa kỳ</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>nhân viên</strong>, tôi muốn <strong>đề xuất thay đổi mục tiêu khi có biến động nghiệp vụ</strong>, để <strong>mục tiêu cuối năm phản ánh đúng thực tế</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Nhân viên tạo hồ sơ điều chỉnh, nêu lý do</li>
-    <li>Hồ sơ điều chỉnh phải được phê duyệt theo tuyến</li>
-    <li>Hệ thống lưu phiên bản trước và sau điều chỉnh</li>
-    <li>QLTT có thể so sánh phiên bản trên cùng một màn hình</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F12 — Đánh giá cuối năm (KPI 70%)</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>nhân viên</strong>, tôi muốn <strong>tự chấm điểm KPI cuối năm và đính kèm minh chứng</strong>, để <strong>bắt đầu quy trình đánh giá chính thức</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Nhân viên tự đánh giá từng KPI trên thang 1-5</li>
-    <li>Đính kèm minh chứng cho từng KPI</li>
-    <li>QLTT đánh giá và nhận xét từng KPI</li>
-    <li>Cấp phê duyệt cao nhất (trưởng đơn vị) xem toàn bộ điểm, nhận xét, minh chứng và chốt kết quả cấp cuối</li>
-    <li>Tối thiểu 3 cấp đánh giá: nhân viên → QLTT → cấp phê duyệt cao nhất</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F13 — Đánh giá năng lực/lãnh đạo/hành vi (30%)</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>nhân viên</strong>, tôi muốn <strong>được đánh giá đúng bộ năng lực theo cấp bậc E/M/P/S</strong>, để <strong>kết quả năng lực phản ánh chính xác vai trò</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Hệ thống hiển thị đúng bộ tiêu chí năng lực theo cấp bậc: Lãnh đạo (E), Quản lý (M), Chuyên môn (P), Nghiệp vụ (S)</li>
-    <li>Nhân viên tự đánh giá, QLTT đánh giá, cấp phê duyệt chốt</li>
-    <li>Thang điểm 1-5 cho mỗi tiêu chí năng lực</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F14 — Tính điểm, điểm thưởng, làm tròn và xếp loại</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>nhân viên</strong>, tôi muốn <strong>xem rõ cách tính điểm PMS cuối cùng</strong>, để <strong>hiểu kết quả và tin tưởng tính công bằng</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Điểm tổng PMS = Điểm KPI × 70% + Điểm năng lực × 30%</li>
-    <li>QLTT có quyền cộng điểm thưởng tối đa 0.15 cho cá nhân xuất sắc tham gia hoạt động công ty</li>
-    <li>Quy tắc làm tròn: làm tròn đến 2 chữ số thập phân (x.00)</li>
-    <li>Xếp loại theo 4 mức (thang 1-5)</li>
-    <li>Hiển thị chi tiết cách tính cho nhân viên (điểm KPI, điểm năng lực, trọng số, thưởng, tổng)</li>
-  </ul>
-  <table>
-    <thead>
-      <tr><th>Mức</th><th>Xếp loại</th><th>Khoảng điểm</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><strong>A+</strong></td><td>Xuất sắc</td><td>4.1 – 5.0</td></tr>
-      <tr><td><strong>A</strong></td><td>Tốt</td><td>3.1 – 4.0</td></tr>
-      <tr><td><strong>B</strong></td><td>Đạt yêu cầu</td><td>2.1 – 3.0</td></tr>
-      <tr><td><strong>C</strong></td><td>Cần cải thiện</td><td>0.0 – 2.0</td></tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="feature-card">
-  <h4>F15 — Import/Export Excel</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR</strong>, tôi muốn <strong>import dữ liệu Excel và nhận file lỗi chi tiết theo dòng/cột nếu không hợp lệ</strong>, để <strong>xử lý nhanh dữ liệu hàng loạt mà không sợ mất dữ liệu</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Import kết quả giữa kỳ/cuối kỳ cấp Tập đoàn và đơn vị</li>
-    <li>Import thư viện KPI, danh sách tổ chức, danh sách người dùng</li>
-    <li>Kiểm tra: cấu trúc file, khóa chính, khóa ngoại, trạng thái kỳ, tính hợp lệ nghiệp vụ</li>
-    <li>Nếu có lỗi → trả file lỗi chi tiết (dòng, cột, mô tả lỗi) và KHÔNG lưu dữ liệu</li>
-    <li>Tác vụ import chạy nền, thông báo khi hoàn thành</li>
-    <li>Export danh sách hồ sơ, kết quả, báo cáo ra Excel</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F16 — Quản lý minh chứng</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>nhân viên</strong>, tôi muốn <strong>đính kèm minh chứng (file, link, ghi chú) cho từng KPI</strong>, để <strong>hỗ trợ QLTT đánh giá chính xác hơn</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Upload file minh chứng (PDF, hình ảnh, Excel...)</li>
-    <li>Gắn minh chứng theo từng KPI cụ thể</li>
-    <li>QLTT và cấp phê duyệt xem được minh chứng khi đánh giá</li>
-    <li>Hỗ trợ ghi chú text cho mỗi minh chứng</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F17 — Thông báo và nhắc việc</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>nhân viên/QLTT</strong>, tôi muốn <strong>nhận thông báo khi có hồ sơ cần xử lý hoặc sắp hết hạn</strong>, để <strong>không bỏ lỡ deadline</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Thông báo in-app khi có hồ sơ chờ xử lý (mới gửi, trả lại, cần duyệt)</li>
-    <li>Thông báo email cho các sự kiện quan trọng</li>
-    <li>Nhắc việc khi gần deadline theo cấu hình chu kỳ</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F18 — Dashboard tiến độ và kết quả</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR/lãnh đạo</strong>, tôi muốn <strong>theo dõi tỷ lệ hoàn thành thiết lập và đánh giá theo đơn vị</strong>, để <strong>điều hành tập trung và xử lý trễ hạn kịp thời</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Dashboard tiến độ: tỷ lệ thiết lập KPI/PMS, tỷ lệ phê duyệt theo đơn vị/cấp bậc</li>
-    <li>Dashboard kết quả: phân bố xếp loại theo đơn vị, cấp bậc</li>
-    <li>Lọc theo: Tập đoàn, công ty, khối, phòng ban, cấp bậc, tuyến quản lý</li>
-    <li>Hỗ trợ phân trang, lọc và tìm kiếm nhanh</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F19 — Báo cáo xếp loại và phân bố</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR</strong>, tôi muốn <strong>xuất báo cáo phân bố xếp loại theo nhiều chiều</strong>, để <strong>báo cáo lãnh đạo và phục vụ chính sách nhân sự</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Báo cáo phân bố xếp loại A+/A/B/C theo đơn vị, cấp bậc, chức danh</li>
-    <li>Báo cáo chênh lệch giữa tự đánh giá và đánh giá QLTT</li>
-    <li>Báo cáo điều chỉnh mục tiêu giữa năm</li>
-    <li>Báo cáo chất lượng dữ liệu import và lỗi import</li>
-    <li>Báo cáo tiến độ phê duyệt theo SLA và người xử lý</li>
-    <li>Xuất báo cáo ra Excel</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F20 — Audit log</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR/kiểm soát nội bộ</strong>, tôi muốn <strong>truy vết được mọi thao tác chỉnh sửa, phê duyệt, import</strong>, để <strong>phục vụ kiểm tra và xử lý tranh chấp</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Ghi log: import, cập nhật, phê duyệt, trả lại, điều chỉnh, khóa kỳ, thay đổi cơ cấu tổ chức</li>
-    <li>Mỗi log ghi rõ: ai, làm gì, lúc nào, dữ liệu trước/sau</li>
-    <li>Lưu file lỗi import phục vụ kiểm tra sau</li>
-    <li>Tìm kiếm và lọc log theo thời gian, người dùng, loại hành động</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F21 — So sánh phiên bản</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>QLTT</strong>, tôi muốn <strong>so sánh phiên bản trước và sau điều chỉnh giữa năm</strong>, để <strong>kiểm soát thay đổi mục tiêu của nhân viên</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Hiển thị diff giữa phiên bản trước và sau trên cùng một màn hình</li>
-    <li>Highlight rõ phần thay đổi (mục tiêu, trọng số, chỉ tiêu)</li>
-  </ul>
-</div>
-
-<div class="feature-card">
-  <h4>F22 — Phát hành kết quả cuối năm và khóa dữ liệu</h4>
-  <h5>User story</h5>
-  <blockquote>Là <strong>HR/cấp có thẩm quyền</strong>, tôi muốn <strong>phát hành kết quả cuối năm và khóa dữ liệu</strong>, để <strong>kết quả chính thức không bị thay đổi</strong>.</blockquote>
-  <h5>Acceptance criteria</h5>
-  <ul class="checkbox-list">
-    <li>Phát hành kết quả → nhân viên xem được kết quả cuối cùng</li>
-    <li>Khóa dữ liệu cuối kỳ → không cho phép chỉnh sửa (trừ HR mở lại)</li>
-    <li>Ghi audit log cho thao tác phát hành và khóa</li>
-  </ul>
-</div>
-
+<h4>F1 — Quản lý cơ cấu tổ chức</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR</strong>, tôi muốn <strong>quản lý cấu trúc tập đoàn, công ty con, khối, phòng ban, chức danh và nhóm cấp bậc E/M/P/S</strong>, để <strong>hệ thống áp đúng biểu mẫu, workflow và phân quyền dữ liệu cho từng người</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Tạo/sửa/xóa/vô hiệu hóa được các cấp: Tập đoàn → Công ty → Khối → Phòng ban</li>
+<li><input disabled="" type="checkbox"> Gán chức danh và nhóm cấp bậc (E/M/P/S) cho từng vị trí</li>
+<li><input disabled="" type="checkbox"> Thiết lập tuyến quản lý (ai báo cáo ai)</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ import danh sách tổ chức từ Excel</li>
+<li><input disabled="" type="checkbox"> Thay đổi cơ cấu tổ chức được ghi audit log</li>
+</ul>
+<p><strong>Edge cases:</strong></p>
+<ul>
+<li>Xóa đơn vị đang có nhân viên → cảnh báo và yêu cầu chuyển nhân viên trước</li>
+<li>Nhân viên chuyển đơn vị giữa chu kỳ → vẫn phải hoàn tất chu kỳ đó tại đơn vị cũ, hồ sơ PMS giữ ở đơn vị cũ</li>
+</ul>
 <hr>
-
-<h2 id="sec-3">3. Yêu cầu phi chức năng</h2>
-
+<h4>F2 — Quản lý người dùng và phân quyền (RBAC)</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>admin hệ thống</strong>, tôi muốn <strong>cấp tài khoản, gán vai trò và phạm vi dữ liệu theo đơn vị</strong>, để <strong>người dùng chỉ thấy và thao tác được trên dữ liệu thuộc phạm vi của mình</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Tạo/sửa/khóa/mở khóa tài khoản người dùng</li>
+<li><input disabled="" type="checkbox"> Gán 1 hoặc nhiều vai trò cho mỗi người dùng</li>
+<li><input disabled="" type="checkbox"> Phân quyền theo vai trò (RBAC) kết hợp phạm vi dữ liệu theo đơn vị</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ import danh sách người dùng từ Excel</li>
+</ul>
+<hr>
+<h4>F3 — Cấu hình chu kỳ đánh giá</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR</strong>, tôi muốn <strong>tạo chu kỳ PMS/KPI theo năm và các kỳ con (đầu năm, giữa kỳ, cuối năm) với các mốc đóng/mở dữ liệu</strong>, để <strong>kiểm soát thời gian thực hiện từng giai đoạn</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Tạo chu kỳ năm với các kỳ con và mốc thời gian mở/đóng</li>
+<li><input disabled="" type="checkbox"> Khi hết hạn kỳ, hệ thống tự động khóa nhập liệu (có thể mở lại thủ công bởi HR)</li>
+<li><input disabled="" type="checkbox"> Cấu hình mà không cần sửa mã nguồn</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ nhiều chu kỳ năm (lịch sử)</li>
+</ul>
+<hr>
+<h4>F4 — Cấu hình workflow phê duyệt</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR</strong>, tôi muốn <strong>thiết lập tuyến phê duyệt theo loại hồ sơ (KPI Tập đoàn, KPI đơn vị, PMS cá nhân)</strong>, để <strong>hồ sơ đi đúng tuyến duyệt theo quy trình tập đoàn</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Cấu hình các bước phê duyệt cho từng loại hồ sơ</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ tối thiểu 3 cấp: nhân viên → QLTT → cấp phê duyệt cao nhất</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ hành động: phê duyệt, trả lại, yêu cầu chỉnh sửa</li>
+<li><input disabled="" type="checkbox"> Lưu lịch sử phê duyệt đầy đủ (người xử lý, thời gian, ý kiến)</li>
+</ul>
+<hr>
+<h4>F5 — Cấu hình biểu mẫu theo cấp bậc E/M/P/S</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR</strong>, tôi muốn <strong>thiết lập template PMS, bộ năng lực/lãnh đạo/hành vi cho từng cấp bậc E (Lãnh đạo), M (Quản lý), P (Chuyên môn), S (Nghiệp vụ)</strong>, để <strong>hệ thống tự áp đúng form khi nhân viên tạo PMS</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Tạo/sửa template riêng cho E, M, P, S</li>
+<li><input disabled="" type="checkbox"> Mỗi template xác định rõ phần KPI và phần năng lực/lãnh đạo/hành vi tương ứng</li>
+<li><input disabled="" type="checkbox"> Khi nhân viên tạo PMS, hệ thống tự chọn template theo cấp bậc — nhân viên không cần chọn thủ công</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ versioning cho template (giữ bản cũ khi cập nhật)</li>
+</ul>
+<hr>
+<h4>F6 — Thiết lập KPI cấp Tập đoàn</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR</strong>, tôi muốn <strong>tạo bộ KPI chiến lược cấp Tập đoàn dựa trên mục tiêu trọng tâm đã được phê duyệt</strong>, để <strong>làm nguồn phân rã xuống đơn vị</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Tạo/sửa KPI cấp Tập đoàn với đầy đủ thông tin: tên, định nghĩa, chỉ tiêu, công thức tính/nguyên tắc chấm, cơ sở ghi nhận</li>
+<li><input disabled="" type="checkbox"> Trình phê duyệt theo tuyến (người có thẩm quyền cấp Tập đoàn)</li>
+<li><input disabled="" type="checkbox"> Sau khi duyệt, KPI Tập đoàn trở thành nguồn cho KPI đơn vị và thư viện KPI</li>
+</ul>
+<hr>
+<h4>F7 — Quản lý thư viện KPI</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR</strong>, tôi muốn <strong>import và quản lý thư viện KPI tập trung</strong>, để <strong>các đơn vị và cá nhân có thể chọn tái sử dụng, giảm thời gian thiết lập</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Import thư viện KPI từ Excel</li>
+<li><input disabled="" type="checkbox"> Tìm kiếm, lọc KPI theo nhóm/đơn vị/chức danh</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ versioning (cập nhật thư viện mà không mất bản cũ)</li>
+</ul>
+<hr>
+<h4>F8 — Thiết lập KPI/AOP đơn vị</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>trưởng đơn vị</strong>, tôi muốn <strong>phân rã KPI từ cấp Tập đoàn xuống đơn vị và lập kế hoạch hành động (AOP) gắn với từng KPI đơn vị</strong>, để <strong>bảo đảm mục tiêu đơn vị liên kết mục tiêu tập đoàn</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Tạo KPI đơn vị từ KPI Tập đoàn và/hoặc thư viện KPI</li>
+<li><input disabled="" type="checkbox"> Tạo AOP (kế hoạch hành động) cho từng KPI đơn vị</li>
+<li><input disabled="" type="checkbox"> Trình phê duyệt theo tuyến workflow</li>
+<li><input disabled="" type="checkbox"> KPI đơn vị sau khi duyệt trở thành cơ sở thiết lập PMS cá nhân</li>
+</ul>
+<hr>
+<h4>F9 — Thiết lập PMS cá nhân</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>nhân viên</strong>, tôi muốn <strong>tạo bộ PMS cá nhân theo đúng template cấp bậc, chọn KPI từ thư viện hoặc kế thừa từ KPI đơn vị</strong>, để <strong>giảm thời gian nhập tay và đảm bảo đúng định hướng</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Hệ thống tự áp template theo cấp bậc E/M/P/S</li>
+<li><input disabled="" type="checkbox"> Khai báo tối đa 8 mục tiêu KPI cá nhân</li>
+<li><input disabled="" type="checkbox"> Tổng trọng số các mục tiêu phải bằng 100</li>
+<li><input disabled="" type="checkbox"> Mỗi KPI phải có: tên, định nghĩa, chỉ tiêu, công thức tính/nguyên tắc chấm, cơ sở ghi nhận</li>
+<li><input disabled="" type="checkbox"> Chọn KPI từ thư viện hoặc nhập tự do</li>
+<li><input disabled="" type="checkbox"> Khai báo minh chứng dự kiến</li>
+<li><input disabled="" type="checkbox"> Trình phê duyệt theo workflow (QLTT → cấp phê duyệt cao nhất)</li>
+</ul>
+<p><strong>Edge cases:</strong></p>
+<ul>
+<li>Tổng trọng số ≠ 100 → cảnh báo và không cho trình duyệt</li>
+<li>Số mục tiêu &gt; 8 → không cho thêm và hiển thị thông báo</li>
+</ul>
+<hr>
+<h4>F10 — Đánh giá giữa kỳ</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>nhân viên</strong>, tôi muốn <strong>cập nhật tiến độ, nhận xét và minh chứng giữa năm</strong>, để <strong>QLTT nắm được tình hình và cho feedback kịp thời</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Nhân viên cập nhật tiến độ thực hiện và đính kèm minh chứng</li>
+<li><input disabled="" type="checkbox"> QLTT và cấp phê duyệt nhận xét, chấm điểm tham khảo</li>
+<li><input disabled="" type="checkbox"> Điểm giữa kỳ chỉ mang tính tham khảo — KHÔNG cộng vào điểm cuối năm</li>
+<li><input disabled="" type="checkbox"> HR có thể import kết quả giữa kỳ cấp Tập đoàn/đơn vị từ Excel</li>
+<li><input disabled="" type="checkbox"> Dữ liệu import không hợp lệ → trả file lỗi chi tiết theo dòng/cột</li>
+</ul>
+<hr>
+<h4>F11 — Điều chỉnh mục tiêu giữa kỳ</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>nhân viên</strong>, tôi muốn <strong>đề xuất thay đổi mục tiêu khi có biến động nghiệp vụ</strong>, để <strong>mục tiêu cuối năm phản ánh đúng thực tế</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Nhân viên tạo hồ sơ điều chỉnh, nêu lý do</li>
+<li><input disabled="" type="checkbox"> Hồ sơ điều chỉnh phải được phê duyệt theo tuyến</li>
+<li><input disabled="" type="checkbox"> Hệ thống lưu phiên bản trước và sau điều chỉnh</li>
+<li><input disabled="" type="checkbox"> QLTT có thể so sánh phiên bản trên cùng một màn hình</li>
+</ul>
+<hr>
+<h4>F12 — Đánh giá cuối năm (KPI 70%)</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>nhân viên</strong>, tôi muốn <strong>tự chấm điểm KPI cuối năm và đính kèm minh chứng</strong>, để <strong>bắt đầu quy trình đánh giá chính thức</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Nhân viên tự đánh giá từng KPI trên thang 1-5</li>
+<li><input disabled="" type="checkbox"> Đính kèm minh chứng cho từng KPI</li>
+<li><input disabled="" type="checkbox"> QLTT đánh giá và nhận xét từng KPI</li>
+<li><input disabled="" type="checkbox"> Cấp phê duyệt cao nhất (trưởng đơn vị) xem toàn bộ điểm, nhận xét, minh chứng và chốt kết quả cấp cuối</li>
+<li><input disabled="" type="checkbox"> Tối thiểu 3 cấp đánh giá: nhân viên → QLTT → cấp phê duyệt cao nhất</li>
+</ul>
+<hr>
+<h4>F13 — Đánh giá năng lực/lãnh đạo/hành vi (30%)</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>nhân viên</strong>, tôi muốn <strong>được đánh giá đúng bộ năng lực theo cấp bậc E/M/P/S</strong>, để <strong>kết quả năng lực phản ánh chính xác vai trò</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Hệ thống hiển thị đúng bộ tiêu chí năng lực theo cấp bậc: Lãnh đạo (E), Quản lý (M), Chuyên môn (P), Nghiệp vụ (S)</li>
+<li><input disabled="" type="checkbox"> Nhân viên tự đánh giá, QLTT đánh giá, cấp phê duyệt chốt</li>
+<li><input disabled="" type="checkbox"> Thang điểm 1-5 cho mỗi tiêu chí năng lực</li>
+</ul>
+<hr>
+<h4>F14 — Tính điểm, điểm thưởng, làm tròn và xếp loại</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>nhân viên</strong>, tôi muốn <strong>xem rõ cách tính điểm PMS cuối cùng</strong>, để <strong>hiểu kết quả và tin tưởng tính công bằng</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Điểm tổng PMS = Điểm KPI × 70% + Điểm năng lực × 30%</li>
+<li><input disabled="" type="checkbox"> QLTT có quyền cộng điểm thưởng tối đa 0.15 cho cá nhân xuất sắc tham gia hoạt động công ty</li>
+<li><input disabled="" type="checkbox"> Quy tắc làm tròn: làm tròn đến 2 chữ số thập phân (x.00)</li>
+<li><input disabled="" type="checkbox"> Xếp loại theo 4 mức (thang 1-5):</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Mức</th>
+<th>Xếp loại</th>
+<th>Khoảng điểm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A+</td>
+<td>Xuất sắc</td>
+<td>4.1 – 5.0</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Tốt</td>
+<td>3.1 – 4.0</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Đạt yêu cầu</td>
+<td>2.1 – 3.0</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Cần cải thiện</td>
+<td>0.0 – 2.0</td>
+</tr>
+</tbody></table>
+<ul>
+<li><input disabled="" type="checkbox"> Hiển thị chi tiết cách tính cho nhân viên (điểm KPI, điểm năng lực, trọng số, thưởng, tổng)</li>
+</ul>
+<hr>
+<h4>F15 — Import/Export Excel</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR</strong>, tôi muốn <strong>import dữ liệu Excel và nhận file lỗi chi tiết theo dòng/cột nếu không hợp lệ</strong>, để <strong>xử lý nhanh dữ liệu hàng loạt mà không sợ mất dữ liệu</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Import kết quả giữa kỳ/cuối kỳ cấp Tập đoàn và đơn vị</li>
+<li><input disabled="" type="checkbox"> Import thư viện KPI, danh sách tổ chức, danh sách người dùng</li>
+<li><input disabled="" type="checkbox"> Kiểm tra: cấu trúc file, khóa chính, khóa ngoại, trạng thái kỳ, tính hợp lệ nghiệp vụ</li>
+<li><input disabled="" type="checkbox"> Nếu có lỗi → trả file lỗi chi tiết (dòng, cột, mô tả lỗi) và KHÔNG lưu dữ liệu</li>
+<li><input disabled="" type="checkbox"> Tác vụ import chạy nền, thông báo khi hoàn thành</li>
+<li><input disabled="" type="checkbox"> Export danh sách hồ sơ, kết quả, báo cáo ra Excel</li>
+</ul>
+<hr>
+<h4>F16 — Quản lý minh chứng</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>nhân viên</strong>, tôi muốn <strong>đính kèm minh chứng (file, link, ghi chú) cho từng KPI</strong>, để <strong>hỗ trợ QLTT đánh giá chính xác hơn</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Upload file minh chứng (PDF, hình ảnh, Excel...)</li>
+<li><input disabled="" type="checkbox"> Gắn minh chứng theo từng KPI cụ thể</li>
+<li><input disabled="" type="checkbox"> QLTT và cấp phê duyệt xem được minh chứng khi đánh giá</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ ghi chú text cho mỗi minh chứng</li>
+</ul>
+<hr>
+<h4>F17 — Thông báo và nhắc việc</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>nhân viên/QLTT</strong>, tôi muốn <strong>nhận thông báo khi có hồ sơ cần xử lý hoặc sắp hết hạn</strong>, để <strong>không bỏ lỡ deadline</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Thông báo in-app khi có hồ sơ chờ xử lý (mới gửi, trả lại, cần duyệt)</li>
+<li><input disabled="" type="checkbox"> Thông báo email cho các sự kiện quan trọng</li>
+<li><input disabled="" type="checkbox"> Nhắc việc khi gần deadline theo cấu hình chu kỳ</li>
+</ul>
+<hr>
+<h4>F18 — Dashboard tiến độ và kết quả</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR/lãnh đạo</strong>, tôi muốn <strong>theo dõi tỷ lệ hoàn thành thiết lập và đánh giá theo đơn vị</strong>, để <strong>điều hành tập trung và xử lý trễ hạn kịp thời</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Dashboard tiến độ: tỷ lệ thiết lập KPI/PMS, tỷ lệ phê duyệt theo đơn vị/cấp bậc</li>
+<li><input disabled="" type="checkbox"> Dashboard kết quả: phân bố xếp loại theo đơn vị, cấp bậc</li>
+<li><input disabled="" type="checkbox"> Lọc theo: Tập đoàn, công ty, khối, phòng ban, cấp bậc, tuyến quản lý</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ phân trang, lọc và tìm kiếm nhanh</li>
+</ul>
+<hr>
+<h4>F19 — Báo cáo xếp loại và phân bố</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR</strong>, tôi muốn <strong>xuất báo cáo phân bố xếp loại theo nhiều chiều</strong>, để <strong>báo cáo lãnh đạo và phục vụ chính sách nhân sự</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Báo cáo phân bố xếp loại A+/A/B/C theo đơn vị, cấp bậc, chức danh</li>
+<li><input disabled="" type="checkbox"> Báo cáo chênh lệch giữa tự đánh giá và đánh giá QLTT</li>
+<li><input disabled="" type="checkbox"> Báo cáo điều chỉnh mục tiêu giữa năm</li>
+<li><input disabled="" type="checkbox"> Báo cáo chất lượng dữ liệu import và lỗi import</li>
+<li><input disabled="" type="checkbox"> Báo cáo tiến độ phê duyệt theo SLA và người xử lý</li>
+<li><input disabled="" type="checkbox"> Xuất báo cáo ra Excel</li>
+</ul>
+<hr>
+<h4>F20 — Audit log</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR/kiểm soát nội bộ</strong>, tôi muốn <strong>truy vết được mọi thao tác chỉnh sửa, phê duyệt, import</strong>, để <strong>phục vụ kiểm tra và xử lý tranh chấp</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Ghi log: import, cập nhật, phê duyệt, trả lại, điều chỉnh, khóa kỳ, thay đổi cơ cấu tổ chức</li>
+<li><input disabled="" type="checkbox"> Mỗi log ghi rõ: ai, làm gì, lúc nào, dữ liệu trước/sau</li>
+<li><input disabled="" type="checkbox"> Lưu file lỗi import phục vụ kiểm tra sau</li>
+<li><input disabled="" type="checkbox"> Tìm kiếm và lọc log theo thời gian, người dùng, loại hành động</li>
+</ul>
+<hr>
+<h4>F21 — So sánh phiên bản</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>QLTT</strong>, tôi muốn <strong>so sánh phiên bản trước và sau điều chỉnh giữa năm</strong>, để <strong>kiểm soát thay đổi mục tiêu của nhân viên</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Hiển thị diff giữa phiên bản trước và sau trên cùng một màn hình</li>
+<li><input disabled="" type="checkbox"> Highlight rõ phần thay đổi (mục tiêu, trọng số, chỉ tiêu)</li>
+</ul>
+<hr>
+<h4>F22 — Phát hành kết quả cuối năm và khóa dữ liệu</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>HR/cấp có thẩm quyền</strong>, tôi muốn <strong>phát hành kết quả cuối năm và khóa dữ liệu</strong>, để <strong>kết quả chính thức không bị thay đổi</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Phát hành kết quả → nhân viên xem được kết quả cuối cùng</li>
+<li><input disabled="" type="checkbox"> Khóa dữ liệu cuối kỳ → không cho phép chỉnh sửa (trừ HR mở lại)</li>
+<li><input disabled="" type="checkbox"> Ghi audit log cho thao tác phát hành và khóa</li>
+</ul>
+<hr>
+<h4>F33 — Cài đặt hệ thống</h4>
+<p><strong>User story:</strong></p>
+<blockquote>
+<p>Là <strong>admin</strong>, tôi muốn <strong>cấu hình các tham số hệ thống như ẩn/hiện menu, và các cấu hình khác</strong>, để <strong>tùy chỉnh hệ thống mà không cần sửa mã nguồn</strong>.</p>
+</blockquote>
+<p><strong>Acceptance criteria:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Cấu hình ẩn/hiện từng mục menu trên thanh điều hướng</li>
+<li><input disabled="" type="checkbox"> Giao diện collapse/expand theo nhóm cấu hình</li>
+<li><input disabled="" type="checkbox"> Sidebar và MobileNav tự động ẩn menu theo cấu hình</li>
+<li><input disabled="" type="checkbox"> Chỉ admin mới được phép thay đổi cấu hình</li>
+<li><input disabled="" type="checkbox"> Hỗ trợ mở rộng thêm các nhóm cấu hình khác trong tương lai</li>
+</ul>
+<hr>
+<h2>3. Yêu cầu phi chức năng</h2>
 <h3>3.1. Performance</h3>
 <ul>
-  <li>Hỗ trợ ~500 người dùng đồng thời</li>
-  <li>Các tác vụ import, tính điểm hàng loạt, gửi thông báo phải chạy nền</li>
-  <li>Dashboard và danh sách hồ sơ phải hỗ trợ phân trang, lọc và tìm kiếm nhanh</li>
+<li>Hỗ trợ ~300 người dùng đồng thời</li>
+<li>Các tác vụ import, tính điểm hàng loạt, gửi thông báo phải chạy nền</li>
+<li>Dashboard và danh sách hồ sơ phải hỗ trợ phân trang, lọc và tìm kiếm nhanh</li>
 </ul>
-
 <h3>3.2. Security</h3>
 <ul>
-  <li>Phân quyền RBAC kết hợp phạm vi dữ liệu theo đơn vị</li>
-  <li>Nhật ký truy cập và nhật ký hành động đầy đủ</li>
-  <li>Mã hóa dữ liệu nhạy cảm ở trạng thái lưu trữ và truyền tải</li>
-  <li>HTTPS bắt buộc</li>
+<li>Phân quyền RBAC kết hợp phạm vi dữ liệu theo đơn vị</li>
+<li>Nhật ký truy cập và nhật ký hành động đầy đủ</li>
+<li>Mã hóa dữ liệu nhạy cảm ở trạng thái lưu trữ và truyền tải</li>
+<li>HTTPS bắt buộc</li>
 </ul>
-
 <h3>3.3. Compatibility</h3>
 <ul>
-  <li>Responsive web, hoạt động tốt trên desktop và mobile browser</li>
-  <li>Browser: Chrome, Safari, Firefox (phiên bản hiện hành và 2 phiên bản trước)</li>
+<li>Responsive web, hoạt động tốt trên desktop và mobile browser</li>
+<li>Browser: Chrome, Safari, Firefox (phiên bản hiện hành và 2 phiên bản trước)</li>
 </ul>
-
 <h3>3.4. Availability</h3>
 <ul>
-  <li>Uptime target: 99.9% (~43.8 phút downtime/tháng)</li>
-  <li>Backup hàng ngày</li>
+<li>Uptime target: 99% (~7.3h downtime/tháng)</li>
+<li>Backup hàng ngày</li>
 </ul>
-
 <h3>3.5. Ngôn ngữ</h3>
 <ul>
-  <li>Tiếng Việt</li>
+<li>Tiếng Việt</li>
 </ul>
-
 <h3>3.6. Khả năng cấu hình</h3>
 <ul>
-  <li>Chu kỳ, biểu mẫu, workflow, ma trận năng lực, tham số chấm điểm có thể cấu hình mà không cần sửa mã nguồn</li>
-  <li>Hỗ trợ versioning cho template, thư viện KPI và workflow</li>
+<li>Chu kỳ, biểu mẫu, workflow, ma trận năng lực, tham số chấm điểm có thể cấu hình mà không cần sửa mã nguồn</li>
+<li>Hỗ trợ versioning cho template, thư viện KPI và workflow</li>
 </ul>
-
 <h3>3.7. Audit và tuân thủ</h3>
 <ul>
-  <li>Ghi đầy đủ lịch sử trước/sau khi chỉnh sửa dữ liệu trọng yếu</li>
-  <li>Lưu lịch sử phê duyệt đầy đủ theo từng bước</li>
-  <li>Lưu lịch sử import và file lỗi</li>
+<li>Ghi đầy đủ lịch sử trước/sau khi chỉnh sửa dữ liệu trọng yếu</li>
+<li>Lưu lịch sử phê duyệt đầy đủ theo từng bước</li>
+<li>Lưu lịch sử import và file lỗi</li>
 </ul>
-
 <hr>
-
-<h2 id="sec-4">4. Giao diện &amp; UX</h2>
-
+<h2>4. Giao diện &amp; UX</h2>
 <h3>4.1. Screen / Page list</h3>
-
-<h4>Nhân viên</h4>
+<p><strong>Nhân viên:</strong></p>
 <table>
-  <thead>
-    <tr><th>#</th><th>Tên màn</th><th>Mô tả</th><th>Platform</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>S1</td><td>Dashboard cá nhân</td><td>Tổng quan hồ sơ PMS, trạng thái, deadline</td><td>Web (responsive)</td></tr>
-    <tr><td>S2</td><td>Danh sách hồ sơ PMS</td><td>Lịch sử các hồ sơ PMS qua các kỳ</td><td>Web</td></tr>
-    <tr><td>S3</td><td>Thiết lập PMS đầu năm</td><td>Form tạo KPI cá nhân + năng lực theo cấp bậc</td><td>Web</td></tr>
-    <tr><td>S4</td><td>Tự đánh giá giữa kỳ</td><td>Cập nhật tiến độ, nhận xét, minh chứng</td><td>Web</td></tr>
-    <tr><td>S5</td><td>Tự đánh giá cuối năm</td><td>Chấm điểm KPI, đính minh chứng</td><td>Web</td></tr>
-    <tr><td>S6</td><td>Đánh giá năng lực/lãnh đạo/hành vi</td><td>Chấm điểm phần 30% theo bộ tiêu chí cấp bậc</td><td>Web</td></tr>
-    <tr><td>S7</td><td>Quản lý minh chứng</td><td>Upload, xem, gắn minh chứng theo KPI</td><td>Web</td></tr>
-    <tr><td>S8</td><td>Xem kết quả và lịch sử phê duyệt</td><td>Kết quả cuối cùng, chi tiết cách tính, lịch sử duyệt</td><td>Web</td></tr>
-  </tbody>
-</table>
-
-<h4>Quản lý trực tiếp / Trưởng đơn vị</h4>
+<thead>
+<tr>
+<th>#</th>
+<th>Tên màn</th>
+<th>Mô tả</th>
+<th>Platform</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S1</td>
+<td>Dashboard cá nhân</td>
+<td>Tổng quan hồ sơ PMS, trạng thái, deadline</td>
+<td>Web (responsive)</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>Danh sách hồ sơ PMS</td>
+<td>Lịch sử các hồ sơ PMS qua các kỳ</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>Thiết lập PMS đầu năm</td>
+<td>Form tạo KPI cá nhân + năng lực theo cấp bậc</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>Tự đánh giá giữa kỳ</td>
+<td>Cập nhật tiến độ, nhận xét, minh chứng</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S5</td>
+<td>Tự đánh giá cuối năm</td>
+<td>Chấm điểm KPI, đính minh chứng</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S6</td>
+<td>Đánh giá năng lực/lãnh đạo/hành vi</td>
+<td>Chấm điểm phần 30% theo bộ tiêu chí cấp bậc</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S7</td>
+<td>Quản lý minh chứng</td>
+<td>Upload, xem, gắn minh chứng theo KPI</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S8</td>
+<td>Xem kết quả và lịch sử phê duyệt</td>
+<td>Kết quả cuối cùng, chi tiết cách tính, lịch sử duyệt</td>
+<td>Web</td>
+</tr>
+</tbody></table>
+<p><strong>Quản lý trực tiếp / Trưởng đơn vị:</strong></p>
 <table>
-  <thead>
-    <tr><th>#</th><th>Tên màn</th><th>Mô tả</th><th>Platform</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>S9</td><td>Dashboard đội nhóm/đơn vị</td><td>Tiến độ và kết quả đội</td><td>Web</td></tr>
-    <tr><td>S10</td><td>Danh sách hồ sơ chờ duyệt</td><td>Lọc theo trạng thái nháp/chờ duyệt/trả lại/đã duyệt</td><td>Web</td></tr>
-    <tr><td>S11</td><td>Review KPI/PMS cá nhân</td><td>Xem, nhận xét, chấm điểm, duyệt/trả lại</td><td>Web</td></tr>
-    <tr><td>S12</td><td>Đánh giá giữa kỳ</td><td>Nhận xét và chấm điểm tham khảo</td><td>Web</td></tr>
-    <tr><td>S13</td><td>Đánh giá cuối năm</td><td>Chấm điểm chính thức từng KPI và năng lực</td><td>Web</td></tr>
-    <tr><td>S14</td><td>So sánh phiên bản điều chỉnh</td><td>Diff trước/sau điều chỉnh giữa kỳ</td><td>Web</td></tr>
-    <tr><td>S15</td><td>Thiết lập KPI đơn vị</td><td>Phân rã KPI từ Tập đoàn</td><td>Web</td></tr>
-    <tr><td>S16</td><td>Thiết lập AOP</td><td>Kế hoạch hành động gắn KPI đơn vị</td><td>Web</td></tr>
-    <tr><td>S17</td><td>Tổng hợp kết quả đơn vị</td><td>Xem tổng điểm và xếp loại toàn đơn vị</td><td>Web</td></tr>
-  </tbody>
-</table>
-
-<h4>HR / Admin</h4>
+<thead>
+<tr>
+<th>#</th>
+<th>Tên màn</th>
+<th>Mô tả</th>
+<th>Platform</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S9</td>
+<td>Dashboard đội nhóm/đơn vị</td>
+<td>Tiến độ và kết quả đội</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S10</td>
+<td>Danh sách hồ sơ chờ duyệt</td>
+<td>Lọc theo trạng thái nháp/chờ duyệt/trả lại/đã duyệt</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S11</td>
+<td>Review KPI/PMS cá nhân</td>
+<td>Xem, nhận xét, chấm điểm, duyệt/trả lại</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S12</td>
+<td>Đánh giá giữa kỳ</td>
+<td>Nhận xét và chấm điểm tham khảo</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S13</td>
+<td>Đánh giá cuối năm</td>
+<td>Chấm điểm chính thức từng KPI và năng lực</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S14</td>
+<td>So sánh phiên bản điều chỉnh</td>
+<td>Diff trước/sau điều chỉnh giữa kỳ</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S15</td>
+<td>Thiết lập KPI đơn vị</td>
+<td>Phân rã KPI từ Tập đoàn</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S16</td>
+<td>Thiết lập AOP</td>
+<td>Kế hoạch hành động gắn KPI đơn vị</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S17</td>
+<td>Tổng hợp kết quả đơn vị</td>
+<td>Xem tổng điểm và xếp loại toàn đơn vị</td>
+<td>Web</td>
+</tr>
+</tbody></table>
+<p><strong>HR / Admin:</strong></p>
 <table>
-  <thead>
-    <tr><th>#</th><th>Tên màn</th><th>Mô tả</th><th>Platform</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>S18</td><td>Quản lý cơ cấu tổ chức</td><td>CRUD tập đoàn/công ty/khối/phòng</td><td>Web</td></tr>
-    <tr><td>S19</td><td>Quản lý người dùng và vai trò</td><td>CRUD user, gán role, phạm vi</td><td>Web</td></tr>
-    <tr><td>S20</td><td>Quản lý chu kỳ đánh giá</td><td>Tạo/cấu hình chu kỳ và mốc thời gian</td><td>Web</td></tr>
-    <tr><td>S21</td><td>Quản lý workflow</td><td>Cấu hình tuyến phê duyệt</td><td>Web</td></tr>
-    <tr><td>S22</td><td>Quản lý thư viện KPI</td><td>Import, tìm kiếm, quản lý KPI tái sử dụng</td><td>Web</td></tr>
-    <tr><td>S23</td><td>Quản lý ma trận năng lực E/M/P/S</td><td>Cấu hình bộ tiêu chí theo cấp bậc</td><td>Web</td></tr>
-    <tr><td>S24</td><td>Quản lý template biểu mẫu</td><td>Cấu hình form PMS theo cấp bậc</td><td>Web</td></tr>
-    <tr><td>S25</td><td>Import/Export dữ liệu</td><td>Upload Excel, xem trạng thái, download file lỗi</td><td>Web</td></tr>
-    <tr><td>S26</td><td>Dashboard tiến độ tập đoàn</td><td>Tỷ lệ hoàn thành theo đơn vị</td><td>Web</td></tr>
-    <tr><td>S27</td><td>Dashboard phân bố xếp loại</td><td>Biểu đồ phân bố A+/A/B/C</td><td>Web</td></tr>
-    <tr><td>S28</td><td>Nhật ký hệ thống/audit</td><td>Tìm kiếm và lọc log</td><td>Web</td></tr>
-    <tr><td>S29</td><td>Quản trị tham số hệ thống</td><td>Cấu hình chung</td><td>Web</td></tr>
-  </tbody>
-</table>
-
+<thead>
+<tr>
+<th>#</th>
+<th>Tên màn</th>
+<th>Mô tả</th>
+<th>Platform</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S18</td>
+<td>Quản lý cơ cấu tổ chức</td>
+<td>CRUD tập đoàn/công ty/khối/phòng</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S19</td>
+<td>Quản lý người dùng và vai trò</td>
+<td>CRUD user, gán role, phạm vi</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S20</td>
+<td>Quản lý chu kỳ đánh giá</td>
+<td>Tạo/cấu hình chu kỳ và mốc thời gian</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S21</td>
+<td>Quản lý workflow</td>
+<td>Cấu hình tuyến phê duyệt</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S22</td>
+<td>Quản lý thư viện KPI</td>
+<td>Import, tìm kiếm, quản lý KPI tái sử dụng</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S23</td>
+<td>Quản lý ma trận năng lực E/M/P/S</td>
+<td>Cấu hình bộ tiêu chí theo cấp bậc</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S24</td>
+<td>Quản lý template biểu mẫu</td>
+<td>Cấu hình form PMS theo cấp bậc</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S25</td>
+<td>Import/Export dữ liệu</td>
+<td>Upload Excel, xem trạng thái, download file lỗi</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S26</td>
+<td>Dashboard tiến độ tập đoàn</td>
+<td>Tỷ lệ hoàn thành theo đơn vị</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S27</td>
+<td>Dashboard phân bố xếp loại</td>
+<td>Biểu đồ phân bố A+/A/B/C</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S28</td>
+<td>Nhật ký hệ thống/audit</td>
+<td>Tìm kiếm và lọc log</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>S29</td>
+<td>Cài đặt hệ thống</td>
+<td>Cấu hình menu hiển thị, tham số hệ thống (collapse/expand)</td>
+<td>Web</td>
+</tr>
+</tbody></table>
 <h3>4.2. User flow chính</h3>
-
-<h5>Flow 1: Thiết lập KPI Tập đoàn → KPI đơn vị → PMS cá nhân</h5>
-<pre><code>HR tạo KPI Tập đoàn → Cấp thẩm quyền phê duyệt → Trưởng đơn vị phân rã KPI đơn vị → Phê duyệt KPI đơn vị → Nhân viên tạo PMS cá nhân → QLTT review → Cấp phê duyệt chốt</code></pre>
-
-<h5>Flow 2: Đánh giá giữa kỳ</h5>
-<pre><code>Nhân viên cập nhật tiến độ + minh chứng → QLTT nhận xét/chấm điểm tham khảo → (Nếu cần) Điều chỉnh mục tiêu → Trình duyệt điều chỉnh</code></pre>
-
-<h5>Flow 3: Đánh giá cuối năm → Xếp loại → Phát hành</h5>
-<pre><code>Nhân viên tự đánh giá KPI + năng lực → QLTT đánh giá + nhận xét → Cấp phê duyệt chốt → Hệ thống tính điểm 70/30 + thưởng + làm tròn → Xếp loại → HR phát hành → Khóa dữ liệu</code></pre>
-
-<h5>Flow 4: Import dữ liệu</h5>
-<pre><code>HR upload Excel → Hệ thống kiểm tra → Hợp lệ: lưu dữ liệu → Không hợp lệ: trả file lỗi</code></pre>
-
+<p><strong>Flow 1: Thiết lập KPI Tập đoàn → KPI đơn vị → PMS cá nhân</strong></p>
+<pre><code>HR tạo KPI Tập đoàn → Cấp thẩm quyền phê duyệt → Trưởng đơn vị phân rã KPI đơn vị → Phê duyệt KPI đơn vị → Nhân viên tạo PMS cá nhân → QLTT review → Cấp phê duyệt chốt
+</code></pre>
+<p><strong>Flow 2: Đánh giá giữa kỳ</strong></p>
+<pre><code>Nhân viên cập nhật tiến độ + minh chứng → QLTT nhận xét/chấm điểm tham khảo → (Nếu cần) Điều chỉnh mục tiêu → Trình duyệt điều chỉnh
+</code></pre>
+<p><strong>Flow 3: Đánh giá cuối năm → Xếp loại → Phát hành</strong></p>
+<pre><code>Nhân viên tự đánh giá KPI + năng lực → QLTT đánh giá + nhận xét → Cấp phê duyệt chốt → Hệ thống tính điểm 70/30 + thưởng + làm tròn → Xếp loại → HR phát hành → Khóa dữ liệu
+</code></pre>
+<p><strong>Flow 4: Import dữ liệu</strong></p>
+<pre><code>HR upload Excel → Hệ thống kiểm tra → Hợp lệ: lưu dữ liệu → Không hợp lệ: trả file lỗi
+</code></pre>
 <h3>4.3. Design reference</h3>
-<ul><li>Chưa có Figma/mockup</li></ul>
-
+<ul>
+<li>Chưa có Figma/mockup</li>
+</ul>
 <hr>
-
-<h2 id="sec-5">5. Dữ liệu</h2>
-
+<h2>5. Dữ liệu</h2>
 <h3>5.1. Entity chính</h3>
 <table>
-  <thead>
-    <tr><th>Entity</th><th>Mô tả</th><th>Thuộc tính chính</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Organization</td><td>Cơ cấu tổ chức (Tập đoàn/Công ty/Khối/Phòng)</td><td>id, tên, loại, parent_id, trạng thái</td></tr>
-    <tr><td>Position</td><td>Chức danh</td><td>id, tên, cấp bậc (E/M/P/S), organization_id</td></tr>
-    <tr><td>User</td><td>Người dùng hệ thống</td><td>id, họ tên, email, position_id, manager_id, vai trò</td></tr>
-    <tr><td>EvaluationCycle</td><td>Chu kỳ đánh giá</td><td>id, năm, kỳ, ngày mở, ngày đóng, trạng thái</td></tr>
-    <tr><td>KPIGroup (Tập đoàn)</td><td>Bộ KPI cấp Tập đoàn</td><td>id, cycle_id, trạng thái phê duyệt</td></tr>
-    <tr><td>KPILibrary</td><td>Thư viện KPI</td><td>id, tên, định nghĩa, công thức, nhóm, version</td></tr>
-    <tr><td>UnitKPI</td><td>KPI đơn vị</td><td>id, organization_id, kpi_source, trọng số</td></tr>
-    <tr><td>UnitAOP</td><td>Kế hoạch hành động đơn vị</td><td>id, unit_kpi_id, mô tả, deadline</td></tr>
-    <tr><td>PMS</td><td>Hồ sơ PMS cá nhân</td><td>id, user_id, cycle_id, trạng thái, version</td></tr>
-    <tr><td>PMSGoal</td><td>Mục tiêu KPI cá nhân</td><td>id, pms_id, tên, trọng số, chỉ tiêu, công thức</td></tr>
-    <tr><td>CompetencyTemplate</td><td>Template năng lực theo cấp bậc</td><td>id, cấp bậc, tiêu chí, version</td></tr>
-    <tr><td>Evaluation</td><td>Đánh giá (giữa kỳ/cuối năm)</td><td>id, pms_id, loại kỳ, người đánh giá, điểm, nhận xét</td></tr>
-    <tr><td>Evidence</td><td>Minh chứng</td><td>id, pms_goal_id, file_url, ghi chú</td></tr>
-    <tr><td>ApprovalHistory</td><td>Lịch sử phê duyệt</td><td>id, hồ sơ, bước, người xử lý, hành động, thời gian, ý kiến</td></tr>
-    <tr><td>FinalScore</td><td>Điểm tổng hợp</td><td>id, pms_id, điểm KPI, điểm năng lực, thưởng, tổng, xếp loại</td></tr>
-    <tr><td>AuditLog</td><td>Nhật ký hệ thống</td><td>id, user_id, hành động, entity, trước, sau, thời gian</td></tr>
-    <tr><td>WorkflowConfig</td><td>Cấu hình workflow</td><td>id, loại hồ sơ, các bước, điều kiện</td></tr>
-  </tbody>
-</table>
-
+<thead>
+<tr>
+<th>Entity</th>
+<th>Mô tả</th>
+<th>Thuộc tính chính</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Organization</td>
+<td>Cơ cấu tổ chức (Tập đoàn/Công ty/Khối/Phòng)</td>
+<td>id, tên, loại, parent_id, trạng thái</td>
+</tr>
+<tr>
+<td>Position</td>
+<td>Chức danh</td>
+<td>id, tên, cấp bậc (E/M/P/S), organization_id</td>
+</tr>
+<tr>
+<td>User</td>
+<td>Người dùng hệ thống</td>
+<td>id, họ tên, email, position_id, manager_id, vai trò</td>
+</tr>
+<tr>
+<td>EvaluationCycle</td>
+<td>Chu kỳ đánh giá</td>
+<td>id, năm, kỳ, ngày mở, ngày đóng, trạng thái</td>
+</tr>
+<tr>
+<td>KPIGroup (Tập đoàn)</td>
+<td>Bộ KPI cấp Tập đoàn</td>
+<td>id, cycle_id, trạng thái phê duyệt</td>
+</tr>
+<tr>
+<td>KPILibrary</td>
+<td>Thư viện KPI</td>
+<td>id, tên, định nghĩa, công thức, nhóm, version</td>
+</tr>
+<tr>
+<td>UnitKPI</td>
+<td>KPI đơn vị</td>
+<td>id, organization_id, kpi_source, trọng số</td>
+</tr>
+<tr>
+<td>UnitAOP</td>
+<td>Kế hoạch hành động đơn vị</td>
+<td>id, unit_kpi_id, mô tả, deadline</td>
+</tr>
+<tr>
+<td>PMS</td>
+<td>Hồ sơ PMS cá nhân</td>
+<td>id, user_id, cycle_id, trạng thái, version</td>
+</tr>
+<tr>
+<td>PMSGoal</td>
+<td>Mục tiêu KPI cá nhân</td>
+<td>id, pms_id, tên, trọng số, chỉ tiêu, công thức</td>
+</tr>
+<tr>
+<td>CompetencyTemplate</td>
+<td>Template năng lực theo cấp bậc</td>
+<td>id, cấp bậc, tiêu chí, version</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>Đánh giá (giữa kỳ/cuối năm)</td>
+<td>id, pms_id, loại kỳ, người đánh giá, điểm, nhận xét</td>
+</tr>
+<tr>
+<td>Evidence</td>
+<td>Minh chứng</td>
+<td>id, pms_goal_id, file_url, ghi chú</td>
+</tr>
+<tr>
+<td>ApprovalHistory</td>
+<td>Lịch sử phê duyệt</td>
+<td>id, hồ sơ, bước, người xử lý, hành động, thời gian, ý kiến</td>
+</tr>
+<tr>
+<td>FinalScore</td>
+<td>Điểm tổng hợp</td>
+<td>id, pms_id, điểm KPI, điểm năng lực, thưởng, tổng, xếp loại</td>
+</tr>
+<tr>
+<td>AuditLog</td>
+<td>Nhật ký hệ thống</td>
+<td>id, user_id, hành động, entity, trước, sau, thời gian</td>
+</tr>
+<tr>
+<td>WorkflowConfig</td>
+<td>Cấu hình workflow</td>
+<td>id, loại hồ sơ, các bước, điều kiện</td>
+</tr>
+<tr>
+<td>SystemSettings</td>
+<td>Cấu hình hệ thống</td>
+<td>key (PK), value (JSONB), updated_at</td>
+</tr>
+</tbody></table>
 <h3>5.2. Data flow</h3>
 <pre><code>KPI Tập đoàn (HR tạo, cấp thẩm quyền duyệt)
     │
@@ -872,166 +1283,252 @@ PMS Cá nhân = KPI (70%) + Năng lực (30%)
 Cuối năm: Tự đánh giá → QLTT đánh giá → Cấp phê duyệt chốt
     │
     ▼
-Hệ thống tính điểm → Xếp loại → Phát hành → Khóa dữ liệu</code></pre>
-
+Hệ thống tính điểm → Xếp loại → Phát hành → Khóa dữ liệu
+</code></pre>
 <h3>5.3. Data retention</h3>
 <ul>
-  <li>Hồ sơ PMS/KPI: lưu trữ vĩnh viễn (theo yêu cầu audit)</li>
-  <li>Audit log: lưu trữ tối thiểu 1 năm</li>
-  <li>File import lỗi: lưu tối thiểu 1 năm</li>
-  <li>Minh chứng: lưu theo vòng đời hồ sơ PMS</li>
+<li>Hồ sơ PMS/KPI: lưu trữ vĩnh viễn (theo yêu cầu audit)</li>
+<li>Audit log: lưu trữ tối thiểu 1 năm</li>
+<li>File import lỗi: lưu tối thiểu 1 năm</li>
+<li>Minh chứng: lưu theo vòng đời hồ sơ PMS</li>
 </ul>
-
 <hr>
-
-<h2 id="sec-6">6. Tích hợp</h2>
-
+<h2>6. Tích hợp</h2>
 <h3>6.1. Third-party services</h3>
 <table>
-  <thead>
-    <tr><th>Service</th><th>Mục đích</th><th>Bắt buộc?</th><th>Phase</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Email (SMTP)</td><td>Gửi thông báo, nhắc việc</td><td>Có</td><td>1</td></tr>
-  </tbody>
-</table>
-
+<thead>
+<tr>
+<th>Service</th>
+<th>Mục đích</th>
+<th>Bắt buộc?</th>
+<th>Phase</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Email (SMTP)</td>
+<td>Gửi thông báo, nhắc việc</td>
+<td>Có</td>
+<td>1</td>
+</tr>
+</tbody></table>
 <h3>6.2. API nội bộ</h3>
 <ul>
-  <li>Phase 1: Chưa có tích hợp với hệ thống bên ngoài (HRM, BI, SSO)</li>
-  <li>Phase 2: Dự kiến tích hợp HRM, BI, SSO, mobile approval</li>
+<li>Phase 1: Chưa có tích hợp với hệ thống bên ngoài (HRM, BI, SSO)</li>
+<li>Phase 2: Dự kiến tích hợp HRM, BI, SSO, mobile approval</li>
 </ul>
-
 <hr>
-
-<h2 id="sec-7">7. Platform mong muốn</h2>
+<h2>7. Platform mong muốn</h2>
 <table>
-  <thead>
-    <tr><th>Platform</th><th>Cần?</th><th>Ghi chú</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Backend (API)</td><td>✅</td><td>Bắt buộc</td></tr>
-    <tr><td>Web</td><td>✅</td><td>Responsive (desktop + mobile browser)</td></tr>
-    <tr><td>Mobile iOS</td><td>❌</td><td>Ngoài scope Phase 1</td></tr>
-    <tr><td>Mobile Android</td><td>❌</td><td>Ngoài scope Phase 1</td></tr>
-    <tr><td>Admin panel</td><td>✅</td><td>Tích hợp trong web app</td></tr>
-  </tbody>
-</table>
-<blockquote><strong>Khách chỉ định tech stack:</strong> Node.js, Express, PostgreSQL, React, Redis. Quyết định chi tiết kiến trúc là của Tech Lead.</blockquote>
-
+<thead>
+<tr>
+<th>Platform</th>
+<th>Cần?</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Backend (API)</td>
+<td>✅</td>
+<td>Bắt buộc</td>
+</tr>
+<tr>
+<td>Web</td>
+<td>✅</td>
+<td>Responsive (desktop + mobile browser)</td>
+</tr>
+<tr>
+<td>Mobile iOS</td>
+<td>❌</td>
+<td>Ngoài scope Phase 1</td>
+</tr>
+<tr>
+<td>Mobile Android</td>
+<td>❌</td>
+<td>Ngoài scope Phase 1</td>
+</tr>
+<tr>
+<td>Admin panel</td>
+<td>✅</td>
+<td>Tích hợp trong web app</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Khách chỉ định tech stack:</strong> Node.js, Express, PostgreSQL, React, Redis.
+Quyết định chi tiết kiến trúc là của Tech Lead.</p>
+</blockquote>
 <hr>
-
-<h2 id="sec-8">8. Kế hoạch phase (đề xuất)</h2>
-
-<div class="section-card">
-  <h4>Phase 1 — MVP</h4>
-  <p><strong>Mục tiêu:</strong> Hệ thống hoạt động đầy đủ cho 1 chu kỳ PMS/KPI hoàn chỉnh (thiết lập → giữa kỳ → cuối năm → xếp loại → phát hành)</p>
-  <p><strong>Features:</strong> F1–F22 (22 features Must)</p>
-  <p><strong>Timeline mong muốn từ khách:</strong> 3 tháng</p>
-</div>
-
-<div class="section-card">
-  <h4>Phase 2 — Nâng cao</h4>
-  <p><strong>Mục tiêu:</strong> Tăng giá trị quản trị dữ liệu và trải nghiệm người dùng</p>
-  <p><strong>Features:</strong> F23–F32 (goal cascading, KPI suggestion, workflow builder nâng cao, SLA reminder, calibration, analytics, evidence tagging, development plan, compensation export, mobile approval)</p>
-  <p><strong>Timeline:</strong> Chưa xác định</p>
-</div>
-
+<h2>8. Kế hoạch phase (đề xuất)</h2>
+<h3>Phase 1 — MVP</h3>
+<p><strong>Mục tiêu:</strong> Hệ thống hoạt động đầy đủ cho 1 chu kỳ PMS/KPI hoàn chỉnh (thiết lập → giữa kỳ → cuối năm → xếp loại → phát hành)
+<strong>Features:</strong> F1–F22 (22 features Must)
+<strong>Timeline mong muốn từ khách:</strong> 3 tháng</p>
+<h3>Phase 2 — Nâng cao</h3>
+<p><strong>Mục tiêu:</strong> Tăng giá trị quản trị dữ liệu và trải nghiệm người dùng
+<strong>Features:</strong> F23–F32 (goal cascading, KPI suggestion, workflow builder nâng cao, SLA reminder, calibration, analytics, evidence tagging, development plan, compensation export, mobile approval)
+<strong>Timeline:</strong> Chưa xác định</p>
 <hr>
-
-<h2 id="sec-9">9. Rủi ro &amp; giả định</h2>
-
+<h2>9. Rủi ro &amp; giả định</h2>
 <h3>9.1. Rủi ro từ góc nhìn business</h3>
 <table>
-  <thead>
-    <tr><th>Rủi ro</th><th>Impact</th><th>Mitigation</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>22 features Must trong 3 tháng — scope lớn</td><td>Cao</td><td>Ưu tiên MVP lõi, có thể chia Phase 1 thành 1a/1b</td></tr>
-    <tr><td>Dữ liệu cơ cấu tổ chức và nhân viên chưa có sẵn dạng chuẩn</td><td>Trung bình</td><td>Chuẩn bị template Excel và deadline nhập liệu trước khi dev</td></tr>
-    <tr><td>Quy tắc nghiệp vụ phức tạp (workflow nhiều cấp, scoring, cấp bậc E/M/P/S) cần validate kỹ</td><td>Cao</td><td>UAT với HR và đại diện từng role trước go-live</td></tr>
-    <tr><td>Giai đoạn cao điểm (đầu năm, giữa năm, cuối năm) đồng thời 500 user</td><td>Trung bình</td><td>Load test trước go-live</td></tr>
-  </tbody>
-</table>
-
+<thead>
+<tr>
+<th>Rủi ro</th>
+<th>Impact</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>22 features Must trong 3 tháng — scope lớn</td>
+<td>Cao</td>
+<td>Ưu tiên MVP lõi, có thể chia Phase 1 thành 1a/1b</td>
+</tr>
+<tr>
+<td>Dữ liệu cơ cấu tổ chức và nhân viên chưa có sẵn dạng chuẩn</td>
+<td>Trung bình</td>
+<td>Chuẩn bị template Excel và deadline nhập liệu trước khi dev</td>
+</tr>
+<tr>
+<td>Quy tắc nghiệp vụ phức tạp (workflow nhiều cấp, scoring, cấp bậc E/M/P/S) cần validate kỹ</td>
+<td>Cao</td>
+<td>UAT với HR và đại diện từng role trước go-live</td>
+</tr>
+<tr>
+<td>Giai đoạn cao điểm (đầu năm, giữa năm, cuối năm) đồng thời 300 user</td>
+<td>Trung bình</td>
+<td>Load test trước go-live</td>
+</tr>
+</tbody></table>
 <h3>9.2. Giả định (cần khách confirm)</h3>
 <ol>
-  <li>Một nhân viên chỉ thuộc một đơn vị tại một thời điểm</li>
-  <li>"Cấp phê duyệt cao nhất" trong PMS cá nhân là Trưởng đơn vị — không có cấp cao hơn</li>
-  <li>Thang điểm 1-5 cho phép 2 chữ số thập phân (ví dụ: 3.50)</li>
-  <li>Khoảng điểm xếp loại: A+ (4.1-5.0), A (3.1-4.0), B (2.1-3.0), C (0.0-2.0)</li>
-  <li>Kênh thông báo chính là email + in-app notification</li>
-  <li>Dữ liệu cơ cấu tổ chức được nhập thủ công hoặc import Excel (chưa sync HRM)</li>
-  <li>Audit log lưu trữ tối thiểu 1 năm</li>
-  <li>Hệ thống đăng nhập bằng email/password (chưa SSO ở Phase 1)</li>
-  <li>Nhân viên chuyển đơn vị giữa chu kỳ vẫn phải hoàn tất chu kỳ đó tại đơn vị cũ</li>
-  <li>Khi QLTT vắng, Trưởng phòng nhân sự được ủy quyền xử lý hồ sơ thay</li>
+<li>Một nhân viên chỉ thuộc một đơn vị tại một thời điểm</li>
+<li>&quot;Cấp phê duyệt cao nhất&quot; trong PMS cá nhân là Trưởng đơn vị — không có cấp cao hơn</li>
+<li>Thang điểm 1-5 cho phép 2 chữ số thập phân (ví dụ: 3.50)</li>
+<li>Khoảng điểm xếp loại: A+ (4.1-5.0), A (3.1-4.0), B (2.1-3.0), C (0.0-2.0)</li>
+<li>Kênh thông báo chính là email + in-app notification</li>
+<li>Dữ liệu cơ cấu tổ chức được nhập thủ công hoặc import Excel (chưa sync HRM)</li>
+<li>Audit log lưu trữ tối thiểu 1 năm</li>
+<li>Hệ thống đăng nhập bằng email/password (chưa SSO ở Phase 1)</li>
+<li>Nhân viên chuyển đơn vị giữa chu kỳ vẫn phải hoàn tất chu kỳ đó tại đơn vị cũ</li>
+<li>Khi QLTT vắng, Trưởng phòng nhân sự được ủy quyền xử lý hồ sơ thay</li>
 </ol>
-
 <h3>9.3. Phụ thuộc</h3>
 <ul>
-  <li>Khách cung cấp danh sách cơ cấu tổ chức, chức danh, nhóm cấp bậc dạng Excel</li>
-  <li>Khách cung cấp bộ biểu mẫu năng lực/lãnh đạo/hành vi cho E/M/P/S</li>
-  <li>Khách cung cấp bộ mẫu hướng dẫn PMS (quy tắc làm tròn, thang xếp loại chính xác)</li>
-  <li>Khách cung cấp SMTP server cho gửi email thông báo</li>
+<li>Khách cung cấp danh sách cơ cấu tổ chức, chức danh, nhóm cấp bậc dạng Excel</li>
+<li>Khách cung cấp bộ biểu mẫu năng lực/lãnh đạo/hành vi cho E/M/P/S</li>
+<li>Khách cung cấp bộ mẫu hướng dẫn PMS (quy tắc làm tròn, thang xếp loại chính xác)</li>
+<li>Khách cung cấp SMTP server cho gửi email thông báo</li>
+</ul>
+<hr>
+<h2>10. Open questions (chưa chốt)</h2>
+<ul>
+<li><input disabled="" type="checkbox"> Danh sách cụ thể &quot;hoạt động công ty&quot; được cộng điểm thưởng 0.15 — sẽ cập nhật sau</li>
+</ul>
+<hr>
+<h2>11. Glossary</h2>
+<table>
+<thead>
+<tr>
+<th>Thuật ngữ</th>
+<th>Định nghĩa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PMS</td>
+<td>Performance Management System — hệ thống quản trị hiệu suất</td>
+</tr>
+<tr>
+<td>KPI</td>
+<td>Key Performance Indicator — chỉ số đánh giá hiệu suất</td>
+</tr>
+<tr>
+<td>AOP</td>
+<td>Annual Operating Plan — kế hoạch hành động hàng năm của đơn vị</td>
+</tr>
+<tr>
+<td>E/M/P/S</td>
+<td>4 nhóm cấp bậc: Executive (Lãnh đạo), Manager (Quản lý), Professional (Chuyên môn), Staff (Nghiệp vụ)</td>
+</tr>
+<tr>
+<td>QLTT</td>
+<td>Quản lý trực tiếp</td>
+</tr>
+<tr>
+<td>RBAC</td>
+<td>Role-Based Access Control — phân quyền dựa trên vai trò</td>
+</tr>
+<tr>
+<td>MoSCoW</td>
+<td>Must / Should / Could / Won&#39;t — phương pháp phân loại ưu tiên</td>
+</tr>
+<tr>
+<td>Chu kỳ</td>
+<td>Một năm đánh giá, gồm các kỳ con: đầu năm (thiết lập), giữa kỳ, cuối năm</td>
+</tr>
+<tr>
+<td>Thư viện KPI</td>
+<td>Bộ KPI mẫu tập trung, tái sử dụng được</td>
+</tr>
+<tr>
+<td>Minh chứng</td>
+<td>Tài liệu, file, link chứng minh kết quả thực hiện KPI</td>
+</tr>
+<tr>
+<td>Xếp loại</td>
+<td>A+ Xuất sắc, A Tốt, B Đạt yêu cầu, C Cần cải thiện</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>12. Changelog</h2>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Ngày</th>
+<th>Thay đổi</th>
+<th>Author</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.0</td>
+<td>2026-05-03</td>
+<td>Initial draft từ model_biz.md</td>
+<td>AI Agent (Claude)</td>
+</tr>
+<tr>
+<td>1.1</td>
+<td>2026-05-03</td>
+<td>Sửa thang điểm từ 1-10 về 1-5 theo xác nhận khách</td>
+<td>AI Agent (Claude)</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>2026-05-03</td>
+<td>Chốt xếp loại, làm tròn 2 số thập phân, audit 1 năm, chuyển đơn vị, ủy quyền Trưởng phòng NS</td>
+<td>AI Agent (Claude)</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td>2026-05-03</td>
+<td>Phase 1 modules 1.1–1.8 hoàn thành. Bổ sung: employee_code, multi-select filters, sortable columns, pagination. 390 tests.</td>
+<td>AI Agent (Claude)</td>
+</tr>
+<tr>
+<td>1.4</td>
+<td>2026-05-04</td>
+<td>Cập nhật cấu trúc thực tế: 4 công ty con (Kim Oanh Land/Construction/Realty/Foundation), Chi nhánh 01 với 9 chi nhánh × 5 phòng ban, 131 NV với mã NV (KOL-0001~0131). Seed data: 42 KPI thư viện (8 danh mục), 20 khung năng lực (E/M/P/S × 5), KPI đơn vị 25 chỉ tiêu, PMS 130 hồ sơ với đầy đủ đánh giá giữa kỳ + cuối năm + final scores. Tính năng mới: F33 Cài đặt hệ thống (menu visibility config với collapse/expand UI), mã nhân viên trên danh sách users/PMS, phân trang + search cho TeamPmsPage và TeamDashboardPage. Fix: phân trang users (pagination format), toggle trạng thái user (is_active→status mapping), phân quyền user (request body format), getTeamPms scope (admin/manager/unit_head org tree), dashboard org filter đệ quy (getOrgTree), field name mapping dashboard (status_counts/organization_name/histogram), Header user info (roles array + fullName).</td>
+<td>AI Agent (Claude)</td>
+</tr>
+</tbody></table>
+<hr>
+<p><strong>Signoff:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Khách hàng đã đọc và đồng ý</li>
+<li><input disabled="" type="checkbox"> Ngày confirm: ________</li>
+<li><input disabled="" type="checkbox"> Tên người confirm: ________</li>
 </ul>
 
-<hr>
-
-<h2 id="sec-10">10. Open questions (chưa chốt)</h2>
-<ul class="checkbox-list">
-  <li>Danh sách cụ thể "hoạt động công ty" được cộng điểm thưởng 0.15 — sẽ cập nhật sau</li>
-</ul>
-
-<hr>
-
-<h2 id="sec-11">11. Glossary</h2>
-<table>
-  <thead>
-    <tr><th>Thuật ngữ</th><th>Định nghĩa</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>PMS</td><td>Performance Management System — hệ thống quản trị hiệu suất</td></tr>
-    <tr><td>KPI</td><td>Key Performance Indicator — chỉ số đánh giá hiệu suất</td></tr>
-    <tr><td>AOP</td><td>Annual Operating Plan — kế hoạch hành động hàng năm của đơn vị</td></tr>
-    <tr><td>E/M/P/S</td><td>4 nhóm cấp bậc: Executive (Lãnh đạo), Manager (Quản lý), Professional (Chuyên môn), Staff (Nghiệp vụ)</td></tr>
-    <tr><td>QLTT</td><td>Quản lý trực tiếp</td></tr>
-    <tr><td>RBAC</td><td>Role-Based Access Control — phân quyền dựa trên vai trò</td></tr>
-    <tr><td>MoSCoW</td><td>Must / Should / Could / Won't — phương pháp phân loại ưu tiên</td></tr>
-    <tr><td>Chu kỳ</td><td>Một năm đánh giá, gồm các kỳ con: đầu năm (thiết lập), giữa kỳ, cuối năm</td></tr>
-    <tr><td>Thư viện KPI</td><td>Bộ KPI mẫu tập trung, tái sử dụng được</td></tr>
-    <tr><td>Minh chứng</td><td>Tài liệu, file, link chứng minh kết quả thực hiện KPI</td></tr>
-    <tr><td>Xếp loại</td><td>A+ Xuất sắc, A Tốt, B Đạt yêu cầu, C Cần cải thiện</td></tr>
-  </tbody>
-</table>
-
-<hr>
-
-<h2 id="sec-12">12. Changelog</h2>
-<table>
-  <thead>
-    <tr><th>Version</th><th>Ngày</th><th>Thay đổi</th><th>Author</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>1.0</td><td>2026-05-03</td><td>Initial draft từ model_biz.md</td><td>Vibalink Team</td></tr>
-    <tr><td>1.1</td><td>2026-05-03</td><td>Sửa thang điểm từ 1-10 về 1-5 theo xác nhận khách</td><td>Vibalink Team</td></tr>
-    <tr><td>1.2</td><td>2026-05-03</td><td>Chốt xếp loại, làm tròn 2 số thập phân, audit 1 năm, chuyển đơn vị, ủy quyền Trưởng phòng NS</td><td>Vibalink Team</td></tr>
-    <tr><td>1.3</td><td>2026-05-03</td><td>Tăng uptime target 99% → 99.9%, concurrent users 300 → 500; chuyển trạng thái sang "Khách đã confirm"</td><td>Vibalink Team</td></tr>
-  </tbody>
-</table>
-
-<hr>
-
-<div class="section-card">
-  <h4>Signoff</h4>
-  <ul>
-    <li>✅ Khách hàng đã đọc và đồng ý</li>
-    <li>📅 Ngày confirm: 2026-05-03</li>
-  </ul>
-</div>
-
-<footer>
-  <p>KPI/PMS Tập đoàn — Specification v1.3 · Updated 2026-05-03</p>
+<footer style="margin-top: 48px; padding-top: 16px; border-top: 2px solid var(--border); text-align: center; color: var(--text-muted); font-size: 13px;">
+KPI/PMS Tập đoàn — Specification v1.4 — 2026-05-04
 </footer>
 
 </div>
