@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo cáo SEO & Chiến lược Content — Thẩm Mỹ Viện Ngọc Dung</title>
+<style>
+  :root {
+    --black: #0a0a0a;
+    --gray-900: #1a1a1a;
+    --gray-800: #2a2a2a;
+    --gray-700: #404040;
+    --gray-600: #595959;
+    --gray-500: #737373;
+    --gray-400: #a3a3a3;
+    --gray-300: #d4d4d4;
+    --gray-200: #e5e5e5;
+    --gray-100: #f5f5f5;
+    --gray-50: #fafafa;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.65;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--black);
+    padding: 80px 0 60px;
+    background: var(--white);
+  }
+  .header-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    color: var(--gray-600);
+  }
+  .header-meta .divider {
+    flex: 1;
+    height: 1px;
+    background: var(--gray-300);
+    margin: 0 24px;
+  }
+  .header h1 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  .header .subtitle {
+    font-size: 20px;
+    color: var(--gray-700);
+    font-weight: 400;
+    max-width: 700px;
+    line-height: 1.5;
+  }
+  .header-info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--gray-200);
+  }
+  .header-info-item .label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: 6px;
+  }
+  .header-info-item .value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  /* TABLE OF CONTENTS */
+  .toc {
+    padding: 60px 0;
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .toc-title {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: 24px;
+  }
+  .toc-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 48px;
+  }
+  .toc-list li {
+    border-bottom: 1px dotted var(--gray-300);
+    padding: 14px 0;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .toc-list a {
+    color: var(--black);
+    text-decoration: none;
+    font-size: 14px;
+    flex: 1;
+    transition: color 0.2s;
+  }
+  .toc-list a:hover { color: var(--gray-600); }
+  .toc-num {
+    font-size: 11px;
+    color: var(--gray-500);
+    font-variant-numeric: tabular-nums;
+    min-width: 24px;
+    font-weight: 600;
+  }
+
+  /* SECTION */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  section:last-child { border-bottom: none; }
+
+  .section-num {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-num::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--black);
+  }
+
+  h2.section-title {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+
+  .section-intro {
+    font-size: 17px;
+    color: var(--gray-700);
+    line-height: 1.6;
+    max-width: 750px;
+    margin-bottom: 48px;
+  }
+
+  h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    letter-spacing: -0.01em;
+  }
+  h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 24px 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gray-800);
+  }
+
+  p { margin-bottom: 16px; }
+
+  ul, ol { margin: 16px 0 16px 24px; }
+  li { margin-bottom: 8px; }
+
+  /* SCORE GRID — Đánh giá tổng quan */
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin: 40px 0;
+    border: 1px solid var(--black);
+  }
+  .score-item {
+    padding: 32px 24px;
+    border-right: 1px solid var(--gray-200);
+    text-align: center;
+  }
+  .score-item:last-child { border-right: none; }
+  .score-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+    margin-bottom: 12px;
+  }
+  .score-value {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .score-value .max {
+    font-size: 18px;
+    color: var(--gray-400);
+    font-weight: 400;
+  }
+
+  /* DATA CARDS */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--gray-200);
+    border: 1px solid var(--gray-200);
+    margin: 32px 0;
+  }
+  .data-card {
+    background: var(--white);
+    padding: 28px 24px;
+  }
+  .data-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: 8px;
+  }
+  .data-value {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .data-context {
+    font-size: 12px;
+    color: var(--gray-600);
+  }
+  .data-context.warning { color: var(--gray-900); font-weight: 500; }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+  th {
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--black);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    background: var(--white);
+  }
+  td {
+    padding: 16px;
+    border-bottom: 1px solid var(--gray-200);
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--gray-50); }
+
+  .priority {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid var(--black);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .priority-high { background: var(--black); color: var(--white); }
+  .priority-mid { background: var(--gray-200); }
+  .priority-low { background: var(--white); }
+
+  /* PROS / CONS */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 32px 0;
+  }
+  .compare-card {
+    border: 1px solid var(--gray-300);
+    padding: 32px;
+  }
+  .compare-card h4 {
+    margin-top: 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .compare-card.pros { background: var(--white); }
+  .compare-card.cons { background: var(--gray-50); }
+  .compare-card ul { list-style: none; margin: 16px 0 0 0; }
+  .compare-card li {
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  .compare-card.pros li::before {
+    content: '+';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+  .compare-card.cons li::before {
+    content: '−';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 3px solid var(--black);
+    padding: 24px 32px;
+    background: var(--gray-50);
+    margin: 32px 0;
+  }
+  .callout-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .callout p { margin-bottom: 0; }
+
+  /* KEYWORD TIER */
+  .tier-card {
+    border: 1px solid var(--gray-300);
+    margin: 16px 0;
+    overflow: hidden;
+  }
+  .tier-header {
+    background: var(--black);
+    color: var(--white);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .tier-header h4 {
+    color: var(--white);
+    margin: 0;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .tier-meta { font-size: 12px; opacity: 0.7; }
+  .tier-body { padding: 24px; }
+  .tier-body table { margin: 0; }
+
+  /* CLUSTER DIAGRAM */
+  .cluster-box {
+    border: 1px solid var(--black);
+    padding: 32px;
+    margin: 24px 0;
+    background: var(--white);
+  }
+  .cluster-pillar {
+    background: var(--black);
+    color: var(--white);
+    padding: 16px 24px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 24px;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+  }
+  .cluster-subs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .cluster-sub {
+    border: 1px solid var(--gray-400);
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .cluster-arrow {
+    text-align: center;
+    color: var(--gray-400);
+    margin: 8px 0;
+    font-size: 18px;
+  }
+  .cluster-articles {
+    background: var(--gray-50);
+    padding: 16px;
+    border: 1px dashed var(--gray-400);
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray-700);
+  }
+
+  /* TIMELINE */
+  .timeline {
+    margin: 32px 0;
+    border-left: 1px solid var(--black);
+    padding-left: 32px;
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 40px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -38px;
+    top: 8px;
+    width: 11px;
+    height: 11px;
+    background: var(--black);
+    border: 3px solid var(--white);
+    box-shadow: 0 0 0 1px var(--black);
+  }
+  .timeline-month {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .timeline-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .timeline-desc {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+
+  /* KPI TABLE */
+  .kpi-table th:first-child,
+  .kpi-table td:first-child {
+    background: var(--gray-50);
+    font-weight: 600;
+  }
+  .kpi-table th, .kpi-table td {
+    text-align: center;
+  }
+  .kpi-table th:first-child,
+  .kpi-table td:first-child {
+    text-align: left;
+  }
+
+  /* TEMPLATE BOX */
+  .template-box {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-300);
+    padding: 24px 32px;
+    margin: 24px 0;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-x: auto;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 60px 0 40px;
+  }
+  .footer h3 {
+    color: var(--white);
+    font-size: 24px;
+  }
+  .footer-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--gray-700);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+  }
+  .footer-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .footer-stat-num {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .footer-stat-label {
+    font-size: 12px;
+    color: var(--gray-400);
+    letter-spacing: 0.05em;
+  }
+
+  /* TWO COLUMN */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin: 32px 0;
+  }
+
+  /* FRAMEWORK PILLAR */
+  .pillar-list {
+    counter-reset: pillar;
+    list-style: none;
+    margin: 32px 0 0 0;
+  }
+  .pillar-list > li {
+    counter-increment: pillar;
+    padding: 24px 0 24px 80px;
+    border-bottom: 1px solid var(--gray-200);
+    position: relative;
+  }
+  .pillar-list > li::before {
+    content: counter(pillar, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 24px;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--gray-300);
+    line-height: 1;
+  }
+  .pillar-list h4 {
+    margin-top: 0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 18px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .header h1 { font-size: 36px; }
+    .header .subtitle { font-size: 17px; }
+    .container { padding: 0 20px; }
+    section { padding: 48px 0; }
+    h2.section-title { font-size: 28px; }
+    .header-info { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .toc-list { grid-template-columns: 1fr; gap: 0; }
+    .score-grid { grid-template-columns: repeat(2, 1fr); }
+    .score-item:nth-child(odd) { border-right: 1px solid var(--gray-200); }
+    .data-grid { grid-template-columns: repeat(2, 1fr); }
+    .compare-grid { grid-template-columns: 1fr; gap: 16px; }
+    .two-col { grid-template-columns: 1fr; gap: 24px; }
+    .footer-stats { grid-template-columns: 1fr; gap: 24px; }
+    .header-meta { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .header-meta .divider { display: none; }
+    table { font-size: 12px; }
+    th, td { padding: 10px 8px; }
+    .template-box { font-size: 11px; padding: 16px; }
+  }
+
+  @media print {
+    body { font-size: 11pt; }
+    section { page-break-inside: avoid; }
+    .header { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container">
+    <div class="header-meta">
+      <span>Báo cáo SEO Audit</span>
+      <span class="divider"></span>
+      <span>Confidential</span>
+    </div>
+    <h1>Đánh giá SEO &<br>Chiến lược Content<br>toàn diện</h1>
+    <p class="subtitle">Lộ trình đưa Thẩm Mỹ Viện Ngọc Dung trở thành thương hiệu dẫn đầu ngành làm đẹp phi phẫu thuật tại Việt Nam.</p>
+
+    <div class="header-info">
+      <div class="header-info-item">
+        <div class="label">Đối tượng</div>
+        <div class="value">thammyvienngocdung.com</div>
+      </div>
+      <div class="header-info-item">
+        <div class="label">Phạm vi</div>
+        <div class="value">UX · SEO · Content</div>
+      </div>
+      <div class="header-info-item">
+        <div class="label">Dữ liệu tham chiếu</div>
+        <div class="value">Similarweb · GSC · SERP</div>
+      </div>
+      <div class="header-info-item">
+        <div class="label">Cập nhật</div>
+        <div class="value">Tháng 5, 2026</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc">
+  <div class="container">
+    <div class="toc-title">Mục lục</div>
+    <ol class="toc-list">
+      <li><span class="toc-num">01</span><a href="#tom-tat">Tóm tắt điều hành</a></li>
+      <li><span class="toc-num">02</span><a href="#hien-trang">Hiện trạng & dữ liệu</a></li>
+      <li><span class="toc-num">03</span><a href="#giao-dien">Đánh giá giao diện</a></li>
+      <li><span class="toc-num">04</span><a href="#noi-dung">Đánh giá nội dung</a></li>
+      <li><span class="toc-num">05</span><a href="#ux">Đánh giá UX</a></li>
+      <li><span class="toc-num">06</span><a href="#seo">Đánh giá SEO</a></li>
+      <li><span class="toc-num">07</span><a href="#keyword">Phân tích Keyword</a></li>
+      <li><span class="toc-num">08</span><a href="#gap-doi-thu">Gap với đối thủ #1</a></li>
+      <li><span class="toc-num">09</span><a href="#eeat">Chiến lược E-E-A-T</a></li>
+      <li><span class="toc-num">10</span><a href="#cluster">Topic Cluster Architecture</a></li>
+      <li><span class="toc-num">11</span><a href="#keyword-tier">Keyword Tier Matrix</a></li>
+      <li><span class="toc-num">12</span><a href="#template">Content Templates</a></li>
+      <li><span class="toc-num">13</span><a href="#cannibal">Xử lý Cannibalization</a></li>
+      <li><span class="toc-num">14</span><a href="#local">Local SEO 18 chi nhánh</a></li>
+      <li><span class="toc-num">15</span><a href="#ai-search">AI Search Optimization</a></li>
+      <li><span class="toc-num">16</span><a href="#calendar">Content Calendar 6 tháng</a></li>
+      <li><span class="toc-num">17</span><a href="#kpi">KPI &amp; Tracking</a></li>
+      <li><span class="toc-num">18</span><a href="#roadmap">Roadmap 30 ngày</a></li>
+    </ol>
+  </div>
+</nav>
+
+<!-- 01. EXECUTIVE SUMMARY -->
+<section id="tom-tat">
+  <div class="container">
+    <div class="section-num">01 — Tóm tắt điều hành</div>
+    <h2 class="section-title">Có nền tảng tốt, nhưng đang mất top vì 3 nút thắt cốt lõi</h2>
+    <p class="section-intro">Ngọc Dung sở hữu thương hiệu mạnh, 18 chi nhánh phủ sóng toàn quốc và kho content hơn 500 bài, nhưng đang bị giới hạn bởi tín hiệu E-E-A-T yếu, hiện tượng tự ăn từ khóa (cannibalization) và trải nghiệm người dùng kém. Cả ba vấn đề đều có thể giải quyết trong 3–6 tháng để đưa thương hiệu lên dẫn đầu ngành.</p>
+
+    <div class="compare-grid">
+      <div class="compare-card pros">
+        <h4>Lợi thế hiện có</h4>
+        <ul>
+          <li>Brand search mạnh, top 1 từ khóa thương hiệu</li>
+          <li>18 chi nhánh — cơ hội Local SEO cực lớn chưa khai thác</li>
+          <li>Có Bệnh viện Thẩm mỹ riêng — cao hơn cấp spa thông thường</li>
+          <li>Content base 500+ bài viết bao phủ hầu hết keyword ngành</li>
+          <li>Đội ngũ 27 chuyên gia, có Tổng Giám đốc và Bác sĩ Da liễu</li>
+        </ul>
+      </div>
+      <div class="compare-card cons">
+        <h4>Nút thắt phải gỡ</h4>
+        <ul>
+          <li>Tín hiệu E-E-A-T yếu — vấn đề lớn nhất với ngành YMYL</li>
+          <li>Cannibalization ở các cluster Sẹo, Rạn, Thâm — page tự ăn rank</li>
+          <li>Bounce rate 71%, time on site 42 giây — UX có vấn đề nghiêm trọng</li>
+          <li>Chỉ có 2 referring domains — backlink portfolio quá yếu</li>
+          <li>Bị Similarweb phân loại nhầm là "News &amp; Media" thay vì "Beauty"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Dự báo</div>
+      <p>Nếu thực thi đúng roadmap, trong 6 tháng có thể vượt SeoulSpa về organic traffic. Trong 12 tháng có khả năng trở thành <strong>#1 ngành thẩm mỹ phi phẫu thuật tại Việt Nam</strong>. Mục tiêu traffic: 61.4K → 400K visits/tháng.</p>
+    </div>
+
+    <h3>Điểm số tổng quan</h3>
+    <div class="score-grid">
+      <div class="score-item">
+        <div class="score-label">Giao diện</div>
+        <div class="score-value">6.5<span class="max">/10</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Nội dung</div>
+        <div class="score-value">7.0<span class="max">/10</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">UX</div>
+        <div class="score-value">5.0<span class="max">/10</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">SEO</div>
+        <div class="score-value">7.0<span class="max">/10</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Tổng</div>
+        <div class="score-value">6.4<span class="max">/10</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02. HIỆN TRẠNG -->
+<section id="hien-trang">
+  <div class="container">
+    <div class="section-num">02 — Hiện trạng &amp; dữ liệu</div>
+    <h2 class="section-title">Chân dung số liệu</h2>
+    <p class="section-intro">Dữ liệu lấy từ Similarweb (tháng 3/2026). Ba chỉ số engagement đều dưới mức kỳ vọng, nhưng traffic đang tăng trưởng tích cực — dấu hiệu tích cực cho việc đầu tư SEO ngay lúc này.</p>
+
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="data-label">Tổng truy cập / tháng</div>
+        <div class="data-value">61.4K</div>
+        <div class="data-context">+44.41% so với tháng trước</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Bounce Rate</div>
+        <div class="data-value">71.06%</div>
+        <div class="data-context warning">Trung bình ngành: 40–55%</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Pages / Visit</div>
+        <div class="data-value">1.52</div>
+        <div class="data-context warning">User vào 1–2 trang rồi out</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Thời gian trung bình</div>
+        <div class="data-value">0:42</div>
+        <div class="data-context warning">Không đọc hết content</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Xếp hạng toàn cầu</div>
+        <div class="data-value">#611K</div>
+        <div class="data-context">Tăng từ #785K</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Xếp hạng Việt Nam</div>
+        <div class="data-value">#10K</div>
+        <div class="data-context">Tăng từ #13.5K</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Số keyword đang rank</div>
+        <div class="data-value">814</div>
+        <div class="data-context">Đa số chỉ ở trang 2–3</div>
+      </div>
+      <div class="data-card">
+        <div class="data-label">Referring Domains</div>
+        <div class="data-value">2</div>
+        <div class="data-context warning">Backlink portfolio rất yếu</div>
+      </div>
+    </div>
+
+    <h3>Cấu trúc nguồn traffic</h3>
+    <table>
+      <thead>
+        <tr><th>Kênh</th><th>Tỷ trọng</th><th>Nhận xét</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Organic Search</td><td>37.24%</td><td>Kênh chủ lực — cần đẩy mạnh</td></tr>
+        <tr><td>Paid Search</td><td>~23%</td><td>Phụ thuộc nhiều vào quảng cáo</td></tr>
+        <tr><td>Direct</td><td>3rd Place</td><td>Brand search ổn</td></tr>
+        <tr><td>Social</td><td>0%</td><td>Chưa tận dụng được kênh social</td></tr>
+        <tr><td>Referral</td><td>Rất thấp</td><td>Chỉ 2 site referring</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Phân bố địa lý</h3>
+    <table>
+      <thead>
+        <tr><th>Quốc gia</th><th>Tỷ trọng</th><th>Tăng trưởng</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Việt Nam</td><td>98.39%</td><td>+124%</td></tr>
+        <tr><td>Hoa Kỳ</td><td>1.03%</td><td>+71.5%</td></tr>
+        <tr><td>Nhật Bản</td><td>0.34%</td><td>+363.6%</td></tr>
+        <tr><td>Đức</td><td>0.24%</td><td>+85.92%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 03. GIAO DIỆN -->
+<section id="giao-dien">
+  <div class="container">
+    <div class="section-num">03 — Đánh giá giao diện</div>
+    <h2 class="section-title">Giao diện đẹp về thẩm mỹ, nhưng quá tải về thông tin</h2>
+
+    <div class="compare-grid">
+      <div class="compare-card pros">
+        <h4>Điểm mạnh</h4>
+        <ul>
+          <li>Tone hồng — nude phù hợp ngành làm đẹp, target nữ giới 25–45 tuổi</li>
+          <li>Logo gọn, header có hotline nổi bật (*3232 — 18006377)</li>
+          <li>Bố cục đầy đủ module quan trọng: Banner → Dịch vụ → Ưu đãi → Cơ sở vật chất → Chuyên gia → Câu chuyện khách hàng → Tin tức</li>
+          <li>Có ảnh trước/sau khách hàng — yếu tố trust mạnh nhất ngành thẩm mỹ</li>
+          <li>Có version banner riêng cho desktop và mobile</li>
+        </ul>
+      </div>
+      <div class="compare-card cons">
+        <h4>Điểm yếu</h4>
+        <ul>
+          <li>Banner slider quá nhiều — đếm được 8–9 banner KV ở fold đầu, gây loạn thông tin</li>
+          <li>Quá tải hình ảnh — homepage có 200+ hình, ảnh hưởng nặng đến tốc độ tải</li>
+          <li>Menu navigation 3 cấp — quá phức tạp cho mobile users (phụ nữ 30+)</li>
+          <li>Visual hierarchy chưa rõ — các tiêu đề H2 có size gần giống nhau</li>
+          <li>Menu mega "Phun Xăm" có 7 mục con, mỗi mục lại 3–4 sub-items — quá sâu</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04. NỘI DUNG -->
+<section id="noi-dung">
+  <div class="container">
+    <div class="section-num">04 — Đánh giá nội dung</div>
+    <h2 class="section-title">Khối lượng lớn, nhưng thiếu chiều sâu E-E-A-T</h2>
+
+    <div class="compare-grid">
+      <div class="compare-card pros">
+        <h4>Điểm mạnh</h4>
+        <ul>
+          <li>Content base khổng lồ với 500+ bài viết bao phủ gần như toàn bộ keyword ngành thẩm mỹ phi phẫu thuật</li>
+          <li>Cấu trúc topical authority tốt: Phun xăm, Điều trị da, Triệt lông, Chăm sóc da</li>
+          <li>URL SEO-friendly: /dich-vu/phun-may-ombre/, /tri-seo-ro/, /viem-nang-long/</li>
+          <li>Có cập nhật năm 2026 — Google rất thích content fresh</li>
+          <li>Có schema cho chuyên gia, branch, customer stories</li>
+        </ul>
+      </div>
+      <div class="compare-card cons">
+        <h4>Điểm yếu</h4>
+        <ul>
+          <li>Content thiếu chiều sâu E-E-A-T — yếu tố cực quan trọng cho ngành YMYL</li>
+          <li>Cannibalization ở nhiều cluster — sẹo có 5 page, rạn da có 8 page, dễ tự "ăn thịt" nhau</li>
+          <li>Thiếu thông tin tác giả/bác sĩ kiểm duyệt nội dung trên giao diện từng bài</li>
+          <li>Thiếu internal linking strategy rõ ràng giữa pillar và supporting articles</li>
+          <li>Customer stories chỉ 8 case, ít so với "20.000 khách hàng" tuyên bố</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05. UX -->
+<section id="ux">
+  <div class="container">
+    <div class="section-num">05 — Đánh giá UX</div>
+    <h2 class="section-title">Điểm yếu nhất của website hiện tại</h2>
+
+    <div class="callout">
+      <div class="callout-label">Cảnh báo</div>
+      <p>Bounce rate 71%, time on site 42 giây, pages/visit 1.52 — cả ba chỉ số đều dưới mức kỳ vọng đáng kể. UX kém đang khiến traffic không chuyển hóa thành lead, lãng phí chi phí marketing đã bỏ ra.</p>
+    </div>
+
+    <h3>Vấn đề UX cụ thể</h3>
+    <ul>
+      <li><strong>Trang chủ load nặng</strong> do quá nhiều ảnh và banner slider — user mất kiên nhẫn trước khi thấy được giá trị</li>
+      <li><strong>CTA "Đặt lịch" hơi nhỏ</strong> và lẫn vào menu — cần button nổi bật hơn (sticky button mobile)</li>
+      <li><strong>Thiếu live chat / Zalo button rõ ràng</strong> — đây là kênh chốt đơn quan trọng nhất ở thị trường VN</li>
+      <li><strong>Form đăng ký tư vấn không nổi bật</strong> trên homepage</li>
+      <li><strong>Menu mega quá phức tạp</strong> — user ngành này thường là phụ nữ 30+, không quen click sâu nhiều cấp</li>
+      <li><strong>Thiếu filter/search</strong> trong trang dịch vụ</li>
+      <li><strong>Không có review/rating widget</strong> dạng Google Review embed</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 06. SEO -->
+<section id="seo">
+  <div class="container">
+    <div class="section-num">06 — Đánh giá SEO</div>
+    <h2 class="section-title">Nền tảng tốt, còn nhiều dư địa để khai thác</h2>
+
+    <div class="compare-grid">
+      <div class="compare-card pros">
+        <h4>Đã làm tốt</h4>
+        <ul>
+          <li>URL structure clean, có keyword</li>
+          <li>Heading hierarchy ổn (H1, H2, H3)</li>
+          <li>Title tag cá nhân hóa cho từng bài</li>
+          <li>Image alt text có sẵn</li>
+          <li>Brand search mạnh — top 1 cho "thẩm mỹ viện ngọc dung"</li>
+          <li>18 chi nhánh — tốt cho Local SEO</li>
+          <li>Đầy đủ Google Tag Manager, Analytics, Adsense tracking</li>
+          <li>Verify Facebook domain, Google Search Console</li>
+        </ul>
+      </div>
+      <div class="compare-card cons">
+        <h4>Cần cải thiện gấp</h4>
+        <ul>
+          <li>Page speed — quá nhiều ảnh chưa optimize (cần WebP, lazy loading)</li>
+          <li>Banner slider 8–9 ảnh ở fold đầu — tệ cho LCP</li>
+          <li>Trang chủ thiếu content text rõ ràng để rank cho keyword chính</li>
+          <li>Thiếu FAQ schema, LocalBusiness schema, MedicalBusiness schema</li>
+          <li>Chỉ có 2 referring domains — quá ít cho site lớn như vậy</li>
+          <li>Social traffic = 0% trong báo cáo</li>
+          <li>Bị phân loại nhầm là "News &amp; Media Publishers"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07. KEYWORD -->
+<section id="keyword">
+  <div class="container">
+    <div class="section-num">07 — Phân tích Keyword hiện tại</div>
+    <h2 class="section-title">Đang sống nhờ brand keyword, chưa rank được money keyword</h2>
+
+    <h3>Top keyword hiện tại</h3>
+    <table>
+      <thead>
+        <tr><th style="width:50%">Keyword</th><th>Loại</th><th>CPC</th><th>Vị trí</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>thẩm mỹ viện ngọc dung</td><td>Brand</td><td>$0.75</td><td>Top 1</td></tr>
+        <tr><td>ngoc dung</td><td>Brand variant</td><td>—</td><td>Top 1</td></tr>
+        <tr><td>triệt lông</td><td>Generic</td><td>$0.75</td><td>Cạnh tranh cao</td></tr>
+        <tr><td>lông mày sâu róm</td><td>Long-tail</td><td>—</td><td>Top 10</td></tr>
+        <tr><td>thẩm mỹ viện ngọc dung (typo)</td><td>Brand variant</td><td>—</td><td>Top 1</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:24px"><strong>Tổng số keyword đang rank:</strong> 814 — đa phần ở trang 2–3, chưa có vị trí top 3 cho money keyword nào.</p>
+
+    <h3>Đối thủ chính (theo Similarweb)</h3>
+    <table>
+      <thead>
+        <tr><th>Đối thủ</th><th>Mức độ tương đồng</th><th>Phân loại</th><th>Hạng category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>seoulspa.vn</td><td>100%</td><td>Ecommerce &amp; Shopping</td><td>#27,897</td></tr>
+        <tr><td>dalieuhanoi.vn</td><td>98%</td><td>News &amp; Media</td><td>#26,037</td></tr>
+        <tr><td>thammylinhanh.vn</td><td>84%</td><td>Ecommerce</td><td>#48,351</td></tr>
+        <tr><td>ybspa.vn</td><td>80%</td><td>News &amp; Media</td><td>#20,173</td></tr>
+        <tr><td>seoulcenter.vn</td><td>76%</td><td>News &amp; Media</td><td>#40,868</td></tr>
+        <tr><td>lgclinic.vn</td><td>79%</td><td>Health</td><td>#3,590</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 08. GAP VỚI ĐỐI THỦ -->
+<section id="gap-doi-thu">
+  <div class="container">
+    <div class="section-num">08 — Gap với đối thủ #1</div>
+    <h2 class="section-title">SeoulSpa thắng vì E-E-A-T mạnh hơn, không phải vì content hay hơn</h2>
+    <p class="section-intro">So sánh trực diện với SeoulSpa.vn cho thấy chênh lệch chính nằm ở các tín hiệu uy tín — yếu tố Google đặc biệt coi trọng trong ngành YMYL như thẩm mỹ.</p>
+
+    <table>
+      <thead>
+        <tr><th>Tiêu chí</th><th>SeoulSpa</th><th>Ngọc Dung</th><th style="width:120px">Ảnh hưởng</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hiển thị bác sĩ trên homepage</strong></td>
+          <td>4 bác sĩ với tiểu sử dài, học vấn (ĐH Y Dược TPHCM, Phạm Ngọc Thạch), số năm kinh nghiệm, danh hiệu "Thầy Thuốc Ưu Tú"</td>
+          <td>27 chuyên gia nhưng chỉ có ảnh + chức danh, không học vấn cụ thể</td>
+          <td><span class="priority priority-high">Rất cao</span></td>
+        </tr>
+        <tr>
+          <td><strong>Giấy phép hoạt động</strong></td>
+          <td>Hiển thị GPHĐ riêng cho từng chi nhánh (VD: 07739/HCM-GPHD)</td>
+          <td>Không thấy GPHĐ trên web</td>
+          <td><span class="priority priority-high">Rất cao</span></td>
+        </tr>
+        <tr>
+          <td><strong>Báo chí nhắc đến</strong></td>
+          <td>Section "Báo chí nói gì" với 9 logo: VnExpress, Dân Trí, Tuổi Trẻ, Kenh14, Soha, AFamily, Yeah1, eVa, Ngôi Sao</td>
+          <td>Không có section báo chí trên homepage</td>
+          <td><span class="priority priority-high">Rất cao</span></td>
+        </tr>
+        <tr>
+          <td><strong>Phân loại GPHĐ theo dịch vụ</strong></td>
+          <td>Phân rõ Viện thẩm mỹ / PK Da liễu / PK Phẫu thuật thẩm mỹ — khách biết phạm vi cấp phép</td>
+          <td>Không phân loại — gây mơ hồ</td>
+          <td><span class="priority priority-high">Rất cao</span></td>
+        </tr>
+        <tr>
+          <td><strong>Author chuyên môn</strong></td>
+          <td>Có chính sách biên tập nội dung riêng</td>
+          <td>Có author "Trần Duy Phúc" trong meta nhưng không hiển thị nổi bật</td>
+          <td><span class="priority priority-mid">Cao</span></td>
+        </tr>
+        <tr>
+          <td><strong>App mobile riêng</strong></td>
+          <td>Có app trên App Store + Google Play</td>
+          <td>Không có</td>
+          <td><span class="priority priority-mid">Cao</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>5 việc phải làm ngay để bằng/vượt SeoulSpa</h3>
+    <ol class="pillar-list">
+      <li>
+        <h4>Tạo trang Đội ngũ chuyên gia chuẩn YMYL</h4>
+        <p>Mỗi chuyên gia có: tên, chức danh, học vấn (tên trường ĐH cụ thể), số năm kinh nghiệm, số ca thực hiện, chứng chỉ chuyên ngành (kèm ảnh chứng chỉ), bài báo/phỏng vấn. Schema Person + medicalSpecialty.</p>
+      </li>
+      <li>
+        <h4>Hiển thị Giấy phép hoạt động (GPHĐ)</h4>
+        <p>Hiển thị ở footer mỗi page và trang Chi nhánh. Bộ Y tế Việt Nam yêu cầu spa thẩm mỹ phải có GPHĐ. Google E-E-A-T cực kỳ ưu tiên yếu tố này cho YMYL niche.</p>
+      </li>
+      <li>
+        <h4>Section "Báo chí đưa tin" trên homepage</h4>
+        <p>Logo các báo lớn kèm link backlink thực tế. Đây là social proof mạnh nhất cho thương hiệu thẩm mỹ.</p>
+      </li>
+      <li>
+        <h4>Trang Chính sách biên tập nội dung</h4>
+        <p>Editorial Policy page nói về quy trình review bài viết bởi bác sĩ. Đây là tín hiệu rất quan trọng cho YMYL niche mà ít đối thủ làm.</p>
+      </li>
+      <li>
+        <h4>Mỗi service page có Bác sĩ phụ trách</h4>
+        <p>Tên + ảnh + link đến trang cá nhân của bác sĩ đó. Tăng tính thuyết phục và E-E-A-T cho từng dịch vụ cụ thể.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 09. E-E-A-T -->
+<section id="eeat">
+  <div class="container">
+    <div class="section-num">09 — Chiến lược E-E-A-T</div>
+    <h2 class="section-title">Bốn trụ cột tín hiệu uy tín cho ngành YMYL</h2>
+    <p class="section-intro">Thẩm mỹ là ngành Your Money Your Life — Google áp dụng tiêu chuẩn cao nhất. Theo Quality Rater Guidelines, YMYL pages cần evidence cao về Experience, Expertise, Authoritativeness, Trustworthiness. Đây là lý do chính khiến site đang rank thấp dù content nhiều.</p>
+
+    <h3>9.1 — Experience (Kinh nghiệm thực tế)</h3>
+    <p><strong>Hiện trạng:</strong> Yếu</p>
+    <ul>
+      <li>Mỗi bài về dịch vụ phải có case study thực tế với ảnh trước/sau từ chính khách hàng — không dùng ảnh stock</li>
+      <li>Thêm video phỏng vấn khách hàng (1–2 phút mỗi video) embed vào bài</li>
+      <li>Box "Trải nghiệm thực tế tại Ngọc Dung" — kể chi tiết quá trình thực hiện dịch vụ</li>
+      <li>Schema markup Review + Rating cho từng case study</li>
+    </ul>
+
+    <h3>9.2 — Expertise (Chuyên môn)</h3>
+    <p><strong>Hiện trạng:</strong> Trung bình</p>
+    <h4>A. Reviewer info trên mỗi bài</h4>
+    <div class="template-box">Tham vấn y khoa: BS. Phạm Đức Tuấn
+Chuyên khoa: Da liễu - Thẩm mỹ
+Cập nhật: 15/04/2026
+[Ảnh bác sĩ] [Link tiểu sử]</div>
+
+    <h4>B. Schema markup MedicalWebPage</h4>
+    <div class="template-box">{
+  "@context": "https://schema.org",
+  "@type": "MedicalWebPage",
+  "medicalAudience": "Patient",
+  "lastReviewed": "2026-04-15",
+  "reviewedBy": {
+    "@type": "Person",
+    "name": "BS. Phạm Đức Tuấn",
+    "jobTitle": "Bác sĩ Da liễu",
+    "worksFor": {
+      "@type": "MedicalBusiness",
+      "name": "Thẩm mỹ viện Ngọc Dung"
+    }
+  }
+}</div>
+
+    <h4>C. Citing nguồn y khoa</h4>
+    <ul>
+      <li>Trích dẫn nghiên cứu từ PubMed, NCBI, Mayo Clinic</li>
+      <li>Format: "Theo nghiên cứu của Đại học Harvard (2024), kỹ thuật laser fractional CO2 có hiệu quả 78% trong điều trị sẹo rỗ..."</li>
+      <li>Đặt link external rel="nofollow noopener" đến nguồn gốc</li>
+    </ul>
+
+    <h3>9.3 — Authoritativeness (Uy tín)</h3>
+    <p><strong>Hiện trạng:</strong> Trung bình — có brand mạnh nhưng thiếu signal authority online</p>
+    <ul>
+      <li>Build backlink từ báo lớn: VnExpress, Dân Trí, Tuổi Trẻ, Kenh14, Eva, AFamily (qua PR booking)</li>
+      <li>Tham gia phỏng vấn / chia sẻ chuyên môn trên kênh báo chí</li>
+      <li>Đăng ký Google Business Profile đầy đủ cho 18 chi nhánh</li>
+      <li>Chạy citations trên các thư mục: Foody, Diadiem, TrangVang, Toplist</li>
+      <li>Tạo Wikipedia page cho thương hiệu Ngọc Dung</li>
+    </ul>
+
+    <h3>9.4 — Trustworthiness (Niềm tin)</h3>
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Tình trạng</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Giấy phép hoạt động (GPHĐ)</td><td>Không hiển thị</td><td>Hiển thị footer + chi nhánh</td></tr>
+        <tr><td>Mã số thuế / Giấy ĐKKD</td><td>Có (chân trang)</td><td>Đảm bảo nổi bật hơn</td></tr>
+        <tr><td>HTTPS</td><td>Có</td><td>OK</td></tr>
+        <tr><td>Chính sách bảo mật</td><td>Cần verify</td><td>Tạo /chinh-sach-bao-mat/</td></tr>
+        <tr><td>Chính sách biên tập</td><td>Không có</td><td>Tạo /chinh-sach-bien-tap/</td></tr>
+        <tr><td>Bệnh viện thẩm mỹ được Bộ Y tế cấp phép</td><td>Có</td><td>Hiển thị nổi bật</td></tr>
+        <tr><td>DMCA badge</td><td>Có verification</td><td>Đảm bảo hiển thị</td></tr>
+        <tr><td>Đăng ký Bộ Công Thương</td><td>Cần check</td><td>Verify với online.gov.vn</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 10. CLUSTER -->
+<section id="cluster">
+  <div class="container">
+    <div class="section-num">10 — Topic Cluster Architecture</div>
+    <h2 class="section-title">Tổ chức lại 500+ bài thành 5 cluster có hệ thống</h2>
+    <p class="section-intro">Mỗi cluster có 1 PILLAR PAGE chính (rank cho head term) + nhiều SUPPORTING PAGES (rank cho long-tail) + INTERNAL LINK chặt chẽ. Đây là cách Google hiểu được Ngọc Dung là expert trong từng mảng dịch vụ.</p>
+
+    <h3>Cluster 1 — Phun xăm thẩm mỹ (Money cluster #1)</h3>
+    <div class="cluster-box">
+      <div class="cluster-pillar">PILLAR · /dich-vu/phun-xam/</div>
+      <div class="cluster-arrow">↓ ↑</div>
+      <div class="cluster-subs">
+        <div class="cluster-sub">/dich-vu/phun-may/</div>
+        <div class="cluster-sub">/dich-vu/phun-moi/</div>
+        <div class="cluster-sub">/dich-vu/phun-xam-mi/</div>
+      </div>
+      <div class="cluster-arrow">↓ ↑</div>
+      <div class="cluster-articles">50–80 supporting articles long-tail / sub-pillar<br>VD: Phun mày Ombre · Phun mày 3D · Giá phun mày · Phun mày bao lâu thì đẹp · Phun mày cho da dầu</div>
+    </div>
+
+    <h3>Cluster 2 — Điều trị da</h3>
+    <div class="cluster-box">
+      <div class="cluster-pillar">PILLAR · /dich-vu/dieu-tri-da/ (cần tạo nếu chưa có)</div>
+      <div class="cluster-arrow">↓ ↑</div>
+      <div class="cluster-subs">
+        <div class="cluster-sub">/tri-nam/</div>
+        <div class="cluster-sub">/tri-seo-ro/</div>
+        <div class="cluster-sub">/tri-mun-trung-ca/</div>
+        <div class="cluster-sub">/tri-tham-mat/</div>
+        <div class="cluster-sub">/ran-da/</div>
+        <div class="cluster-sub">/viem-nang-long/</div>
+      </div>
+    </div>
+
+    <h3>Cluster 3 — Triệt lông</h3>
+    <div class="cluster-box">
+      <div class="cluster-pillar">PILLAR · /dich-vu/triet-long/ (đã có)</div>
+      <div class="cluster-arrow">↓ ↑</div>
+      <div class="cluster-subs">
+        <div class="cluster-sub">Mặt: triet-long-mat</div>
+        <div class="cluster-sub">Body: triet-long-tay/chan/bung</div>
+        <div class="cluster-sub">Vùng nhạy cảm: bikini/vung-kin</div>
+        <div class="cluster-sub">Toàn thân: triet-long-toan-than</div>
+      </div>
+    </div>
+
+    <h3>Cluster 4 — Trẻ hóa &amp; Chăm sóc da (đang yếu)</h3>
+    <div class="cluster-box">
+      <div class="cluster-pillar">PILLAR · /dich-vu/tre-hoa-da/ (cần tạo)</div>
+      <div class="cluster-arrow">↓ ↑</div>
+      <div class="cluster-subs">
+        <div class="cluster-sub">/tre-hoa-da/</div>
+        <div class="cluster-sub">/nang-co-mat/</div>
+        <div class="cluster-sub">/cham-soc-da-mat/</div>
+        <div class="cluster-sub">/u-trang-da-mat/</div>
+        <div class="cluster-sub">/se-khit-lo-chan-long/</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Quan trọng</div>
+      <p>Đây là cluster có money keyword cao nhất nhưng Ngọc Dung đang yếu nhất. Đây là cơ hội lớn cần đầu tư vì SeoulSpa cũng đang đẩy mạnh cluster này (MD-CODE, Nâng cơ sinh học, Meso không kim).</p>
+    </div>
+
+    <h3>Cluster 5 — Cơ thể &amp; Làm trắng (đang thiếu hoàn toàn)</h3>
+    <div class="cluster-box">
+      <div class="cluster-pillar">PILLAR · /dich-vu/lam-trang/ (CẦN TẠO MỚI)</div>
+      <div class="cluster-arrow">↓ ↑</div>
+      <div class="cluster-articles">
+        Long-tail keywords cần khai thác:<br>
+        tắm trắng bao nhiêu tiền · tắm trắng có hại không · địa chỉ tắm trắng uy tín · tắm trắng phi thuyền · tắm trắng collagen
+      </div>
+    </div>
+
+    <p style="margin-top:24px"><strong>Lý do ưu tiên:</strong> SeoulSpa đang rank top với "tắm trắng" — Ngọc Dung không có. Đây là cluster HOT với lượng search lớn.</p>
+  </div>
+</section>
+
+<!-- 11. KEYWORD TIER -->
+<section id="keyword-tier">
+  <div class="container">
+    <div class="section-num">11 — Keyword Tier Matrix</div>
+    <h2 class="section-title">Bốn lớp keyword theo độ ưu tiên đầu tư</h2>
+
+    <h3>Search Intent Mapping</h3>
+    <table>
+      <thead>
+        <tr><th>Intent</th><th>Đặc điểm keyword</th><th>Loại page</th><th>Mục tiêu</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Informational</strong></td><td>"là gì", "có hại không", "bao lâu", "cách"</td><td>Blog post đầy đủ</td><td>Brand awareness</td></tr>
+        <tr><td><strong>Commercial</strong></td><td>"tốt nhất", "địa chỉ", "review", "có nên"</td><td>Comparison page</td><td>Lead nurturing</td></tr>
+        <tr><td><strong>Transactional</strong></td><td>"giá", "bảng giá", "ưu đãi", "đặt lịch"</td><td>Service landing</td><td>Conversion</td></tr>
+        <tr><td><strong>Navigational</strong></td><td>Brand keywords</td><td>Homepage / About</td><td>Capture brand</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tier-card">
+      <div class="tier-header">
+        <h4>TIER 1 — Money Keywords</h4>
+        <span class="tier-meta">Đầu tư mạnh · Mục tiêu top 3</span>
+      </div>
+      <div class="tier-body">
+        <table>
+          <thead>
+            <tr><th>Keyword</th><th>Search Volume</th><th>Cạnh tranh</th><th>Intent</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>thẩm mỹ viện uy tín tphcm</td><td>1,900/tháng</td><td>Cao</td><td>Commercial</td></tr>
+            <tr><td>thẩm mỹ viện uy tín hà nội</td><td>1,600/tháng</td><td>Cao</td><td>Commercial</td></tr>
+            <tr><td>triệt lông vĩnh viễn</td><td>8,100/tháng</td><td>Rất cao</td><td>Commercial</td></tr>
+            <tr><td>trị nám tận gốc</td><td>2,400/tháng</td><td>Cao</td><td>Commercial</td></tr>
+            <tr><td>phun chân mày đẹp</td><td>4,400/tháng</td><td>Cao</td><td>Commercial</td></tr>
+            <tr><td>trẻ hóa da</td><td>3,600/tháng</td><td>Trung bình</td><td>Commercial</td></tr>
+            <tr><td>trị sẹo rỗ</td><td>2,900/tháng</td><td>Cao</td><td>Commercial</td></tr>
+            <tr><td>phun môi giá bao nhiêu</td><td>1,800/tháng</td><td>Cao</td><td>Transactional</td></tr>
+            <tr><td>spa làm đẹp tốt nhất</td><td>2,200/tháng</td><td>Cao</td><td>Commercial</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <div class="tier-header">
+        <h4>TIER 2 — Long-tail High-intent</h4>
+        <span class="tier-meta">Rank dễ hơn · Conversion cao</span>
+      </div>
+      <div class="tier-body">
+        <table>
+          <thead>
+            <tr><th>Keyword</th><th>Search Volume</th><th>Cạnh tranh</th><th>Intent</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>triệt lông nách bao nhiêu tiền</td><td>720/tháng</td><td>TB</td><td>Transactional</td></tr>
+            <tr><td>phun môi collagen giữ được bao lâu</td><td>590/tháng</td><td>Thấp</td><td>Info+Commercial</td></tr>
+            <tr><td>phun mày ombre cho da dầu</td><td>320/tháng</td><td>Thấp</td><td>Informational</td></tr>
+            <tr><td>trị sẹo rỗ lâu năm</td><td>880/tháng</td><td>TB</td><td>Commercial</td></tr>
+            <tr><td>triệt lông có hết hẳn không</td><td>480/tháng</td><td>Thấp</td><td>Informational</td></tr>
+            <tr><td>điêu khắc chân mày giá bao nhiêu</td><td>1,300/tháng</td><td>TB</td><td>Transactional</td></tr>
+            <tr><td>trị thâm mắt bằng laser</td><td>590/tháng</td><td>TB</td><td>Commercial</td></tr>
+            <tr><td>nâng cơ mặt không phẫu thuật</td><td>880/tháng</td><td>TB</td><td>Commercial</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <div class="tier-header">
+        <h4>TIER 3 — Local Keywords</h4>
+        <span class="tier-meta">Pattern: [dịch vụ] + [địa danh]</span>
+      </div>
+      <div class="tier-body">
+        <table>
+          <thead>
+            <tr><th>Pattern</th><th>Ví dụ</th><th>SV ước tính</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>[dịch vụ] quận [N] tphcm</td><td>"trị nám quận 1", "phun mày quận 7"</td><td>100–500</td></tr>
+            <tr><td>[dịch vụ] [tên quận hà nội]</td><td>"triệt lông cầu giấy", "phun môi hà đông"</td><td>80–400</td></tr>
+            <tr><td>[dịch vụ] gần đây</td><td>"spa phun xăm gần đây"</td><td>1,000–2,000</td></tr>
+            <tr><td>thẩm mỹ viện [thành phố]</td><td>"thẩm mỹ viện đà nẵng", "thẩm mỹ viện cần thơ"</td><td>300–900</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <div class="tier-header">
+        <h4>TIER 4 — Blue Ocean Keywords</h4>
+        <span class="tier-meta">Đối thủ chưa khai thác · Độ khó thấp</span>
+      </div>
+      <div class="tier-body">
+        <h4 style="margin-top:0">Cluster "Phòng tránh và biến chứng"</h4>
+        <ul>
+          <li>phun mày bị đỏ phải làm sao</li>
+          <li>phun môi bị thâm khắc phục</li>
+          <li>triệt lông xong bị ngứa</li>
+          <li>nám tái phát sau điều trị</li>
+        </ul>
+        <h4>Cluster "So sánh kỹ thuật"</h4>
+        <ul>
+          <li>phun mày ombre vs hairstroke</li>
+          <li>laser CO2 vs PRP trị sẹo rỗ</li>
+          <li>IPL vs diode trong triệt lông</li>
+        </ul>
+        <h4>Cluster "Theo độ tuổi &amp; cơ địa"</h4>
+        <ul>
+          <li>trị nám tuổi 30</li>
+          <li>triệt lông tuổi dậy thì</li>
+          <li>phun mày cho da nhạy cảm</li>
+        </ul>
+        <h4>Cluster "Theo giới tính"</h4>
+        <ul>
+          <li>phun chân mày nam giới (đang growing trend)</li>
+          <li>triệt râu vĩnh viễn</li>
+          <li>trẻ hóa da cho nam</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12. CONTENT TEMPLATES -->
+<section id="template">
+  <div class="container">
+    <div class="section-num">12 — Content Templates</div>
+    <h2 class="section-title">Khung mẫu chuẩn cho 3 loại page chính</h2>
+
+    <h3>12.1 — Service Landing Page Template</h3>
+    <p><strong>Mục tiêu:</strong> Convert · <strong>Độ dài:</strong> 2,000–2,500 từ</p>
+    <div class="template-box">[Hero Banner]
+  - H1: [Keyword chính] — 1 câu USP duy nhất
+  - 1 ảnh trước/sau ấn tượng nhất
+  - CTA chính: "Đặt lịch tư vấn miễn phí" (sticky)
+
+[Section 1: Giới thiệu dịch vụ — 200-300 từ]
+  - H2: [Keyword] là gì?
+  - Định nghĩa, công nghệ sử dụng, FDA/CE certification
+
+[Section 2: Ai phù hợp với dịch vụ — 150 từ]
+  - H2: Đối tượng nên/không nên thực hiện
+
+[Section 3: Quy trình tại Ngọc Dung — 300 từ]
+  - 5-7 bước, có ảnh minh họa từng bước
+
+[Section 4: Bác sĩ phụ trách — bắt buộc]
+  - 3-5 chuyên gia với link cá nhân
+
+[Section 5: Bảng giá — 150 từ]
+  - Bảng giá cụ thể (KHÔNG để "liên hệ")
+  - Yếu tố ảnh hưởng giá
+
+[Section 6: Trước &amp; Sau — bắt buộc]
+  - Slider 8-12 case, có testimonial ngắn
+
+[Section 7: Câu hỏi thường gặp — 400 từ]
+  - 8-12 Q&amp;A với schema FAQ
+  - CRITICAL cho AI Search
+
+[Section 8: Chi nhánh thực hiện]
+  - List 18 chi nhánh + map
+
+[Section 9: Cam kết &amp; Bảo hành]
+  - Giấy phép, bảo hành, refund policy
+
+[CTA Final + Form đăng ký]
+
+[Schema: MedicalProcedure + Service + FAQPage + Review]</div>
+
+    <h3>12.2 — Blog Post Template</h3>
+    <p><strong>Mục tiêu:</strong> Traffic + Nurture · <strong>Độ dài:</strong> 1,500–2,500 từ</p>
+    <div class="template-box">[H1 — chứa keyword chính, dạng câu hỏi hoặc số]
+
+[Excerpt 50-70 từ — hook + answer ngắn]
+  ⚠️ QUAN TRỌNG cho Featured Snippet và AI Search
+
+[Box Author + Reviewer — bắt buộc]
+  Tác giả: [Tên]
+  Tham vấn y khoa: [BS. Tên]
+  Cập nhật: [Date]
+
+[Mục lục có anchor link]
+
+[Nội dung chính — 1,500-2,500 từ]
+  H2 → H3 → H4 hierarchy chuẩn
+  Mỗi H2 trả lời 1 câu hỏi cụ thể (PAA - People Also Ask)
+
+[Bảng so sánh hoặc infographic — bắt buộc 1 cái]
+
+[Section Internal Link]
+  "Đọc thêm:" — 3-5 bài liên quan trong cùng cluster
+
+[Section Sản phẩm/Dịch vụ liên quan]
+  - Link đến service page tương ứng
+  - CTA mềm: "Đặt lịch tư vấn"
+
+[FAQ — 5-8 câu]
+[Source/References — bắt buộc nếu là YMYL]
+[Author Bio cuối bài]</div>
+
+    <h3>12.3 — Comparison Page Template</h3>
+    <p><strong>Mục tiêu:</strong> Capture "X vs Y" keywords</p>
+    <div class="template-box">[H1: So sánh A và B — Nên chọn cái nào?]
+
+[Bảng so sánh tổng quan — phải ở vị trí đầu]
+  Đặc điểm | A | B
+  Giá | ... | ...
+  Hiệu quả | ... | ...
+
+[Phần A chi tiết]
+[Phần B chi tiết]
+
+[Khi nào nên chọn A? Khi nào nên chọn B?]
+  Decision tree rõ ràng
+
+[Tư vấn từ chuyên gia Ngọc Dung]
+
+[CTA: Đặt lịch tư vấn để chọn phương pháp phù hợp]</div>
+  </div>
+</section>
+
+<!-- 13. CANNIBALIZATION -->
+<section id="cannibal">
+  <div class="container">
+    <div class="section-num">13 — Xử lý Keyword Cannibalization</div>
+    <h2 class="section-title">Phát hiện và gỡ "tự ăn rank" trong các cluster lớn</h2>
+    <p class="section-intro">Đây là vấn đề lớn của Ngọc Dung — có quá nhiều page về sẹo, thâm, rạn. Khả năng cao nhiều page ăn keyword của nhau, làm Google không biết rank page nào.</p>
+
+    <h3>Audit cannibalization</h3>
+    <h4>Tools cần dùng</h4>
+    <ul>
+      <li><strong>Google Search Console:</strong> tab Performance → filter keyword → xem có nhiều URL cùng rank cho 1 keyword không</li>
+      <li><strong>Ahrefs / SEMrush:</strong> keyword cannibalization report</li>
+      <li><strong>Screaming Frog:</strong> crawl để map title tag duplicate</li>
+    </ul>
+
+    <h3>Các cluster có dấu hiệu cannibalization</h3>
+    <table>
+      <thead>
+        <tr><th>Cluster</th><th>Pages bị nghi ngờ</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Sẹo rỗ</strong></td>
+          <td>/tri-seo-ro/, /seo-ro-o-mui/, /tri-seo-ro-lau-nam/, /lieu-trinh-tri-seo-ro-gia-bao-nhieu/, /ban-laser-tri-seo/</td>
+          <td>Pillar = /tri-seo-ro/. Các bài còn lại làm supporting, target sub-keyword khác</td>
+        </tr>
+        <tr>
+          <td><strong>Sẹo thâm</strong></td>
+          <td>/tri-seo-tham/, /tri-seo-tham-o-mat/, /tri-seo-tham-o-chan/</td>
+          <td>Hợp lý — mỗi page target vùng khác nhau. Cần ensure content unique</td>
+        </tr>
+        <tr>
+          <td><strong>Rạn da</strong></td>
+          <td>/ran-da/, /ran-da-chan/, /ran-da-dui/, /ran-da-lung/, /ran-da-sau-sinh/, /ran-nguc/, /tri-ran-da-cho-ba-bau/, /tri-ran-da-do/</td>
+          <td>8 page — cần audit kỹ. Pillar = /ran-da/. Mỗi page khác phải có angle KHÁC NHAU rõ ràng</td>
+        </tr>
+        <tr>
+          <td><strong>Phun mày</strong></td>
+          <td>/dich-vu/phun-may/, /xam-chan-may/, /phuong-phap-xam-long-may/</td>
+          <td>Có thể trùng intent. Redirect 1-2 page về 1 pillar</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>3 chiến thuật xử lý</h3>
+    <ol class="pillar-list">
+      <li>
+        <h4>Consolidation — Gộp lại</h4>
+        <p>Áp dụng khi 2+ page cùng intent + cùng keyword. Chọn page có authority cao nhất làm canonical, 301 redirect các page khác về canonical, merge content tốt nhất.</p>
+      </li>
+      <li>
+        <h4>Differentiation — Phân hóa</h4>
+        <p>Áp dụng khi pages CÓ thể khác biệt. Re-target mỗi page về sub-intent khác nhau, đổi H1, title tag, meta description, đảm bảo content body khác biệt 70%+.</p>
+      </li>
+      <li>
+        <h4>De-indexing — Loại bỏ</h4>
+        <p>Áp dụng với thin content / outdated content. Set noindex qua meta tag hoặc robots, hoặc 301 về page chính.</p>
+      </li>
+    </ol>
+
+    <h3>Cấu trúc lý tưởng sau audit (ví dụ cluster Rạn da)</h3>
+    <div class="template-box">/ran-da/ (PILLAR — 3,000 từ)
+├── /ran-da-sau-sinh/ (target: phụ nữ sau sinh)
+├── /tri-ran-da-cho-ba-bau/ (target: phụ nữ mang thai — kiêng kỵ)
+├── /tri-ran-da-do/ (target: rạn đỏ — giai đoạn mới)
+├── /ran-da-chan/ + /ran-da-dui/ (gộp về 1 — vùng chân/đùi)
+├── /ran-da-lung/ (giữ riêng — angle khác)
+└── /ran-nguc/ (giữ riêng — vùng nhạy cảm)</div>
+  </div>
+</section>
+
+<!-- 14. LOCAL SEO -->
+<section id="local">
+  <div class="container">
+    <div class="section-num">14 — Local SEO 18 chi nhánh</div>
+    <h2 class="section-title">Cơ hội lớn nhất bị bỏ lỡ</h2>
+    <p class="section-intro">18 chi nhánh = 18 cơ hội rank top local. Hiện Ngọc Dung chỉ có 1 page /chi-nhanh/ chung chung — đây là sự lãng phí tài sản offline cực lớn.</p>
+
+    <h3>14.1 — Landing page riêng cho từng chi nhánh</h3>
+    <p>URL pattern: <code>/chi-nhanh/[ten-chi-nhanh]/</code></p>
+    <p>Ví dụ: /chi-nhanh/quan-1-tphcm/, /chi-nhanh/cau-giay-ha-noi/, /chi-nhanh/da-nang/</p>
+
+    <h4>Cấu trúc page chi nhánh</h4>
+    <div class="template-box">[H1] Thẩm mỹ viện Ngọc Dung [Tên quận/thành phố]
+
+[Section 1: Thông tin liên hệ]
+  - Địa chỉ chính xác (NAP nhất quán)
+  - Hotline riêng chi nhánh
+  - Giờ mở cửa
+  - Embed Google Maps
+  - Hình ảnh exterior + interior
+
+[Section 2: Bác sĩ tại chi nhánh này]
+  - 3-5 bác sĩ làm việc tại đây
+  - Lịch khám của từng bác sĩ
+
+[Section 3: Dịch vụ tại chi nhánh]
+  - Liệt kê dịch vụ available
+  - Giấy phép GPHĐ riêng của chi nhánh
+
+[Section 4: Đường đi]
+  - Hướng dẫn từ các điểm landmark
+  - Public transport / parking
+
+[Section 5: Review khách hàng địa phương]
+  - 5-10 reviews từ khách quanh khu vực
+  - Embed Google Reviews
+
+[Section 6: Ưu đãi riêng chi nhánh]
+  - Promo theo địa phương (nếu có)
+
+[Schema: LocalBusiness + MedicalBusiness + GeoCoordinates]</div>
+
+    <h3>14.2 — Schema LocalBusiness mẫu</h3>
+    <div class="template-box">{
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "name": "Thẩm mỹ viện Ngọc Dung - Chi nhánh Quận 1",
+  "image": "https://thammyvienngocdung.com/images/cn-q1.jpg",
+  "@id": "https://thammyvienngocdung.com/chi-nhanh/quan-1/",
+  "url": "https://thammyvienngocdung.com/chi-nhanh/quan-1/",
+  "telephone": "+842836xxxxxx",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "...",
+    "addressLocality": "Quận 1",
+    "addressRegion": "TP. Hồ Chí Minh",
+    "postalCode": "...",
+    "addressCountry": "VN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 10.776,
+    "longitude": 106.700
+  },
+  "openingHoursSpecification": [...],
+  "medicalSpecialty": ["Dermatology", "Aesthetic Medicine"],
+  "license": "GPHĐ Số: XXXXX/HCM-GPHD"
+}</div>
+
+    <h3>14.3 — Google Business Profile (quan trọng số 1)</h3>
+    <p>Cho mỗi chi nhánh:</p>
+    <ul>
+      <li>Verify GBP đầy đủ</li>
+      <li>Up tối thiểu 30 ảnh/chi nhánh: exterior, interior, đội ngũ, công nghệ, sản phẩm</li>
+      <li>Post weekly: ưu đãi, sự kiện, mẹo làm đẹp</li>
+      <li>Trả lời 100% review trong 24h</li>
+      <li>Q&amp;A section: tự tạo + trả lời các câu hỏi thường gặp</li>
+      <li>Setup booking link đến /chi-nhanh/[name]/dat-lich/</li>
+    </ul>
+
+    <h3>14.4 — Citations &amp; Local Directories</h3>
+    <p>Đăng ký NAP nhất quán trên: Foody.vn · Diadiem.com · Toplist.vn · TrangVangVietnam · Lozi · Riviu · Yellowpages · Maps.me · Apple Maps</p>
+  </div>
+</section>
+
+<!-- 15. AI SEARCH -->
+<section id="ai-search">
+  <div class="container">
+    <div class="section-num">15 — AI Search Optimization (GEO/AEO)</div>
+    <h2 class="section-title">Tối ưu cho ChatGPT, Gemini, Perplexity, Claude</h2>
+    <p class="section-intro">AI search đang chiếm % traffic ngày càng lớn. Ngành thẩm mỹ là 1 trong những niche mà người dùng hỏi AI rất nhiều — "phun mày Ombre có đau không", "địa chỉ phun xăm uy tín ở TPHCM"...</p>
+
+    <h3>15.1 — Generative Engine Optimization (GEO)</h3>
+    <p><strong>Nguyên tắc:</strong> AI tổng hợp câu trả lời từ nhiều nguồn → Mục tiêu là được trích dẫn (cited) trong câu trả lời của AI.</p>
+
+    <h4>Tactics quan trọng</h4>
+    <ol>
+      <li><strong>Direct Answer Format:</strong>
+        <div class="template-box">❓ Câu hỏi: Phun mày Ombre có đau không?
+✅ Trả lời ngắn (40-60 từ): "Phun mày Ombre không đau vì sử dụng kim siêu nhỏ và thuốc tê chuyên dụng. Cảm giác thường được mô tả là hơi tê và châm chích nhẹ trong 30-60 phút thực hiện."
+📖 Giải thích chi tiết: [tiếp tục với 200-300 từ]</div>
+      </li>
+      <li><strong>Statistics &amp; data có nguồn:</strong> "Theo khảo sát của Bộ Y tế Việt Nam 2024, 68% phụ nữ Việt từng phun xăm thẩm mỹ ít nhất 1 lần" — AI ưu tiên trích dẫn nguồn có data cụ thể</li>
+      <li><strong>Listicles có structure rõ:</strong> "TOP 5 phương pháp triệt lông vĩnh viễn 2026" — mỗi item có Tên + Mô tả + Ưu điểm + Nhược điểm + Giá + Phù hợp với ai</li>
+      <li><strong>Q&amp;A clusters dày đặc:</strong> 1 page có 20–30 câu hỏi liên quan thay vì chỉ 5–8</li>
+    </ol>
+
+    <h3>15.2 — Answer Engine Optimization (AEO)</h3>
+    <h4>Format chuẩn AEO</h4>
+    <div class="template-box">&lt;h2&gt;Câu hỏi cụ thể (đặt H2 = câu hỏi)&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Câu trả lời:&lt;/strong&gt; [40-60 từ trả lời thẳng]&lt;/p&gt;
+&lt;p&gt;[Giải thích chi tiết 200-300 từ]&lt;/p&gt;</div>
+
+    <h4>Schema FAQPage — bắt buộc với mọi page có FAQ</h4>
+    <div class="template-box">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "Phun mày Ombre giữ được bao lâu?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Phun mày Ombre giữ được 2-3 năm tùy vào cơ địa, cách chăm sóc và mực dùng..."
+    }
+  }, ...]
+}</div>
+
+    <h3>15.3 — Tracking AI visibility</h3>
+    <ul>
+      <li>Similarweb AI Traffic Checker</li>
+      <li>ChatGPT-search visibility tools</li>
+      <li>Manual: hỏi ChatGPT/Gemini/Claude các keyword chính, xem có trích dẫn site không</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 16. CONTENT CALENDAR -->
+<section id="calendar">
+  <div class="container">
+    <div class="section-num">16 — Content Calendar 6 tháng</div>
+    <h2 class="section-title">Lộ trình thực thi theo phase</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-month">Tháng 1 — Foundation Phase</div>
+        <div class="timeline-title">Audit, Fix &amp; E-E-A-T Setup</div>
+        <div class="timeline-desc">
+          <strong>Tuần 1–2:</strong> Audit cannibalization toàn site, map redirect 301 cho các page trùng, fix technical issues (page speed, schema, canonical).<br>
+          <strong>Tuần 3–4:</strong> Tạo trang "Đội ngũ chuyên gia" detailed, setup author/reviewer box trên 50 bài top traffic, thêm GPHĐ vào footer + chi nhánh, tạo trang "Chính sách biên tập", tạo trang "Báo chí nói về chúng tôi".
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">Tháng 2 — Pillar Reinforcement</div>
+        <div class="timeline-title">Tối ưu lại 4 pillar pages chính</div>
+        <div class="timeline-desc">
+          Mỗi pillar viết lại 2,500–3,500 từ. Ảnh độc quyền (không stock). Schema MedicalProcedure. Internal link mạnh từ supporting articles. Pillar: Phun xăm, Điều trị da, Triệt lông, Trẻ hóa.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">Tháng 3 — Local Domination</div>
+        <div class="timeline-title">18 chi nhánh = 18 landing page tối ưu</div>
+        <div class="timeline-desc">
+          Tạo 18 chi nhánh page theo template Section 14. Schema LocalBusiness cho mỗi page. GBP optimization cho 18 chi nhánh. Citations 30–50 directory listings/chi nhánh.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">Tháng 4 — Service Page Overhaul</div>
+        <div class="timeline-title">Re-design 30 service page top traffic</div>
+        <div class="timeline-desc">
+          Áp dụng template Section 12. A/B test CTA placement. Add video testimonial. FAQ schema dày đặc.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">Tháng 5 — Blue Ocean Content</div>
+        <div class="timeline-title">Khai thác keyword đối thủ chưa có</div>
+        <div class="timeline-desc">
+          30 bài cluster "Phòng tránh &amp; biến chứng". 20 bài cluster "So sánh kỹ thuật". 20 bài cluster "Theo độ tuổi &amp; giới tính". 1 ultimate guide cho mỗi cluster (5,000+ từ).
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">Tháng 6 — Authority Building</div>
+        <div class="timeline-title">Build backlink + brand mention</div>
+        <div class="timeline-desc">
+          PR booking 5–10 báo lớn. Guest post 10–15 site liên quan. Influencer collab (KOL beauty). Wikipedia page setup. HARO / báo chí phỏng vấn chuyên gia.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 17. KPI -->
+<section id="kpi">
+  <div class="container">
+    <div class="section-num">17 — KPI &amp; Tracking</div>
+    <h2 class="section-title">Mục tiêu cụ thể theo từng giai đoạn</h2>
+
+    <h3>KPIs theo tháng</h3>
+    <table class="kpi-table">
+      <thead>
+        <tr><th>Metric</th><th>T0 (hiện tại)</th><th>T3</th><th>T6</th><th>T12</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Total Visits/tháng</td><td>61.4K</td><td>100K</td><td>200K</td><td>400K</td></tr>
+        <tr><td>Bounce Rate</td><td>71%</td><td>60%</td><td>50%</td><td>45%</td></tr>
+        <tr><td>Pages/Visit</td><td>1.52</td><td>2.0</td><td>2.5</td><td>3.0</td></tr>
+        <tr><td>Avg Duration</td><td>0:42</td><td>1:30</td><td>2:00</td><td>2:30</td></tr>
+        <tr><td>Keywords ranking</td><td>814</td><td>1,500</td><td>3,000</td><td>6,000</td></tr>
+        <tr><td>Top 3 keywords</td><td>~5</td><td>30</td><td>100</td><td>300</td></tr>
+        <tr><td>Top 10 keywords</td><td>~50</td><td>200</td><td>600</td><td>1,500</td></tr>
+        <tr><td>Backlinks (referring domains)</td><td>2</td><td>30</td><td>100</td><td>300</td></tr>
+        <tr><td>GBP listings (chi nhánh verified)</td><td>?</td><td>18</td><td>18</td><td>18</td></tr>
+        <tr><td>Conversion rate (form submit)</td><td>?</td><td>2%</td><td>3%</td><td>4%</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Tools setup bắt buộc</h3>
+    <div class="two-col">
+      <div>
+        <h4>Đã có sẵn</h4>
+        <ul>
+          <li>Google Search Console</li>
+          <li>Google Analytics 4</li>
+          <li>Google Tag Manager</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Cần bổ sung</h4>
+        <ul>
+          <li>Ahrefs hoặc SEMrush — keyword tracking + backlink monitoring</li>
+          <li>Screaming Frog — technical audit</li>
+          <li>PageSpeed Insights tracking</li>
+          <li>Hotjar — heatmap + session recording</li>
+          <li>Schema markup validator</li>
+          <li>Google Business Profile Manager (cho 18 chi nhánh)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Báo cáo định kỳ</h3>
+    <table>
+      <thead>
+        <tr><th>Tần suất</th><th>Nội dung báo cáo</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Weekly</strong></td>
+          <td>Keyword rank tracking cho 200 keyword chính · New backlinks gained/lost · Top performing pages · Top exit pages cần fix</td>
+        </tr>
+        <tr>
+          <td><strong>Monthly</strong></td>
+          <td>Organic traffic growth · Conversion rate by source · Cluster performance · Content gap analysis vs đối thủ</td>
+        </tr>
+        <tr>
+          <td><strong>Quarterly</strong></td>
+          <td>Full technical SEO audit · Cannibalization re-check · Backlink toxicity audit · E-E-A-T score self-assessment</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>7 sai lầm cần tránh</h3>
+    <ol>
+      <li>Viết content theo số lượng, không theo intent — 500 bài kém không bằng 50 bài đỉnh</li>
+      <li>Bỏ qua Reviewer y khoa — YMYL niche không có reviewer = Google penalty silent</li>
+      <li>Internal link tùy hứng — không theo cluster structure → loãng authority</li>
+      <li>Spam keyword trong title — Google penalize</li>
+      <li>Không update content cũ — bài 2023 không refresh = mất rank dần</li>
+      <li>Không A/B test CTA — bounce rate 71% = mất 71% chi phí marketing</li>
+      <li>Bỏ quên brand search protection — đối thủ có thể bid keyword "thẩm mỹ viện ngọc dung" trên Google Ads</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 18. ROADMAP 30 NGÀY -->
+<section id="roadmap">
+  <div class="container">
+    <div class="section-num">18 — Roadmap nhanh 30 ngày</div>
+    <h2 class="section-title">Nếu chỉ có 30 ngày để bắt đầu</h2>
+    <p class="section-intro">Trong trường hợp nguồn lực hạn chế, đây là lộ trình ưu tiên cao nhất để có quick wins và tạo nền móng cho 6 tháng tiếp theo.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-month">Tuần 1</div>
+        <div class="timeline-title">Audit &amp; Quick wins</div>
+        <div class="timeline-desc">
+          ☐ Audit cannibalization top 10 cluster<br>
+          ☐ Add reviewer/author info trên 20 service page chính<br>
+          ☐ Fix page speed homepage (giảm xuống 3 banner)<br>
+          ☐ Setup schema FAQ trên 30 page top traffic
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">Tuần 2</div>
+        <div class="timeline-title">E-E-A-T boost</div>
+        <div class="timeline-desc">
+          ☐ Tạo trang chuyên gia có học vấn + chứng chỉ<br>
+          ☐ Hiển thị GPHĐ trên footer<br>
+          ☐ Section "Báo chí nói về" trên homepage<br>
+          ☐ Sticky CTA Zalo + form đăng ký
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">Tuần 3</div>
+        <div class="timeline-title">Local SEO foundation</div>
+        <div class="timeline-desc">
+          ☐ Setup GBP cho 18 chi nhánh<br>
+          ☐ Tạo 5 landing page chi nhánh đầu tiên (TPHCM, HN, ĐN, BD, CT)<br>
+          ☐ Citations top 10 directories
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-month">Tuần 4</div>
+        <div class="timeline-title">Content quality</div>
+        <div class="timeline-desc">
+          ☐ Re-write 5 pillar pages với template chuẩn<br>
+          ☐ FAQ schema 50 page nhất quán<br>
+          ☐ Internal link audit cho cluster lớn nhất (Phun xăm)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <h3>Kết luận</h3>
+    <p style="font-size:17px; line-height:1.7; max-width:800px; margin-top:16px;">
+      Ngọc Dung đang có lợi thế cực lớn mà SeoulSpa và đối thủ khác không có: brand mạnh, 18 chi nhánh, bệnh viện thẩm mỹ riêng, content base khổng lồ, đội ngũ chuyên gia đông. Nhưng đang mất top vì 3 lý do — E-E-A-T yếu, cannibalization, và UX kém. Cả ba đều có thể fix trong 3–6 tháng.
+    </p>
+
+    <div class="footer-stats">
+      <div>
+        <div class="footer-stat-num">3–6</div>
+        <div class="footer-stat-label">Tháng để fix toàn bộ nút thắt</div>
+      </div>
+      <div>
+        <div class="footer-stat-num">6.5×</div>
+        <div class="footer-stat-label">Tăng trưởng traffic dự kiến (61K → 400K)</div>
+      </div>
+      <div>
+        <div class="footer-stat-num">#1</div>
+        <div class="footer-stat-label">Mục tiêu trong 12 tháng — ngành thẩm mỹ phi phẫu thuật VN</div>
+      </div>
+    </div>
+
+    <div class="footer-meta">
+      <span>Báo cáo SEO Audit · Tháng 5, 2026</span>
+      <span>Confidential — Internal use</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
