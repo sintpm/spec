@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO / AEO — Tối ưu hóa cho thời đại AI Search</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --paper: #f5f1e8;
+    --paper-warm: #ebe4d2;
+    --accent: #d94a1f;
+    --accent-deep: #a83712;
+    --gold: #c89b3c;
+    --green: #2d5a3d;
+    --blue: #1e3a5f;
+    --muted: #6b6457;
+    --line: #1a1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.04 0 0 0 0 0.04 0 0 0 0 0.04 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+
+  .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ============ HEADER ============ */
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding: 24px 0;
+    background: var(--paper);
+    position: relative;
+    z-index: 10;
+  }
+
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    display: flex;
+    gap: 24px;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 80px 0 100px;
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1.hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(64px, 9vw, 132px);
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .hero-title .slash {
+    color: var(--gold);
+    font-weight: 300;
+  }
+
+  .hero-lead {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    line-height: 1.45;
+    font-weight: 400;
+    color: var(--ink);
+    max-width: 480px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--ink);
+  }
+
+  .stat {
+    flex: 1;
+  }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* ============ SECTION BASICS ============ */
+  section {
+    padding: 100px 0;
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 48px;
+    max-width: 800px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  /* ============ CONTEXT SECTION ============ */
+  .context-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+  }
+
+  .context-card {
+    border: 2px solid var(--ink);
+    background: var(--paper-warm);
+    padding: 32px;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .context-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+
+  .context-card-num {
+    font-family: 'Fraunces', serif;
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 0.8;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .context-card-suffix {
+    font-size: 32px;
+    color: var(--ink);
+  }
+
+  .context-card-text {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    line-height: 1.45;
+  }
+
+  .context-card-source {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--muted);
+  }
+
+  /* ============ COMPARISON TABLE ============ */
+  .three-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 60px 0;
+    border: 2px solid var(--ink);
+    background: var(--ink);
+  }
+
+  .pillar {
+    background: var(--paper);
+    padding: 40px 32px;
+    position: relative;
+  }
+
+  .pillar:nth-child(1) { background: var(--paper); }
+  .pillar:nth-child(2) { background: var(--paper-warm); }
+  .pillar:nth-child(3) { background: #2a2520; color: var(--paper); }
+
+  .pillar-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid currentColor;
+    margin-bottom: 16px;
+  }
+
+  .pillar:nth-child(3) .pillar-tag { color: var(--gold); border-color: var(--gold); }
+
+  .pillar-name {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+
+  .pillar:nth-child(1) .pillar-name { color: var(--blue); }
+  .pillar:nth-child(2) .pillar-name { color: var(--green); }
+  .pillar:nth-child(3) .pillar-name { color: var(--accent); }
+
+  .pillar-fullname {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    margin-bottom: 24px;
+    opacity: 0.7;
+  }
+
+  .pillar-divider {
+    height: 1px;
+    background: currentColor;
+    opacity: 0.2;
+    margin: 24px 0;
+  }
+
+  .pillar-row {
+    margin-bottom: 16px;
+  }
+
+  .pillar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 4px;
+  }
+
+  .pillar-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* ============ DEFINITIONS ============ */
+  .def-block {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 60px;
+    padding: 40px 0;
+    border-top: 1px solid var(--ink);
+  }
+
+  .def-block:last-child { border-bottom: 1px solid var(--ink); }
+
+  .def-label {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+
+  .def-content {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 1.55;
+  }
+
+  .def-content strong {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1px 6px;
+    font-weight: 600;
+  }
+
+  /* ============ PRINCETON STUDY ============ */
+  .study {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 60px;
+    margin: 60px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .study::before {
+    content: '★';
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    font-size: 120px;
+    color: var(--accent);
+    opacity: 0.15;
+    line-height: 1;
+  }
+
+  .study-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .study-title {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+    max-width: 700px;
+  }
+
+  .study-bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .bar-item {
+    border-top: 1px solid rgba(245,241,232,0.2);
+    padding-top: 16px;
+  }
+
+  .bar-pct {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .bar-pct.positive { color: var(--gold); }
+  .bar-pct.negative { color: var(--accent); }
+
+  .bar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+
+  .study-note {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    opacity: 0.8;
+    max-width: 700px;
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+  }
+
+  /* ============ TECHNIQUES ============ */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 2px solid var(--ink);
+  }
+
+  .tech-item {
+    padding: 32px;
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper);
+    transition: background 0.2s ease;
+  }
+
+  .tech-item:hover { background: var(--paper-warm); }
+  .tech-item:nth-child(2n) { border-right: none; }
+  .tech-item:nth-last-child(-n+2) { border-bottom: none; }
+
+  .tech-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .tech-title {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .tech-metric {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--paper);
+    padding: 4px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .tech-desc {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  /* ============ PLATFORMS ============ */
+  .platforms {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .platform {
+    border: 2px solid var(--ink);
+    padding: 24px 20px;
+    background: var(--paper);
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+
+  .platform:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .platform-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .platform-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .platform:hover .platform-tagline { color: var(--gold); }
+
+  .platform-desc {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  /* ============ STRATEGY FUNNEL ============ */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 48px;
+    max-width: 900px;
+  }
+
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 2fr;
+    gap: 32px;
+    align-items: center;
+    padding: 32px;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .funnel-row.seo { background: linear-gradient(90deg, var(--paper) 0%, var(--paper) 100%); }
+  .funnel-row.aeo { background: linear-gradient(90deg, var(--paper-warm) 0%, var(--paper-warm) 100%); margin-left: 40px; }
+  .funnel-row.geo { background: var(--ink); color: var(--paper); margin-left: 80px; }
+
+  .funnel-arrow {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .funnel-row.geo .funnel-arrow { color: var(--gold); }
+
+  .funnel-label {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .funnel-text {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    line-height: 1.45;
+  }
+
+  /* ============ WARNING ============ */
+  .warning {
+    border: 3px solid var(--accent);
+    padding: 40px;
+    margin-top: 60px;
+    background: var(--paper);
+    position: relative;
+  }
+
+  .warning::before {
+    content: '!';
+    position: absolute;
+    top: -24px;
+    left: 32px;
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .warning-title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    margin-top: 12px;
+  }
+
+  .warning-text {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* ============ TLDR ============ */
+  .tldr {
+    background: var(--paper-warm);
+    padding: 60px;
+    border: 2px solid var(--ink);
+  }
+
+  .tldr-title {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+
+  .tldr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  .tldr-item {
+    padding-top: 16px;
+    border-top: 2px solid var(--ink);
+  }
+
+  .tldr-item-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .tldr-item-text {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    padding: 60px 0 40px;
+    border-top: 2px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .footer-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .footer-sources {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    color: rgba(245,241,232,0.6);
+    max-width: 600px;
+    text-align: right;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 980px) {
+    .hero-grid, .context-grid, .three-pillars, .tech-grid, .platforms, .tldr-grid {
+      grid-template-columns: 1fr;
+    }
+    .platforms { grid-template-columns: 1fr 1fr; }
+    .study-bars { grid-template-columns: 1fr 1fr; }
+    .def-block { grid-template-columns: 1fr; gap: 16px; }
+    .funnel-row { grid-template-columns: 40px 1fr; }
+    .funnel-row > :nth-child(3) { grid-column: 1 / -1; }
+    .funnel-row.aeo, .funnel-row.geo { margin-left: 0; }
+    h1.hero-title { font-size: 64px; }
+    .container { padding: 0 24px; }
+    section { padding: 60px 0; }
+    .study, .tldr { padding: 40px 24px; }
+  }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow, h1.hero-title, .hero-lead, .hero-stats {
+    animation: fadeUp 0.8s ease backwards;
+  }
+
+  .hero-eyebrow { animation-delay: 0.1s; }
+  h1.hero-title { animation-delay: 0.2s; }
+  .hero-lead { animation-delay: 0.4s; }
+  .hero-stats { animation-delay: 0.6s; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <div class="logo">GEO<span>/</span>AEO</div>
+      <div class="meta">
+        <span>VOL. 01 · 2026</span>
+        <span>VI · TIẾNG VIỆT</span>
+        <span>FOR ROY</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">Cẩm nang chuyên sâu · Phiên bản 2026</div>
+        <h1 class="hero-title">
+          GEO<span class="slash"> / </span><em>AEO</em>
+        </h1>
+      </div>
+      <div>
+        <p class="hero-lead">
+          Khi search engine không còn trả về danh sách link mà <em>tự sinh câu trả lời</em>, cuộc chơi tối ưu hóa đã bước sang một thời đại mới — nơi việc <em>được AI trích dẫn</em> quan trọng hơn cả ranking.
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">−58%</div>
+        <div class="stat-label">CTR sụt giảm do<br>AI Overviews</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2.5B</div>
+        <div class="stat-label">Prompts ChatGPT<br>xử lý mỗi ngày</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">60%</div>
+        <div class="stat-label">Search Google<br>kết thúc không click</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">−50%</div>
+        <div class="stat-label">Search truyền thống<br>dự đoán đến 2028</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEXT -->
+<section>
+  <div class="container">
+    <div class="section-num">§ 01 — BỐI CẢNH</div>
+    <h2 class="section-title">Tại sao GEO/AEO <em>ra đời</em>?</h2>
+    <p style="font-family:'Fraunces',serif; font-size:20px; line-height:1.5; max-width:780px; margin-bottom:20px;">
+      Thế giới search đang thay đổi căn bản. Người dùng không còn click vào link — họ đọc câu trả lời ngay trên kết quả tìm kiếm, hoặc hỏi thẳng ChatGPT, Perplexity, Claude.
+    </p>
+
+    <div class="context-grid">
+      <div class="context-card">
+        <div class="context-card-num">58<span class="context-card-suffix">%</span></div>
+        <p class="context-card-text">Tỷ lệ click-through giảm cho top-ranking Google content do AI Overviews. Năm trước con số này chỉ là 34.5%.</p>
+        <div class="context-card-source">Nguồn — Ahrefs</div>
+      </div>
+      <div class="context-card">
+        <div class="context-card-num">65<span class="context-card-suffix">%</span></div>
+        <p class="context-card-text">Trong 2.5 tỷ prompt ChatGPT xử lý mỗi ngày, có tới 65% được xếp loại là search query — nơi người dùng tìm thông tin.</p>
+        <div class="context-card-source">Nguồn — Jasper Research</div>
+      </div>
+      <div class="context-card">
+        <div class="context-card-num">50<span class="context-card-suffix">%</span></div>
+        <p class="context-card-text">Mức giảm dự đoán của search truyền thống đến 2028. Lượng traffic đó di cư hoàn toàn sang generative engines.</p>
+        <div class="context-card-source">Nguồn — Gartner Forecast</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE PILLARS -->
+<section>
+  <div class="container">
+    <div class="section-num">§ 02 — BA TRỤ CỘT</div>
+    <h2 class="section-title">SEO <em>·</em> AEO <em>·</em> GEO</h2>
+
+    <p style="font-family:'Fraunces',serif; font-size:18px; line-height:1.5; max-width:780px; margin-bottom:30px;">
+      Không phải chọn một, mà là <strong>hiểu được sự khác biệt</strong> giữa ba kỷ luật cùng tồn tại — mỗi cái phục vụ một pathway khám phá thông tin khác nhau.
+    </p>
+
+    <div class="three-pillars">
+      <div class="pillar">
+        <div class="pillar-tag">Truyền thống</div>
+        <div class="pillar-name">SEO</div>
+        <div class="pillar-fullname">Search Engine Optimization</div>
+        <div class="pillar-divider"></div>
+        <div class="pillar-row">
+          <div class="pillar-label">Mục tiêu</div>
+          <div class="pillar-value">Xếp hạng cao trong SERP</div>
+        </div>
+        <div class="pillar-row">
+          <div class="pillar-label">Platform</div>
+          <div class="pillar-value">Google, Bing</div>
+        </div>
+        <div class="pillar-row">
+          <div class="pillar-label">Tối ưu cho</div>
+          <div class="pillar-value">Crawl-index-rank, backlinks, keyword density</div>
+        </div>
+        <div class="pillar-row">
+          <div class="pillar-label">Đo lường</div>
+          <div class="pillar-value">Ranking, organic traffic, CTR</div>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-tag">Trả lời nhanh</div>
+        <div class="pillar-name">AEO</div>
+        <div class="pillar-fullname">Answer Engine Optimization</div>
+        <div class="pillar-divider"></div>
+        <div class="pillar-row">
+          <div class="pillar-label">Mục tiêu</div>
+          <div class="pillar-value">Xuất hiện trong direct answers</div>
+        </div>
+        <div class="pillar-row">
+          <div class="pillar-label">Platform</div>
+          <div class="pillar-value">Featured snippets, Alexa, Siri, AI answer boxes</div>
+        </div>
+        <div class="pillar-row">
+          <div class="pillar-label">Tối ưu cho</div>
+          <div class="pillar-value">Trích xuất câu trả lời (answer extraction)</div>
+        </div>
+        <div class="pillar-row">
+          <div class="pillar-label">Format</div>
+          <div class="pillar-value">FAQ, lists, tables, snippet-ready blocks</div>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-tag">Thời đại AI</div>
+        <div class="pillar-name">GEO</div>
+        <div class="pillar-fullname">Generative Engine Optimization</div>
+        <div class="pillar-divider"></div>
+        <div class="pillar-row">
+          <div class="pillar-label">Mục tiêu</div>
+          <div class="pillar-value">Được trích dẫn trong AI responses</div>
+        </div>
+        <div class="pillar-row">
+          <div class="pillar-label">Platform</div>
+          <div class="pillar-value">ChatGPT, Claude, Perplexity, Gemini, AI Overviews</div>
+        </div>
+        <div class="pillar-row">
+          <div class="pillar-label">Tối ưu cho</div>
+          <div class="pillar-value">RAG pipelines, training biases của LLM</div>
+        </div>
+        <div class="pillar-row">
+          <div class="pillar-label">Đo lường</div>
+          <div class="pillar-value">Citation rate, brand mentions trong AI answers</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 60px;">
+      <h3 style="font-family:'Fraunces',serif; font-size:32px; font-weight:800; letter-spacing:-0.02em; margin-bottom:32px;">AEO vs GEO — có khác nhau không?</h3>
+
+      <div class="def-block">
+        <div class="def-label">Trường phái 1</div>
+        <div class="def-content">
+          <strong>AEO ≈ GEO</strong> — Đa số chuyên gia coi đây là <em>cùng một thứ, khác tên gọi</em>. Các tên khác bao gồm AI SEO, AIO, AI Search Optimization. Mục tiêu cuối cùng đều là: tối đa hóa visibility và độ chính xác của thương hiệu trong AI-powered search results.
+        </div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-label">Trường phái 2</div>
+        <div class="def-content">
+          <strong>AEO ⊂ GEO</strong> — AEO là <em>tập con kỹ thuật</em> tập trung cụ thể vào việc làm content có thể được AI trích xuất. GEO là khái niệm rộng hơn, bao gồm AEO + AI visibility monitoring + cross-platform citation management + brand entity optimization.
+        </div>
+      </div>
+
+      <div class="def-block">
+        <div class="def-label">Thực tế</div>
+        <div class="def-content">
+          Trong công việc hàng ngày, hai thuật ngữ này được dùng <strong>thay thế cho nhau</strong>. Đừng để tranh luận về tên gọi làm bạn xao lãng khỏi điều quan trọng: <em>trở thành câu trả lời tốt nhất cho câu hỏi của khách hàng</em>, dù họ hỏi ở đâu.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCETON STUDY -->
+<section>
+  <div class="container">
+    <div class="section-num">§ 03 — DỮ LIỆU KHOA HỌC</div>
+    <h2 class="section-title">Princeton GEO Study<br><em>— định lượng tác động</em></h2>
+
+    <div class="study">
+      <div class="study-eyebrow">Nghiên cứu định lượng đầu tiên · 10,000 queries</div>
+      <h3 class="study-title">Yếu tố nào thực sự khiến LLM trích dẫn bạn?</h3>
+
+      <div class="study-bars">
+        <div class="bar-item">
+          <div class="bar-pct positive">+41%</div>
+          <div class="bar-label">Expert<br>Quotes</div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-pct positive">+30%</div>
+          <div class="bar-label">Statistics<br>(số liệu)</div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-pct positive">+30%</div>
+          <div class="bar-label">Inline<br>Citations</div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-pct negative">−9%</div>
+          <div class="bar-label">Keyword<br>Stuffing</div>
+        </div>
+      </div>
+
+      <p class="study-note">
+        LLM thiên vị với content có vẻ "có bằng chứng". Trích dẫn chuyên gia hiệu quả vì model dùng dấu ngoặc kép và attribution như proxy cho độ tin cậy. Statistics báo hiệu mật độ thông tin factual. Keyword stuffing làm giảm sự tự nhiên — model phát hiện qua perplexity scores.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNIQUES -->
+<section>
+  <div class="container">
+    <div class="section-num">§ 04 — KỸ THUẬT</div>
+    <h2 class="section-title">8 kỹ thuật <em>hiệu quả nhất</em> 2026</h2>
+
+    <div class="tech-grid">
+      <div class="tech-item">
+        <div class="tech-num">01</div>
+        <h3 class="tech-title">FAQ Schema với câu hỏi khớp prompt</h3>
+        <span class="tech-metric">3.1× citation rate</span>
+        <p class="tech-desc">Triển khai FAQPage JSON-LD với câu hỏi được viết theo cách người dùng thực sự hỏi AI, không phải theo kiểu keyword cũ.</p>
+      </div>
+
+      <div class="tech-item">
+        <div class="tech-num">02</div>
+        <h3 class="tech-title">Quy tắc 40 từ (Concise Answer Blocks)</h3>
+        <span class="tech-metric">2.7× extraction rate</span>
+        <p class="tech-desc">AI trích xuất câu trả lời dưới 40 từ với tốc độ gấp 2.7× so với đoạn dài. Đặt câu trả lời ngắn gọn ngay đầu mỗi section.</p>
+      </div>
+
+      <div class="tech-item">
+        <div class="tech-num">03</div>
+        <h3 class="tech-title">Entity-Centric Knowledge Graph</h3>
+        <span class="tech-metric">Brand recognition</span>
+        <p class="tech-desc">Organization schema khai báo rõ thuộc tính. Đảm bảo brand, product, key topics được biểu diễn như những entity riêng biệt.</p>
+      </div>
+
+      <div class="tech-item">
+        <div class="tech-num">04</div>
+        <h3 class="tech-title">Multi-Format Answer Coverage</h3>
+        <span class="tech-metric">Cross-platform</span>
+        <p class="tech-desc">Lists cho Perplexity, tables cho comparison queries, paragraph answers cho Claude. Mỗi AI có khẩu vị parsing khác nhau.</p>
+      </div>
+
+      <div class="tech-item">
+        <div class="tech-num">05</div>
+        <h3 class="tech-title">Data-Backed Claims + Source Attribution</h3>
+        <span class="tech-metric">+30% citation</span>
+        <p class="tech-desc">Mỗi tuyên bố quan trọng phải có số liệu hoặc nguồn dẫn. Original research và proprietary data có sức nặng cao nhất.</p>
+      </div>
+
+      <div class="tech-item">
+        <div class="tech-num">06</div>
+        <h3 class="tech-title">Expert Quotes & Author Authority</h3>
+        <span class="tech-metric">+41% visibility</span>
+        <p class="tech-desc">Trích dẫn chuyên gia có tên tuổi, thông tin tác giả rõ ràng (E-E-A-T). LLM xem dấu ngoặc kép + attribution là proxy của trust.</p>
+      </div>
+
+      <div class="tech-item">
+        <div class="tech-num">07</div>
+        <h3 class="tech-title">Answer Freshness Protocol</h3>
+        <span class="tech-metric">Recency signal</span>
+        <p class="tech-desc">Cập nhật ngày, refresh content định kỳ. Perplexity và AI Overviews ưu tiên freshness mạnh hơn Google truyền thống.</p>
+      </div>
+
+      <div class="tech-item">
+        <div class="tech-num">08</div>
+        <h3 class="tech-title">Cross-Platform Consistency</h3>
+        <span class="tech-metric">Trust signal</span>
+        <p class="tech-desc">Brand, sản phẩm, claims phải nhất quán trên website, LinkedIn, Wikipedia, PR. AI tổng hợp từ nhiều nguồn — mâu thuẫn = không được trích dẫn.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORMS -->
+<section>
+  <div class="container">
+    <div class="section-num">§ 05 — TỪNG NỀN TẢNG</div>
+    <h2 class="section-title">Mỗi AI có <em>khẩu vị</em> riêng</h2>
+
+    <p style="font-family:'Fraunces',serif; font-size:18px; line-height:1.5; max-width:780px;">
+      Hiểu được điểm mạnh và sở thích của từng generative engine giúp bạn ưu tiên đúng kênh thay vì rải đều — và vì vậy không hiệu quả ở đâu cả.
+    </p>
+
+    <div class="platforms">
+      <div class="platform">
+        <div class="platform-name">Google AI Overviews</div>
+        <div class="platform-tagline">— Top-10 Sourced</div>
+        <p class="platform-desc">Lấy chủ yếu từ top-10 organic. SEO truyền thống là tiền đề. Thêm cấu trúc snippable.</p>
+      </div>
+
+      <div class="platform">
+        <div class="platform-name">Perplexity</div>
+        <div class="platform-tagline">— Freshness First</div>
+        <p class="platform-desc">Thưởng cho freshness, authority, sự hiện diện đa kênh. Ưu tiên nguồn cập nhật.</p>
+      </div>
+
+      <div class="platform">
+        <div class="platform-name">Microsoft Copilot</div>
+        <div class="platform-tagline">— B2B / LinkedIn</div>
+        <p class="platform-desc">Dựa nhiều vào LinkedIn cho B2B queries. Tập trung vào company page và thought leadership.</p>
+      </div>
+
+      <div class="platform">
+        <div class="platform-name">Claude</div>
+        <div class="platform-tagline">— Long-form Lover</div>
+        <p class="platform-desc">Ưa long-form, comprehensive guides. Nội dung có cấu trúc lập luận, dẫn chứng đầy đủ.</p>
+      </div>
+
+      <div class="platform">
+        <div class="platform-name">Gemini</div>
+        <div class="platform-tagline">— Multimodal</div>
+        <p class="platform-desc">Phân tích nội dung đa phương thức (video, hình ảnh). Tối ưu YouTube, alt text, image SEO.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNNEL STRATEGY -->
+<section>
+  <div class="container">
+    <div class="section-num">§ 06 — CHIẾN LƯỢC</div>
+    <h2 class="section-title">Funnel <em>3-trong-1</em></h2>
+
+    <p style="font-family:'Fraunces',serif; font-size:18px; line-height:1.5; max-width:780px;">
+      Không phải chọn giữa SEO, AEO hay GEO. Cấu trúc đúng là <em>chồng tầng (layered)</em> — mỗi tầng phục vụ một giai đoạn khác nhau trong hành trình khám phá thông tin.
+    </p>
+
+    <div class="funnel">
+      <div class="funnel-row seo">
+        <div class="funnel-arrow">→</div>
+        <div class="funnel-label">SEO</div>
+        <div class="funnel-text">Mang lại traffic <strong style="background:var(--ink); color:var(--paper); padding:1px 6px;">rộng</strong> — nền tảng kỹ thuật, organic discovery, brand awareness ở quy mô lớn.</div>
+      </div>
+
+      <div class="funnel-row aeo">
+        <div class="funnel-arrow">→</div>
+        <div class="funnel-label">AEO</div>
+        <div class="funnel-text">Bắt intent <strong style="background:var(--ink); color:var(--paper); padding:1px 6px;">ngay lập tức</strong> — thắng featured snippets, voice search, người dùng đang cần câu trả lời cụ thể.</div>
+      </div>
+
+      <div class="funnel-row geo">
+        <div class="funnel-arrow">→</div>
+        <div class="funnel-label">GEO</div>
+        <div class="funnel-text">Xây dựng <strong style="background:var(--gold); color:var(--ink); padding:1px 6px;">uy quyền</strong> khiến AI buộc phải nhắc tên bạn — entity branding, original data, cross-platform trust.</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <h3 class="warning-title">Cảnh báo về scam</h3>
+      <p class="warning-text">
+        Không ai có thể đảm bảo việc xuất hiện trên AI. Bất kỳ ai hứa hẹn <em>"guaranteed AI placement"</em> đều đang lừa đảo. AI responses có yếu tố ngẫu nhiên (probabilistic), không có cơ chế "trả tiền để được trích dẫn" hợp pháp. Tập trung vào content chất lượng, dữ liệu gốc, và authority — đó là cách duy nhất.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TLDR -->
+<section style="border-bottom:none;">
+  <div class="container">
+    <div class="section-num">§ 07 — TÓM TẮT</div>
+    <h2 class="section-title">TL<em>;</em>DR</h2>
+
+    <div class="tldr">
+      <h3 class="tldr-title">Nếu chỉ nhớ được 6 điều...</h3>
+      <div class="tldr-grid">
+        <div class="tldr-item">
+          <div class="tldr-item-title">01 · Thời đại đã đổi</div>
+          <p class="tldr-item-text">60% search Google không có click. AI sinh câu trả lời thay vì trả về link. Zero-click future là hiện tại.</p>
+        </div>
+        <div class="tldr-item">
+          <div class="tldr-item-title">02 · Ba kỷ luật cùng tồn tại</div>
+          <p class="tldr-item-text">SEO cho rankings. AEO cho direct answers. GEO cho AI citations. Không thay thế — chồng lớp.</p>
+        </div>
+        <div class="tldr-item">
+          <div class="tldr-item-title">03 · AEO ≈ GEO</div>
+          <p class="tldr-item-text">Trong thực tế, hai thuật ngữ này dùng thay thế cho nhau. Đừng tranh cãi về tên — tập trung vào kết quả.</p>
+        </div>
+        <div class="tldr-item">
+          <div class="tldr-item-title">04 · Princeton đã chứng minh</div>
+          <p class="tldr-item-text">Expert quotes +41%, statistics +30%, citations +30%, keyword stuffing −9%. Authority &gt; SEO tricks.</p>
+        </div>
+        <div class="tldr-item">
+          <div class="tldr-item-title">05 · Mỗi AI có khẩu vị riêng</div>
+          <p class="tldr-item-text">Claude thích long-form. Perplexity thích freshness. Copilot dựa LinkedIn. Đừng rải đều — ưu tiên đúng kênh.</p>
+        </div>
+        <div class="tldr-item">
+          <div class="tldr-item-title">06 · Generic = vô hình</div>
+          <p class="tldr-item-text">Nếu content giống mọi người, AI sẽ tóm tắt khái niệm và bỏ tên bạn. Original data + entity branding mới là chìa khóa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-text">
+        Compiled for Roy · 2026 ·<br>GEO/AEO Field Guide
+      </div>
+      <div class="footer-sources">
+        Sources: Ahrefs · Princeton GEO Study · Jasper Research · Gartner Forecast · Scrunch · Surmado · GenOptima · Profound · Stackmatix · Evertune. Numerical figures from public research as of Q1–Q2 2026.
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
